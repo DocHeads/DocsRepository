@@ -1,0 +1,82 @@
+GMAIL:
+Gmail Acct: docheadsUC@gmail.com
+Pass: D0ch34dsUC
+
+UC Filespace
+http://homepages.uc.edu/~dunavebc/DocsRepo
+
+MySql:
+server: ucfsh.ucfilespace.uc.edu
+port: 3306
+db name: docdatabase
+https://ucfilespace.uc.edu/phpmyadmin/index.php
+user/pass: dunavebc/dunavebc
+
+Config properties:
+- Timeout value
+- Db server
+- Db name
+- Db username
+- Db password
+- email server
+- email username
+- email password
+
+// Stored proc that gets department name for corresponding deptID
+DELIMITER $$
+CREATE PROCEDURE GetDeptName(
+         IN deptID INT,
+         OUT deptName VARCHAR(100))
+BEGIN
+    SELECT deptName
+    INTO deptName
+    FROM departments
+    WHERE deptID = deptID;
+END$$
+DELIMITER ;
+
+// function that gets department name for corresponding deptID
+
+DROP FUNCTION IF EXISTS GetDeptName;
+DELIMITER $$
+CREATE FUNCTION GetDeptName(dID INT)
+  RETURNS VARCHAR(100)
+BEGIN
+  DECLARE dName VARCHAR(100);
+  SELECT deptName 
+  INTO dName
+  FROM departments 
+  WHERE deptID = dID;
+  RETURN dName;
+END;
+$$
+DELIMITER ;
+
+// Gets course name for corresponding courseID
+DELIMITER $$
+CREATE PROCEDURE GetCourseName(
+         IN courseID INT,
+         OUT courseName VARCHAR(100))
+BEGIN
+    SELECT courseName
+    INTO courseName
+    FROM courses
+    WHERE courseID = courseID;
+END$$
+DELIMITER ;
+
+// function that gets course name for corresponding deptID
+DROP FUNCTION IF EXISTS GetCourseName;
+DELIMITER $$
+CREATE FUNCTION GetCourseName(cID INT)
+  RETURNS VARCHAR(100)
+BEGIN
+  DECLARE cName VARCHAR(100);
+  SELECT courseName 
+  INTO cName
+  FROM courses 
+  WHERE courseID = cID;
+  RETURN cName;
+END;
+$$
+DELIMITER ;
