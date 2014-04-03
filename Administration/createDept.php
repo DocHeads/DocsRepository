@@ -1,11 +1,9 @@
 <?php
-
     include_once('../templates/preheader.php'); // <-- this include file MUST go first before any HTML/output
     include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
     include ('../Lib/Session.php');
     Session::validateSession();
-    include ('../templates/header.php');   
-    
+    include ('../templates/header.php');
 ?>
 
 <?php
@@ -15,7 +13,7 @@
     ########################################################
     ##
 
-    $tblDemo = new ajaxCRUD("Item", "departments", "deptID", "../");
+    $deptTable = new ajaxCRUD("Item", "departments", "deptID", "../");
 
     ##
     ########################################################
@@ -27,62 +25,55 @@
     #i can define a relationship to another table
     #the 1st field is the fk in the table, the 2nd is the second table, the 3rd is the pk in the second table, the 4th is field i want to retrieve as the dropdown value
     #http://ajaxcrud.com/api/index.php?id=defineRelationship
-    //$tblDemo->defineRelationship("fkID", "tblDemoRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (tblDemoRelationship) not included in the installation script
+    //$deptTable->defineRelationship("fkID", "deptTableRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (deptTableRelationship) not included in the installation script
 
     #i don't want to visually show the primary key in the table
-    $tblDemo->omitPrimaryKey();
+    $deptTable->omitPrimaryKey();
 
     #the table fields have prefixes; i want to give the heading titles something more meaningful
-    $tblDemo->displayAs("deptName", "Department Name");
-
+    $deptTable->displayAs("deptName", "Department Name");
+    $deptTable->displayAs("createDate", "Date Created");
+    
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
-    $tblDemo->omitField("updateDate");
-    $tblDemo->omitField("createDate");
+    $deptTable->omitField("updateDate");
+    //$deptTable->omitField("createDate");
 
     #i could omit a field from being on the add form if I wanted
-    $tblDemo->omitAddField("updateDate");
-    $tblDemo->omitAddField("createDate");
+    $deptTable->omitAddField("updateDate");
+    $deptTable->omitAddField("createDate");
 
     #set the number of rows to display (per page)
-    $tblDemo->setLimit(5);
+    $deptTable->setLimit(10);
+    
+    #i could disallow editing for certain, individual fields
+    $deptTable->disallowEdit('createDate');
 
     #if really desired, a filter box can be used for all fields
-    $tblDemo->addAjaxFilterBoxAllFields();
+    $deptTable->addAjaxFilterBoxAllFields();
+    
+    #i can order my table by whatever i want
+    $deptTable->addOrderBy("ORDER BY createDate DESC");
 
-    #implement a callback function after updating/editing a field
-    $tblDemo->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
-
+    # call makeDir() to create a folder.  $deptName = name of department
+    $deptTable->callFunction('deptName', 'makeDir');
 
 ?>
+    
     <h2>Create a Department</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$tblDemo->insertRowsReturned();?></b><br />
+            Total Returned Rows: <b><?=$deptTable->insertRowsReturned();?></b><br />
         </div>
-
         <div style="clear:both;"></div>
 
 <?php
-
     #actually show the table
-    $tblDemo->showTable();
+    $deptTable->showTable();
 
-    #my self-defined functions used for formatFieldWithFunction
-    function makeBold($val){
-        return "<b>$val</b>";
-    }
-
-    function makeBlue($val){
-        return "<span style='color: blue;'>$val</span>";
-    }
-
-    function myCallBackFunctionForAdd($array){
-        // echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
-        // print_r($array);
-    }
-
-    function myCallBackFunctionForEdit($array){
-        // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
-        // print_r($array);
+    #create folder for added department
+    function makeDir($val){
+        if (!file_exists('../uploads/'. $val)) {
+            mkdir('../uploads/'. $val, 0777, true);
+        }
     }
 ?>

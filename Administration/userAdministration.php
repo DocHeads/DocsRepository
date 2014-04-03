@@ -15,7 +15,7 @@
     ########################################################
     ##
 
-    $tblDemo = new ajaxCRUD("Item", "users", "userID", "../");
+    $userTable = new ajaxCRUD("Item", "users", "userID", "../");
 
     ##
     ########################################################
@@ -27,61 +27,64 @@
     #i can define a relationship to another table
     #the 1st field is the fk in the table, the 2nd is the second table, the 3rd is the pk in the second table, the 4th is field i want to retrieve as the dropdown value
     #http://ajaxcrud.com/api/index.php?id=defineRelationship
-    //$tblDemo->defineRelationship("fkID", "tblDemoRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (tblDemoRelationship) not included in the installation script
+    //$userTable->defineRelationship("fkID", "userTableRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (userTableRelationship) not included in the installation script
 
     #i don't want to visually show the primary key in the table
-    $tblDemo->omitPrimaryKey();
+    $userTable->omitPrimaryKey();
     
     #the table fields have prefixes; i want to give the heading titles something more meaningful
-    $tblDemo->displayAs("emailAddress", "User Name");
-    $tblDemo->displayAs("fname", "First Name");
-    $tblDemo->displayAs("lname", "Last Name");
-    $tblDemo->displayAs("userTypeID", "User Type");
-    $tblDemo->displayAs("isValidated", "Validated?");
-    $tblDemo->displayAs("emailOptIn", "Email Opt In");
+    $userTable->displayAs("emailAddress", "User Name");
+    $userTable->displayAs("fname", "First Name");
+    $userTable->displayAs("lname", "Last Name");
+    $userTable->displayAs("userTypeID", "User Type");
+    $userTable->displayAs("isValidated", "Validated?");
+    $userTable->displayAs("emailOptIn", "Email Opt In");
 
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
-    $tblDemo->omitField("password");
-    $tblDemo->omitField("tempPassKey");
-    $tblDemo->omitField("updateDate");
-    $tblDemo->omitField("createDate");
+    $userTable->omitField("password");
+    $userTable->omitField("tempPassKey");
+    $userTable->omitField("updateDate");
+    $userTable->omitField("createDate");
 
 
     #i can set certain fields to only allow certain values
     #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
     $allowableUserTypeIDValues = array("1", "2");
-    $tblDemo->defineAllowableValues("userTypeID", $allowableUserTypeIDValues);
+    $userTable->defineAllowableValues("userTypeID", $allowableUserTypeIDValues);
     
     $allowableisValidatedValues = array("0", "1");
-    $tblDemo->defineAllowableValues("isValidated", $allowableisValidatedValues);
+    $userTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
     
     $allowableemailOptInValues = array("0", "1");
-    $tblDemo->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
+    $userTable->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
     
     
     
     #set the number of rows to display (per page)
-    $tblDemo->setLimit(5);
+    $userTable->setLimit(5);
 
     #if really desired, a filter box can be used for all fields
-    $tblDemo->addAjaxFilterBoxAllFields();
+    $userTable->addAjaxFilterBoxAllFields();
 
     #implement a callback function after updating/editing a field
-    $tblDemo->onUpdateExecuteCallBackFunction("fname", "myCallBackFunctionForEdit");
-    $tblDemo->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
-    $tblDemo->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
-    $tblDemo->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
-    $tblDemo->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
+    $userTable->onUpdateExecuteCallBackFunction("fname", "myCallBackFunctionForEdit");
+    $userTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
+    $userTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
+    $userTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
+    $userTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
+    
+    #i can order my table by whatever i want
+    $userTable->addOrderBy("ORDER BY emailAddress ASC");
     
     #i can disallow adding rows to the table
     #http://ajaxcrud.com/api/index.php?id=disallowAdd
-    $tblDemo->disallowAdd();
+    $userTable->disallowAdd();
 
 ?>
     <h2>Create a Department</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$tblDemo->insertRowsReturned();?></b><br />
+            Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b><br />
         </div>
 
         <div style="clear:both;"></div>
@@ -89,7 +92,7 @@
 <?php
 
     #actually show the table
-    $tblDemo->showTable();
+    $userTable->showTable();
 
     #my self-defined functions used for formatFieldWithFunction
     function makeBold($val){

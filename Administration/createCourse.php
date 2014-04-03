@@ -1,11 +1,9 @@
 <?php
-
     include_once('../templates/preheader.php'); // <-- this include file MUST go first before any HTML/output
     include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
     include ('../Lib/Session.php');
     Session::validateSession();
     include ('../templates/header.php');   
-    
 ?>
 
 <?php
@@ -15,7 +13,7 @@
     ########################################################
     ##
 
-    $tblDemo = new ajaxCRUD("Item", "courses", "courseID", "../");
+    $courseTable = new ajaxCRUD("Item", "courses", "courseID", "../");
 
     ##
     ########################################################
@@ -27,62 +25,39 @@
     #i can define a relationship to another table
     #the 1st field is the fk in the table, the 2nd is the second table, the 3rd is the pk in the second table, the 4th is field i want to retrieve as the dropdown value
     #http://ajaxcrud.com/api/index.php?id=defineRelationship
-    //$tblDemo->defineRelationship("fkID", "tblDemoRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (tblDemoRelationship) not included in the installation script
+    //$courseTable->defineRelationship("fkID", "courseTableRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (courseTableRelationship) not included in the installation script
 
     #i don't want to visually show the primary key in the table
-    $tblDemo->omitPrimaryKey();
+    $courseTable->omitPrimaryKey();
 
     #the table fields have prefixes; i want to give the heading titles something more meaningful
-    $tblDemo->displayAs("courseName", "Course Name");
+    $courseTable->displayAs("courseName", "Course Name");
 
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
-    $tblDemo->omitField("updateDate");
-    $tblDemo->omitField("createDate");
+    $courseTable->omitField("updateDate");
+    $courseTable->omitField("createDate");
 
     #i could omit a field from being on the add form if I wanted
-    $tblDemo->omitAddField("updateDate");
-    $tblDemo->omitAddField("createDate");
+    $courseTable->omitAddField("updateDate");
+    $courseTable->omitAddField("createDate");
 
     #set the number of rows to display (per page)
-    $tblDemo->setLimit(5);
+    $courseTable->setLimit(10);
 
-    #if really desired, a filter box can be used for all fields
-    $tblDemo->addAjaxFilterBoxAllFields();
-
-    #implement a callback function after updating/editing a field
-    $tblDemo->onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
+    #i can order my table by whatever i want
+    $courseTable->addOrderBy("ORDER BY courseName ASC");
 
 
 ?>
     <h2>Create a Department</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$tblDemo->insertRowsReturned();?></b><br />
+            Total Returned Rows: <b><?=$courseTable->insertRowsReturned();?></b><br />
         </div>
 
         <div style="clear:both;"></div>
 
 <?php
-
     #actually show the table
-    $tblDemo->showTable();
-
-    #my self-defined functions used for formatFieldWithFunction
-    function makeBold($val){
-        return "<b>$val</b>";
-    }
-
-    function makeBlue($val){
-        return "<span style='color: blue;'>$val</span>";
-    }
-
-    function myCallBackFunctionForAdd($array){
-        // echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
-        // print_r($array);
-    }
-
-    function myCallBackFunctionForEdit($array){
-        // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
-        // print_r($array);
-    }
+    $courseTable->showTable();
 ?>
