@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2014 at 04:02 AM
+-- Generation Time: Apr 04, 2014 at 02:57 AM
 -- Server version: 5.5.34
 -- PHP Version: 5.4.22
 
@@ -21,6 +21,34 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `docdatabase` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `docdatabase`;
+
+DELIMITER $$
+--
+-- Functions
+--
+DROP FUNCTION IF EXISTS `GetCourseName`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetCourseName`(cID INT) RETURNS varchar(100) CHARSET latin1
+BEGIN
+  DECLARE cName VARCHAR(100);
+  SELECT courseName 
+  INTO cName
+  FROM courses 
+  WHERE courseID = cID;
+  RETURN cName;
+END$$
+
+DROP FUNCTION IF EXISTS `GetDeptName`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetDeptName`(deptId INT) RETURNS varchar(100) CHARSET latin1
+BEGIN
+  DECLARE dName VARCHAR(100);
+  SELECT deptName 
+  INTO dName
+  FROM departments 
+  WHERE deptID = deptId;
+  RETURN dName;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -47,7 +75,7 @@ DROP TABLE IF EXISTS `departments`;
 CREATE TABLE IF NOT EXISTS `departments` (
   `deptID` int(10) NOT NULL AUTO_INCREMENT,
   `deptName` varchar(100) NOT NULL,
-  `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `createDate` timestamp NULL DEFAULT NULL,
   `updateDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`deptID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -65,7 +93,6 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   `deptID` int(10) NOT NULL,
   `courseID` int(10) NOT NULL,
   `docName` varchar(100) NOT NULL,
-  `rating` varchar(5) DEFAULT NULL,
   `comments` varchar(5) DEFAULT NULL,
   `instructorInstruction` varchar(5) DEFAULT NULL,
   `studentInstruction` varchar(5) DEFAULT NULL,
@@ -90,6 +117,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(128) NOT NULL,
   `fname` text NOT NULL,
   `lname` text NOT NULL,
+  `emailAddress` text NOT NULL,
   `emailOptIn` tinyint(1) DEFAULT NULL,
   `isValidated` tinyint(1) NOT NULL,
   `tempPassKey` varchar(128) DEFAULT NULL,
@@ -97,7 +125,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updateDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`userID`),
   KEY `userTypeID` (`userTypeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userID`, `userTypeID`, `password`, `fname`, `lname`, `emailAddress`, `emailOptIn`, `isValidated`, `tempPassKey`, `createDate`, `updateDate`) VALUES
+(1, 1, '0d09e70c09a34be3114f40716eafd6b690195830d19b3aba4adb8f0cddf3634350bfe48d617d7003bd07d9b5c2039e553c5545bafc825f65d402e4caa5fbc2e3', 'Brian', 'Dunavent', 'dunavebc@mail.uc.edu', 1, 1, NULL, '2014-04-04 00:48:15', '2014-04-04 00:50:08');
 
 -- --------------------------------------------------------
 
