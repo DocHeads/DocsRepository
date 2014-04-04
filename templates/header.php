@@ -101,7 +101,7 @@
               else
               {
                 print '<tr><td>';
-                print '</td><td style="padding-right: 10px;" align="right"><h6 style="color: #333333;"><a href="../Authentication/login.php">Login</a></h6>';
+                print '</td></td><td style="padding-right: 10px;" align="right"><h6><a href="../Authentication/login.php">Login</a> | <a href="../User/registerUser.php">Register</a></h6>';
                 print '</td></tr>';
               }
             }
