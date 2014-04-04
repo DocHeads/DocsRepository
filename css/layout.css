@@ -105,15 +105,15 @@
 	input::-webkit-input-placeholder 	{ color: #a59e9b; }
 	input:-moz-placeholder  			{ color: #a59e9b; }
 
-	input[type="text"], select			{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:15px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}
-	input[type="password"], select			{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:15px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}
+	input[type="text"], select			{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:14px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}
+	input[type="password"], select			{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:14px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}
 /*	
 	input[type="file"]				{ width: 200px; background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:15px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}
 
 	/* The ", textarea" clause doesn't seem to work with FF v14. I broke it into a separate line of CSS and change type="textarea"*/
-	input[type="textarea"]			{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:15px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}*/
+	input[type="textarea"]			{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:14px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}*/
 
-	input[type="radio"]				{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:15px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}*/
+	input[type="radio"]				{ background:#fefeed; padding:6px 5px 5px; color:#a59e9b; font-size:14px; border:6px solid #ddd7d4; -webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2); box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 4px 4px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.2);}*/
 
 	input:required					{ background:#fefeed;}
 	input:focus, select:focus, textarea:focus, file:focus	radio:focus { border-color:#c6bebb; color:#5f5856;}
@@ -379,14 +379,14 @@
 }
 
 .ajaxCRUD th{
-	background: #CFDBF3;
+	background: #CC9999;
 	font-weight: bold;
-	color:#445276;
+	color:#000;
 	font-size: 12px;
 }
 
 .ajaxCRUD th a{
-	color: #173D7F;
+	color: #000;
 }
 
 .ajaxCRUD td a{
@@ -414,7 +414,8 @@
 	padding: 5px 5px;
 }
 table td.odd, table tr.odd, tr.odd td, tbody tr.odd th{
-	background-color: #f2f2f2;
+	background-color: #DDD7D4;
+	color:#444444;
 }
 
 .editingSize{
@@ -426,7 +427,7 @@ table td.odd, table tr.odd, tr.odd td, tbody tr.odd th{
 }
 
 .btn{
-	font-size: 14px;
+	font-size: 12px;
 }
 .report {
 	text-align: left;
