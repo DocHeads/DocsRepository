@@ -9,11 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   // check email
   if (!empty($_POST['email']))
   {
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
 
     if (!empty($_POST['password']))
     {
-      $password = $_POST['password'];
+      $password = trim($_POST['password']);
 
       if (Users::validateUser($email, $password))
       {
