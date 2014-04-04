@@ -85,7 +85,11 @@ class Users
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
         {
           // check the boolean value
+<<<<<<< HEAD
           if (trim($row['isValidated']) == 'YES')
+=======
+          if ($row['isValidated'] == 'YES')
+>>>>>>> 3107f1a7e5663f01e216e6d5445789bb6ce78b67
           {
             $isValid = TRUE;
           }
