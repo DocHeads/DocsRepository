@@ -41,6 +41,9 @@
     #i could omit a field from being on the add form if I wanted
     $courseTable->omitAddField("updateDate");
     $courseTable->omitAddField("createDate");
+    
+    $courseTable->disallowEdit('createDate');
+    $courseTable->disallowEdit('courseName');
 
     #set the number of rows to display (per page)
     $courseTable->setLimit(10);
@@ -50,7 +53,7 @@
 
 
 ?>
-    <h2>Create a Department</h2>
+    <h2>Create a Course</h2>
         <div style="float: left">
             Total Returned Rows: <b><?=$courseTable->insertRowsReturned();?></b><br />
         </div>

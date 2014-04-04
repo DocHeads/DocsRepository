@@ -33,38 +33,31 @@
     #the table fields have prefixes; i want to give the heading titles something more meaningful
     $deptTable->displayAs("deptName", "Department Name");
     $deptTable->displayAs("createDate", "Date Created");
-    
+
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
     $deptTable->omitField("updateDate");
-    //$deptTable->omitField("createDate");
-
+    
     #i could omit a field from being on the add form if I wanted
     $deptTable->omitAddField("updateDate");
     $deptTable->omitAddField("createDate");
-
-    #set the number of rows to display (per page)
-    $deptTable->setLimit(10);
     
-    #i could disallow editing for certain, individual fields
     $deptTable->disallowEdit('createDate');
     $deptTable->disallowEdit('deptName');
 
-    #if really desired, a filter box can be used for all fields
-    $deptTable->addAjaxFilterBoxAllFields();
-    
+    #set the number of rows to display (per page)
+    $deptTable->setLimit(10);
+
     #i can order my table by whatever i want
     $deptTable->addOrderBy("ORDER BY createDate DESC");
 
-    # call makeDir() to create a folder.  $deptName = name of department
-    $deptTable->callFunction('deptName', 'makeDir');
 
 ?>
-    
     <h2>Create a Department</h2>
         <div style="float: left">
             Total Returned Rows: <b><?=$deptTable->insertRowsReturned();?></b><br />
         </div>
+
         <div style="clear:both;"></div>
 
 <?php
