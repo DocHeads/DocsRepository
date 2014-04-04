@@ -13,8 +13,6 @@
       window.jQuery || document.write('<script src="/_assets/js/libs/jquery-1.6.2.min.js"><\/script>')
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-
     <script language="JavaScript" src="../Scripts/validate.js"></script>
 
     <script src="/_assets/js/plugins.js"></script>
