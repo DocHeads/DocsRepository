@@ -8,7 +8,7 @@ include ('../templates/header.php');
 <h2>Welcome to the (Department Name) Submission Database!</h2>
 
 <?php
-  if (Users::isAuthorized() == TRUE)
+  if (Users::isAuthorized())
   {
     $errMsg = '';
     print '<h1>User Submissions</h1>';
