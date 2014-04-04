@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   if (isset($_POST['fName']) ? $fName = $_POST['fName'] : $fName = null);
   if (isset($_POST['lName']) ? $lName = $_POST['lName'] : $lName = null);
-  if (isset($_POST['userType']) ? $userType = $_POST['userType'] : $userType = Users::getUserTypeIDValue('STANDARD'));
+  if (isset($_POST['userType']) ? $userType = $_POST['userType'] : $userType = 'STANDARD');
   if (isset($_POST['emailOptIn']) ? $emailOptIn = $_POST['emailOptIn'] : $emailOptIn = $userProps['emailOptIn']);
   if (isset($_POST['newPass']) ? $newPass = $_POST['newPass'] : $newPass = null);
   if (isset($_POST['confPass']) ? $confPass = $_POST['confPass'] : $confPass = null);
@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     if ($emailOptIn == 'on')
     {
-      $emailOptIn = 1;
+      $emailOptIn = 'YES';
     }
     else
     {
-      $emailOptIn = 0;
+      $emailOptIn = 'NO';
     }
   }
 
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           // update the user
           if (Users::updateUser($emailAddress, $fName, $lName, $userType, $emailOptIn, $newPass))
           {
-            $_SESSION['name'] = $fName;
+            $_SESSION['name'] = $fName ." ". $lName;
             $_SESSION['userType'] = $userType;
             $errMsg = 'User ' . $emailAddress . ' updated';
           }
@@ -65,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         // update the user
         if (Users::updateUser($emailAddress, $fName, $lName, $userType, $emailOptIn, $newPass))
         {
-          $_SESSION['name'] = $fName;
-          $_SESSION['userType'] = $$userType;
+          $_SESSION['name'] = $fName ." ". $lName;
+          $_SESSION['userType'] = $userType;
           $errMsg = 'User ' . $emailAddress . ' updated';
         }
       }
@@ -86,13 +86,14 @@ else
   // set the variables to the corresponding db lookup
   $emailAddress = Session::getLoggedInUserEmail();
   $userProps = Users::getUserProperties($emailAddress);
-  $fName = $userProps['fName'];
-  $lName = $userProps['lName'];
-  $emailOptIn = $userProps['emailOptIn'];
-  $userType = Users::getUserTypeIDValue('STANDARD');
+  $fName = trim($userProps['fName']);
+  $lName = trim($userProps['lName']);
+  $emailOptIn = trim($userProps['emailOptIn']);
+  $userType = 'STANDARD';
   $newPass = null;
   $confPass = null;
 }
+
 ?>
 
 <h2>Edit your Profile</h2>
@@ -123,16 +124,16 @@ else
       <tr>
         <td> Email Opt In: </td>
         <?php
-        if ($emailOptIn == '1' ? $check = 'checked' : $check = '')
-          ;
-        echo '<td><input type="checkbox" name="emailOptIn" size="30" ' . $check . '></td>';
+        if ($emailOptIn == 'YES' ? $check = 'checked' : $check = '');
+        print '<td><input type="checkbox" name="emailOptIn" size="30" ' . $check . '></td>';
         ?>
       </tr>
       <tr>
-        <td colspan="2">**Check if you'd like to get email updates when submission repository is updated</td>
+        <td>&nbsp;</td>
+        <td style="font-size: 10px" >**Check if you'd like to get email updates when submission repository is updated</td>
       </tr>
       <?php
-      if (Session::getLoggedInUserType() == Users::getUserTypeIDValue('ADMIN'))
+      if (Session::getLoggedInUserType() == 'ADMIN')
       {
         $userTypeArray = Users::getUserTypesArray();
         echo '
@@ -145,13 +146,13 @@ else
 
         for ($i = 0; $i < count($userTypeArray); $i++)
         {
-          if ($userTypeArray[$i]['userTypeId'] == Session::getLoggedInUserType())
+          if ($userTypeArray[$i]['userTypeName'] == Session::getLoggedInUserType())
           {
-            echo '<option value="' . $userTypeArray[$i]['userTypeId'] . '" selected>' . $userTypeArray[$i]['userTypeName'] . '</option>';
+            echo '<option value="' . $userTypeArray[$i]['userTypeName'] . '" selected>' . $userTypeArray[$i]['userTypeName'] . '</option>';
           }
           else
           {
-            echo '<option value="' . $userTypeArray[$i]['userTypeId'] . '">' . $userTypeArray[$i]['userTypeName'] . '</option>';
+            echo '<option value="' . $userTypeArray[$i]['userTypeName'] . '">' . $userTypeArray[$i]['userTypeName'] . '</option>';
           }
         }
         echo '

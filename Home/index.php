@@ -5,7 +5,7 @@ include '../Lib/Submissions.php';
 include ('../templates/header.php');
 ?>
 
-<h2>Welcome to the (Department Name) Submission Database!</h2>
+<h2>Welcome to the UC Faculty Document Managment System</h2>
 
 <?php
   if (Users::isAuthorized())
@@ -60,7 +60,7 @@ include ('../templates/header.php');
 
   else
   {
-    print '<p>Your account will be verified within 24-48 hours!  <br /><br />Please contact the site administrator to light a fire in his ass and get it done sooner.</p>';
+    print '<p>Your account will be verified within 24-48 hours!  <br /><br />Please contact the site administrator for more information.</p>';
   }
 ?>
 

@@ -50,8 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			     // check to see if user exists before inserting record
                 if (Users::registerUser($password, $firstName, $lastName, $email, $emailOptIn))
                 {
+                  Users::validateUser($email, $password);
                   // print "<script language='Javascript'>document.location.href='../Authentication/login.php' ;</script>";
-                  header( "refresh:5;url=../Authentication/login.php" );
+                  header( "location: ../Home/index.php" );
                   $errMsg = 'Success! A confirmation email will be sent to ' . $email . '<br /><br />Redirecting to the login page in <span id="countdown">5</span>.';
                 }
             }

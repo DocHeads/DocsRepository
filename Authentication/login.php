@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 ?>
 
-<h2>Login Form</h2>
+<h2>UC Faculty Document Managment System Login</h2>
 <p align="center">
 	Please enter your username and password.
 </p>
@@ -80,8 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		</tr>
 		<tr>
 			<td colspan="2">
-			<p align="center">
-				<input type="submit" name="submit" value="Log In!" />
+			<p align="center"><br/>
+				<input type="submit" name="submit" value="Log In" />
 			</p></td>
 		</tr>
 		<tr>

@@ -54,7 +54,7 @@ class Users
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
     {
       // access the password value in the db
-      $id = $row['userTypeId'];
+      $id = $row['userTypeID'];
     }
     $conn -> freeConnection();
     return $id;
@@ -229,7 +229,7 @@ class Users
     // hash the password
     $hash = Users::encodePassword($password);
     $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userType, emailOptIn, isValidated, createDate, updateDate)";
-    $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userType}', '{$emailOptIn}', 0, '{$ts}', '{$ts}')";
+    $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userType}', '{$emailOptIn}', 'NO', '{$ts}', '{$ts}')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
     $conn -> freeConnection();
@@ -413,11 +413,11 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT userTypeName FROM UserTypes";
+    $sql = "SELECT userTypeName FROM userTypes";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
-    while ($row = $result -> fetch_array(MYSQLI_NUM))
+    while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
     {
       // assign the primary key value to the name
       array_push($userTypesArray, $row);
