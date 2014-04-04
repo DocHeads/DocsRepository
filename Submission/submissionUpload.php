@@ -2,6 +2,11 @@
  include '../Lib/Session.php';
  Session::validateSession();
 include ('../templates/header.php');
+include '../Lib/Submissions.php';
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  Submission::uploadFile();
+}
 ?>
 
 <h2>Submit a document to the Computer Apps Repository (*=required field)</h2>
