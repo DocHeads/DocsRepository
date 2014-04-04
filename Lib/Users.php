@@ -7,7 +7,7 @@
  * - Registering users
  * - Validating users
  */
-include ('MySqlConnect.php');
+include ('../Lib/MySqlConnect.php');
 class Users
 {
   protected $username;
@@ -48,7 +48,7 @@ class Users
 
     $userType = $conn -> sqlCleanup($userType);
     // query the db for the value comparison
-    $result = $conn -> executeQueryResult("SELECT userTypeId FROM UserTypes WHERE userTypeName = '{$userType}'");
+    $result = $conn -> executeQueryResult("SELECT userTypeID FROM userTypes WHERE userTypeName = '{$userType}'");
 
     // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
@@ -75,7 +75,7 @@ class Users
     {
       $email = $_SESSION['email'];
       // query the db for the value comparison
-      $result = $conn -> executeQueryResult("SELECT isValidated FROM Users WHERE emailAddress = '{$email}'");
+      $result = $conn -> executeQueryResult("SELECT isValidated FROM users WHERE emailAddress = '{$email}'");
       // get a row count to verify only 1 row is returned
       $count = mysql_num_rows($result);
       if ($count == 1)
@@ -123,19 +123,20 @@ class Users
 
     $email = $conn -> sqlCleanup($email);
     // query the db for the value comparison
-    $result = $conn -> executeQueryResult("SELECT password, fName, lName, userType FROM Users WHERE emailAddress = '{$email}'");
+    $result = $conn -> executeQueryResult("SELECT userId, password, fName, lName, userType FROM users WHERE emailAddress = '{$email}'");
 
     // get a row count to verify only 1 row is returned
     $count = mysql_num_rows($result);
     if ($count == 1)
     {
+		var_dump($result);
       // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
       while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
       {
         // access the password value in the db
-        $userId = $row['userId'];
-        $dbHash = $row['password'];
-        $userType = $row['userType'];
+        $userId = trim($row['userId']);
+        $dbHash = trim($row['password']);
+        $userType = trim($row['userType']);
         $name = "{$row['fName']} {$row['lName']}";
       }
 
@@ -150,6 +151,7 @@ class Users
         $_SESSION['name'] = $name;
         $_SESSION['userType'] = $userType;
         $_SESSION['email'] = $email;
+        $_SESSION['timeout'] = time();
       }
     }
     $conn -> freeConnection();
@@ -222,12 +224,12 @@ class Users
     $lastName = $conn -> sqlCleanup($lastName);
     $email = $conn -> sqlCleanup($email);
     $emailOptIn = $conn -> sqlCleanup($emailOptIn);
-    $userTypeId = 'STANDARD';
+    $userType = 'STANDARD';
 
     // hash the password
     $hash = Users::encodePassword($password);
     $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userType, emailOptIn, isValidated, createDate, updateDate)";
-    $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userTypeId}', '{$emailOptIn}', 0, '{$ts}', '{$ts}')";
+    $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userType}', '{$emailOptIn}', 0, '{$ts}', '{$ts}')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
     $conn -> freeConnection();
@@ -320,7 +322,7 @@ class Users
     $ts = $conn -> getCurrentTs();
 
     $updateSql = "UPDATE Users";
-    $updateSql .= "   SET isValidated = 1";
+    $updateSql .= "   SET isValidated = 'YES'";
     $updateSql .= " WHERE emailAddress = '{$email}'";
 
     // update existing user record in the database
@@ -346,7 +348,7 @@ class Users
     $updateSql = "UPDATE Users";
     $updateSql .= "  SET fName = '{$fName}',";
     $updateSql .= "      lName = '{$lName}',";
-    $updateSql .= "      userTypeId = '{$userType}',";
+    $updateSql .= "      userType = '{$userType}',";
     $updateSql .= "      emailOptIn = '{$emailOptIn}',";
 
     // check for the new password and insert the hash value
