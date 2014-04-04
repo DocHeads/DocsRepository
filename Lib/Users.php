@@ -85,7 +85,7 @@ class Users
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
         {
           // check the boolean value
-          if ($row['isValidated'] == 1)
+          if ($row['isValidated'] == 'YES')
           {
             $isValid = TRUE;
           }
