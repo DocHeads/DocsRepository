@@ -96,10 +96,7 @@
 ?>
     <h2>User Administration</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b>
-            <br />
-            
-            <a class="youtube" href="http://www.youtube.com/embed/4eYSpIz2FjU">title</a>
+            <p style="font-size: 12px;">Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
