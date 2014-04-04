@@ -53,13 +53,13 @@
 	vertical-align: middle;
 }
 .ajaxCRUD span{
-	color:#000;
+
 }
 .ajaxCRUD td, .ajaxCRUD th{
 	padding: 5px 5px;
 }
 table td.odd, table tr.odd, tr.odd td, tbody tr.odd th{
-	color:#000;
+	color:#850404;
 	background-color: #f2f2f2;
 }
 
