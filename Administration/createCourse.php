@@ -51,6 +51,9 @@
 
     #i can order my table by whatever i want
     $courseTable->addOrderBy("ORDER BY courseName ASC");
+    
+    #if really desired, a filter box can be used for all fields
+    $courseTable->addAjaxFilterBoxAllFields();
 
 
 ?>

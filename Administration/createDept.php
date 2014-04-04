@@ -51,6 +51,9 @@
     #i can order my table by whatever i want
     $deptTable->addOrderBy("ORDER BY createDate DESC");
 
+    #if really desired, a filter box can be used for all fields
+    $deptTable->addAjaxFilterBoxAllFields();
+
 
 ?>
     <h2>Create a Department</h2>
