@@ -27,7 +27,7 @@ DELIMITER $$
 -- Functions
 --
 DROP FUNCTION IF EXISTS `GetCourseName`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `GetCourseName`(cID INT) RETURNS varchar(100) CHARSET latin1
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetCourseName`(cID INT) RETURNS varchar(100) NOT DETERMINISTIC CONTAINS SQL SQL SECURITY DEFINER
 BEGIN
   DECLARE cName VARCHAR(100);
   SELECT courseName 
@@ -38,7 +38,7 @@ BEGIN
 END$$
 
 DROP FUNCTION IF EXISTS `GetDeptName`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `GetDeptName`(deptId INT) RETURNS varchar(100) CHARSET latin1
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetDeptName`(deptId INT) RETURNS varchar(100) NOT DETERMINISTIC CONTAINS SQL SQL SECURITY DEFINER
 BEGIN
   DECLARE dName VARCHAR(100);
   SELECT deptName 
@@ -172,6 +172,18 @@ ALTER TABLE `submissions`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_UserTypes_2_Users` FOREIGN KEY (`userTypeID`) REFERENCES `usertypes` (`userTypeID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TRIGGER IF EXISTS `users_creation_timestamp`; 
+CREATE TRIGGER `users_creation_timestamp` BEFORE INSERT ON `users`
+ FOR EACH ROW SET NEW.createDate = NOW();
+
+DROP TRIGGER IF EXISTS `courses_creation_timestamp`; 
+CREATE TRIGGER `courses_creation_timestamp` BEFORE INSERT ON `courses`
+ FOR EACH ROW SET NEW.createDate = NOW();
+
+DROP TRIGGER IF EXISTS `departments_creation_timestamp`; 
+CREATE TRIGGER `departments_creation_timestamp` BEFORE INSERT ON `departments`
+ FOR EACH ROW SET NEW.createDate = NOW();
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

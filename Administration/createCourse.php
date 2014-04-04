@@ -42,6 +42,7 @@
     $courseTable->omitAddField("updateDate");
     $courseTable->omitAddField("createDate");
     
+    #i could disable fields from being editable
     $courseTable->disallowEdit('createDate');
     $courseTable->disallowEdit('courseName');
 

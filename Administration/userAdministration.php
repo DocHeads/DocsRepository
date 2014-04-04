@@ -50,16 +50,17 @@
 
     #i can set certain fields to only allow certain values
     #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
-    $allowableUserTypeIDValues = array("1", "2");
+    $allowableUserTypeIDValues = array("STANDARD", "ADMIN");
     $userTable->defineAllowableValues("userTypeID", $allowableUserTypeIDValues);
     
-    $allowableisValidatedValues = array("0", "1");
+    $allowableisValidatedValues = array("YES", "NO");
     $userTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
     
-    $allowableemailOptInValues = array("0", "1");
+    $allowableemailOptInValues = array("YES", "NO");
     $userTable->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
     
-    
+    #i could disable fields from being editable
+    $userTable->disallowEdit('emailAddress');
     
     #set the number of rows to display (per page)
     $userTable->setLimit(5);
