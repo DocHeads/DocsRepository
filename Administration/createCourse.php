@@ -59,7 +59,8 @@
 ?>
     <h2>Create a Course</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$courseTable->insertRowsReturned();?></b><br />
+            <p style="font-size: 12px;">Total Returned Rows: <b><?=$courseTable->insertRowsReturned();?></b></p>
+            <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
         <div style="clear:both;"></div>
