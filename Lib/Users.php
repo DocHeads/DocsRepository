@@ -48,7 +48,7 @@ class Users
 
     $userType = $conn -> sqlCleanup($userType);
     // query the db for the value comparison
-    $result = $conn -> executeQueryResult("SELECT userTypeId FROM UserTypes WHERE userTypeName = '{$userType}'");
+    $result = $conn -> executeQueryResult("SELECT userType FROM UserTypes WHERE userTypeName = '{$userType}'");
 
     // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))

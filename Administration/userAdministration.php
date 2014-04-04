@@ -3,7 +3,7 @@
     include_once('../templates/preheader.php'); // <-- this include file MUST go first before any HTML/output
     include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
     include ('../Lib/Session.php');
-    Session::validateSession();
+//    Session::validateSession();
     include ('../templates/header.php');
     include ('../Lib/Departments.php');
     
@@ -90,7 +90,9 @@
 ?>
     <h2>Create a Department</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b><br />
+            Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b>
+            <br />
+            <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!</h5>
         </div>
 
         <div style="clear:both;"></div>
@@ -100,14 +102,6 @@
     #actually show the table
     $userTable->showTable();
 
-    #my self-defined functions used for formatFieldWithFunction
-    function makeBold($val){
-        return "<b>$val</b>";
-    }
-
-    function makeBlue($val){
-        return "<span style='color: blue;'>$val</span>";
-    }
 
     function myCallBackFunctionForAdd($array){
         // echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
