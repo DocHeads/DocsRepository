@@ -81,7 +81,7 @@
 						</li>';
                   }
                 }
-                print '</ul></td><td align="right"><h6 style="color: #333333;">Welcome, ' . Session::getLoggedInName() . ' | <a href="../User/profile.php">Edit Profile</a> | <a href="../Authentication/logout.php">Logout</a></h6>';
+                print '</ul></td><td style="padding-right: 10px;" align="right"><h6 style="color: #333333;">Welcome, ' . Session::getLoggedInName() . ' | <a href="../User/profile.php">Edit Profile</a> | <a href="../Authentication/logout.php">Logout</a></h6>';
                 print '</td></tr>';
               }
               else
@@ -95,7 +95,7 @@
               if (isset($_SESSION['name']))
               {
                 print '<tr><td><ul id="nav"><li><a href="../Home/index.php">Home</a></li><li><a href="../Misc/help.php">Help</a></li>';
-                print '</ul></td><td align="right"><h6 style="color: #333333;"><a href="../User/profile.php">Edit Profile</a> | <a href="../Authentication/logout.php">Logout</a></h6>';
+                print '</ul></td><td style="padding-right: 10px;" align="right"><h6 style="color: #333333;"><a href="../User/profile.php">Edit Profile</a> | <a href="../Authentication/logout.php">Logout</a></h6>';
                 print '</td></tr>';
               }
               else
