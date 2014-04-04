@@ -85,7 +85,7 @@ class Users
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
         {
           // check the boolean value
-          if ($row['isValidated'] == 1)
+          if (trim($row['isValidated']) == 'YES')
           {
             $isValid = TRUE;
           }
@@ -123,7 +123,7 @@ class Users
 
     $email = $conn -> sqlCleanup($email);
     // query the db for the value comparison
-    $result = $conn -> executeQueryResult("SELECT password, fName, lName, userTypeId FROM Users WHERE emailAddress = '{$email}'");
+    $result = $conn -> executeQueryResult("SELECT password, fName, lName, userType FROM Users WHERE emailAddress = '{$email}'");
 
     // get a row count to verify only 1 row is returned
     $count = mysql_num_rows($result);
@@ -133,8 +133,9 @@ class Users
       while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
       {
         // access the password value in the db
+        $userId = $row['userId'];
         $dbHash = $row['password'];
-        $userType = $row['userTypeId'];
+        $userType = $row['userType'];
         $name = "{$row['fName']} {$row['lName']}";
       }
 
@@ -145,6 +146,7 @@ class Users
         $isValid = TRUE;
         session_start();
         // register the userId, name, and userType in the $_SESSION
+        $_SESSION['userId'] = $userId;
         $_SESSION['name'] = $name;
         $_SESSION['userType'] = $userType;
         $_SESSION['email'] = $email;
@@ -220,11 +222,11 @@ class Users
     $lastName = $conn -> sqlCleanup($lastName);
     $email = $conn -> sqlCleanup($email);
     $emailOptIn = $conn -> sqlCleanup($emailOptIn);
-    $userTypeId = Users::getUserTypeIDValue('STANDARD');
+    $userTypeId = 'STANDARD';
 
     // hash the password
     $hash = Users::encodePassword($password);
-    $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userTypeID, emailOptIn, isValidated, createDate, updateDate)";
+    $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userType, emailOptIn, isValidated, createDate, updateDate)";
     $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userTypeId}', '{$emailOptIn}', 0, '{$ts}', '{$ts}')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
@@ -377,7 +379,7 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT fName, lName, userTypeId, emailOptIn, isValidated FROM Users WHERE emailAddress = '{$email}'";
+    $sql = "SELECT fName, lName, userType, emailOptIn, isValidated FROM Users WHERE emailAddress = '{$email}'";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
@@ -409,7 +411,7 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT userTypeId, userTypeName FROM UserTypes";
+    $sql = "SELECT userTypeName FROM UserTypes";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
@@ -422,6 +424,5 @@ class Users
     $conn -> freeConnection();
     return $userTypesArray;
   }
-
 }
 ?>

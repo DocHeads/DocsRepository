@@ -6,26 +6,24 @@ class Departments
   protected $createdTs;
   protected $updatedTs;
 
-  public function getDeptList()
+  public static function getDeptList()
   {
-    include 'MySqlConnect.php';
     $deptList = array();
 
     $conn = new MySqlConnect();
-    $result = $conn -> executeQuery("SELECT departmentName FROM Departments ORDER BY departmentName Desc");
+    $result = $conn -> executeQuery("SELECT deptName FROM Departments ORDER BY deptName Desc");
 
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
     {
-      $deptList = array_push($row[0]);
+      array_push($deptList, $row['deptName']);
     }
     $conn -> freeConnection();
-
+var_dump($deptList);
     return $deptList;
   }
 
   public function createDept($deptName)
   {
-    include 'MySqlConnect.php';
     $conn = new MySqlConnect();
     $isCreated = FALSE;
     $currentTs = $conn -> getCurrentTs();
@@ -38,7 +36,6 @@ class Departments
 
   public function deleteDept($deptName)
   {
-    include 'MySqlConnect.php';
     $conn = new MySqlConnect();
     $isDeleted = FALSE;
     $currentTs = $conn -> getCurrentTs();

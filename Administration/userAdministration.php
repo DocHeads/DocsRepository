@@ -4,7 +4,8 @@
     include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
     include ('../Lib/Session.php');
     Session::validateSession();
-    include ('../templates/header.php');   
+    include ('../templates/header.php');
+    include ('../Lib/Departments.php');
     
 ?>
 
@@ -36,7 +37,7 @@
     $userTable->displayAs("emailAddress", "User Name");
     $userTable->displayAs("fname", "First Name");
     $userTable->displayAs("lname", "Last Name");
-    $userTable->displayAs("userTypeID", "User Type");
+    $userTable->displayAs("userType", "User Type");
     $userTable->displayAs("isValidated", "Validated?");
     $userTable->displayAs("emailOptIn", "Email Opt In");
 
@@ -47,12 +48,16 @@
     $userTable->omitField("updateDate");
     $userTable->omitField("createDate");
 
+// YOU LEFT OFF HERE
+ // $allowableUserTypeIDValues = array();
+    // $allowableUserTypeIDValues = Departments::getDeptList();
+    // $userTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
 
     #i can set certain fields to only allow certain values
     #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
     $allowableUserTypeIDValues = array("STANDARD", "ADMIN");
-    $userTable->defineAllowableValues("userTypeID", $allowableUserTypeIDValues);
-    
+    $userTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
+//     
     $allowableisValidatedValues = array("YES", "NO");
     $userTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
     

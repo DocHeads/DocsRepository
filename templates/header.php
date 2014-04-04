@@ -65,11 +65,11 @@
 						</tr>
 
 						<?php
-						if(Users::isAuthorized()==TRUE) {
+						if(Users::isAuthorized()) {
 						if(isset($_SESSION['name'])) {
 						print '<tr><td><ul id="nav"><li><a href="../Home/index.php">Home</a></li><li><a href="../User/userSubmissions.php">Documents</a></li><li><a href="../Submission/submissionUpload.php">Upload Document</a></li><li><a href="../Misc/help.php">Help</a><ul><li><a href="../Misc/contactUs.php">Contact Us</a></li></ul></li>';
 						if(isset($_SESSION['userType'])) {
-						if(Session::getLoggedInUserType()==Users::getUserTypeIDValue("ADMIN")) {
+						if(Session::getLoggedInUserType()=="ADMIN") {
 						print '<li><a href="../Administration/adminHome.php">Administration</a>
 						<ul><li><a href="../Administration/userAdministration.php">User Administration</a></li>
 						<li><a href="../Administration/submissionAdministration.php">Submission Administration</a></li>

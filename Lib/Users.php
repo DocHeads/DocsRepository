@@ -123,7 +123,7 @@ class Users
 
     $email = $conn -> sqlCleanup($email);
     // query the db for the value comparison
-    $result = $conn -> executeQueryResult("SELECT userId, password, fName, lName, userTypeId FROM Users WHERE emailAddress = '{$email}'");
+    $result = $conn -> executeQueryResult("SELECT userId, password, fName, lName, userType FROM Users WHERE emailAddress = '{$email}'");
 
     // get a row count to verify only 1 row is returned
     $count = mysql_num_rows($result);
@@ -135,7 +135,7 @@ class Users
         // access the password value in the db
         $userId = $row['userId'];
         $dbHash = $row['password'];
-        $userType = $row['userTypeId'];
+        $userType = $row['userType'];
         $name = "{$row['fName']} {$row['lName']}";
       }
 
@@ -223,11 +223,11 @@ class Users
     $lastName = $conn -> sqlCleanup($lastName);
     $email = $conn -> sqlCleanup($email);
     $emailOptIn = $conn -> sqlCleanup($emailOptIn);
-    $userTypeId = Users::getUserTypeIDValue('STANDARD');
+    $userTypeId = 'STANDARD';
 
     // hash the password
     $hash = Users::encodePassword($password);
-    $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userTypeID, emailOptIn, isValidated, createDate, updateDate)";
+    $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userType, emailOptIn, isValidated, createDate, updateDate)";
     $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userTypeId}', '{$emailOptIn}', 0, '{$ts}', '{$ts}')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
@@ -242,36 +242,16 @@ class Users
    * @param $username - string value of the username value to delete
    * @return $isCommit - boolean; returns TRUE if delete is committed
    */
-  public function deleteUser($username)
+  public function deleteUser($userId)
   {
     $isCommit = FALSE;
     $conn = new MySqlConnect();
 
     $username = $conn -> sqlCleanup($username);
-    $isCommit = $conn -> executeQuery("DELETE FROM Users WHERE username = '%s'", $username);
+    $isCommit = $conn -> executeQuery("DELETE FROM Users WHERE userId = '%s'", $userId);
 
     $conn -> freeConnection();
     return $isCommit;
-  }
-
-  public function getUserList()
-  {
-    $result;
-    $userList = array();
-    $conn = new MySqlConnect();
-
-    $result = $conn -> executeQueryResult("SELECT username FROM Users");
-    if (isset($result))
-    {
-      // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
-      while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
-      {
-        // access the password value in the db
-        $userList = array_push($row[0]);
-      }
-    }
-    $conn -> freeConnection();
-    return $userList;
   }
 
   /**
@@ -380,7 +360,7 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT fName, lName, userTypeId, emailOptIn, isValidated FROM Users WHERE emailAddress = '{$email}'";
+    $sql = "SELECT fName, lName, userType, emailOptIn, isValidated FROM Users WHERE emailAddress = '{$email}'";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
@@ -412,7 +392,7 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT userTypeId, userTypeName FROM UserTypes";
+    $sql = "SELECT userTypeName FROM UserTypes";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
