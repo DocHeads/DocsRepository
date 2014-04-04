@@ -48,6 +48,7 @@
     
     #i could disallow editing for certain, individual fields
     $deptTable->disallowEdit('createDate');
+    $deptTable->disallowEdit('deptName');
 
     #if really desired, a filter box can be used for all fields
     $deptTable->addAjaxFilterBoxAllFields();

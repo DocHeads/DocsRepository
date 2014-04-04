@@ -12,8 +12,7 @@ class MySqlConnect
   protected $databaseName = "docdatabase";
   protected $sqlQuery;
   protected $result;
-  protected $conn;
-
+  
   /**
    * Method called just before execution of a sql query. Use this to prevent sql
    * injection on each where clause parameter - escapes special string
@@ -34,15 +33,16 @@ class MySqlConnect
   /**
    * Method used to execute a query that doesn't expect a result set - CREATE,
    * UPDATE, DELETE
-   *
+     * 
    * @param $sqlQuery - string value representing the SQL query
    * @return $isCommit - boolean: returns true if query is committed
    */
   public function executeQuery($sqlQuery)
   {
     $isCommit = FALSE;
-    $this -> $conn = new mysqli($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword, $this -> databaseName);
-    $isCommit = $this -> $conn -> query($sqlQuery);
+        mysql_connect($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword) or die('Could not connect: ' . mysql_error());
+        mysql_select_db($this -> databaseName);
+    $isCommit = mysql_query($sqlQuery) or die("MySql Error: " . mysql_error());
 
     return $isCommit;
   }
@@ -58,19 +58,20 @@ class MySqlConnect
    */
   public function executeQueryResult($sqlQuery)
   {
-    $this -> $conn = new mysqli($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword, $this -> databaseName) or die('Could not connect: ' . mysql_error());
-    $this -> result = $this -> $conn -> query($sqlQuery);
-    
+    mysql_connect($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword) or die('Could not connect: ' . mysql_error());
+    mysql_select_db('docdatabase');
+    $this -> result = mysql_query($sqlQuery) or die("MySql Error: " . mysql_error());
+
     return $this -> result;
   }
 
   public function freeConnection()
   {
-    /* free result set */
-    $this -> $result -> free();
-
-    /* close connection */
-    $this -> $conn -> close();
+    if (isset($this -> result))
+    {
+      mysql_free_result($this -> result);
+    }
+    mysql_close();
   }
 
   public function getCurrentTs()
