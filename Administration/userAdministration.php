@@ -3,7 +3,7 @@
     include_once('../templates/preheader.php'); // <-- this include file MUST go first before any HTML/output
     include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
     include ('../Lib/Session.php');
-//    Session::validateSession();
+    Session::validateSession();
     include ('../templates/header.php');
     include ('../Lib/Departments.php');
     
@@ -88,11 +88,11 @@
     $userTable->disallowAdd();
 
 ?>
-    <h2>Create a Department</h2>
+    <h2>User Administration</h2>
         <div style="float: left">
             Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b>
             <br />
-            <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!</h5>
+            <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
         <div style="clear:both;"></div>
