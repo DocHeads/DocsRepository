@@ -18,7 +18,6 @@ class Departments
       array_push($deptList, $row['deptName']);
     }
     $conn -> freeConnection();
-var_dump($deptList);
     return $deptList;
   }
 

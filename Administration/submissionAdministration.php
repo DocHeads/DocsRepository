@@ -89,7 +89,7 @@
     $userTable->disallowAdd();
 
 ?>
-    <h2>Create a Department</h2>
+    <h2>Submission Administration</h2>
         <div style="float: left">
             Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b>
             <br />
