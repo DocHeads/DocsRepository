@@ -6,6 +6,7 @@
 //    Session::validateSession();
     include ('../templates/header.php');
     include ('../Lib/Departments.php');
+    include ('../Lib/Courses.php');
     
 ?>
 
@@ -49,19 +50,21 @@
     $userTable->omitField("instructorInstruction");
     $userTable->omitField("comments");
 
-// YOU LEFT OFF HERE
- // $allowableUserTypeIDValues = array();
+
     $allowableUserTypeIDValues = Departments::getDeptList();
     $userTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
+    
+    $allowableUserTypeIDValues = Courses::getCourseList();
+    $userTable->defineAllowableValues("courseName", $allowableUserTypeIDValues);
 
     #i can set certain fields to only allow certain values
     #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
     // $allowableUserTypeIDValues = array("STANDARD", "ADMIN");
     // $userTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
-// //     
+  
     // $allowableisValidatedValues = array("YES", "NO");
     // $userTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
-//     
+   
     // $allowableemailOptInValues = array("YES", "NO");
     // $userTable->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
     

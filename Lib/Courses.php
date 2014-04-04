@@ -20,22 +20,18 @@ class Courses
   public static function getCourseList()
   {
     $courseList = array();
-    include 'MySqlConnect.php';
+    
     $conn = new MySqlConnect();
-    $conn -> __construct();
+    $result = $conn -> executeQuery("SELECT courseName FROM courses ORDER BY courseName Desc");
 
-    $sqlQuery = "SELECT courseId, courseName FROM Courses ORDER BY courseName";
-
-    $courseListResult = $conn -> executeQueryResult($sqlQuery);
-
-    if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
     {
       // makes and array of $key = courseId, $value = course name
-      $courseList[$row[0]] = $row[1];
+      array_push($courseList, $row['courseName']);
     }
 
     $conn -> freeConnection();
-    return $courseListResult;
+    return $courseList;
   }
 
   /**
