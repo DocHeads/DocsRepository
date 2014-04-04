@@ -17,7 +17,7 @@
     ########################################################
     ##
 
-    $userTable = new ajaxCRUD("Item", "submissions", "subID", "../");
+    $subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
 
     ##
     ########################################################
@@ -29,72 +29,72 @@
     #i can define a relationship to another table
     #the 1st field is the fk in the table, the 2nd is the second table, the 3rd is the pk in the second table, the 4th is field i want to retrieve as the dropdown value
     #http://ajaxcrud.com/api/index.php?id=defineRelationship
-    //$userTable->defineRelationship("fkID", "userTableRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (userTableRelationship) not included in the installation script
+    //$subTable->defineRelationship("fkID", "subTableRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (subTableRelationship) not included in the installation script
 
     #i don't want to visually show the primary key in the table
-    $userTable->omitPrimaryKey();
+    $subTable->omitPrimaryKey();
     
     #the table fields have prefixes; i want to give the heading titles something more meaningful
-    $userTable->displayAs("emailAddress", "User Name");
-    $userTable->displayAs("deptName", "Department");
-    $userTable->displayAs("courseName", "Course");
-    $userTable->displayAs("docName", "Document Name");
+    $subTable->displayAs("emailAddress", "User Name");
+    $subTable->displayAs("deptName", "Department");
+    $subTable->displayAs("courseName", "Course");
+    $subTable->displayAs("docName", "Document Name");
 
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
-    $userTable->omitField("updateDate");
-    $userTable->omitField("createDate");
-    $userTable->omitField("willYouGrade");
-    $userTable->omitField("rubricFileName");
-    $userTable->omitField("studentInstruction");
-    $userTable->omitField("instructorInstruction");
-    $userTable->omitField("comments");
+    $subTable->omitField("updateDate");
+    $subTable->omitField("createDate");
+    $subTable->omitField("willYouGrade");
+    $subTable->omitField("rubricFileName");
+    $subTable->omitField("studentInstruction");
+    $subTable->omitField("instructorInstruction");
+    $subTable->omitField("comments");
 
 
     $allowableUserTypeIDValues = Departments::getDeptList();
-    $userTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
+    $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
     
     $allowableUserTypeIDValues = Courses::getCourseList();
-    $userTable->defineAllowableValues("courseName", $allowableUserTypeIDValues);
+    $subTable->defineAllowableValues("courseName", $allowableUserTypeIDValues);
 
     #i can set certain fields to only allow certain values
     #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
     // $allowableUserTypeIDValues = array("STANDARD", "ADMIN");
-    // $userTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
+    // $subTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
   
     // $allowableisValidatedValues = array("YES", "NO");
-    // $userTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
+    // $subTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
    
     // $allowableemailOptInValues = array("YES", "NO");
-    // $userTable->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
+    // $subTable->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
     
     #i could disable fields from being editable
-    $userTable->disallowEdit('emailAddress');
+    $subTable->disallowEdit('emailAddress');
 
     #set the number of rows to display (per page)
-    $userTable->setLimit(5);
+    $subTable->setLimit(5);
 
     #if really desired, a filter box can be used for all fields
-    $userTable->addAjaxFilterBoxAllFields();
+    $subTable->addAjaxFilterBoxAllFields();
 
     #implement a callback function after updating/editing a field
-    $userTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
-    // $userTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
-    // $userTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
-    // $userTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
-    // $userTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
+    $subTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
+    // $subTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
+    // $subTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
+    // $subTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
+    // $subTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
     
     #i can order my table by whatever i want
-    $userTable->addOrderBy("ORDER BY emailAddress ASC");
+    $subTable->addOrderBy("ORDER BY emailAddress ASC");
     
     #i can disallow adding rows to the table
     #http://ajaxcrud.com/api/index.php?id=disallowAdd
-    $userTable->disallowAdd();
+    $subTable->disallowAdd();
 
 ?>
     <h2>Submission Administration</h2>
         <div style="float: left">
-            Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b>
+            Total Returned Rows: <b><?=$subTable->insertRowsReturned();?></b>
             <br />
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!</h5>
         </div>
@@ -104,7 +104,7 @@
 <?php
 
     #actually show the table
-    $userTable->showTable();
+    $subTable->showTable();
 
 
     function myCallBackFunctionForAdd($array){
