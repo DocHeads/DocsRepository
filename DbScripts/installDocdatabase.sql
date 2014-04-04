@@ -202,7 +202,7 @@ DELIMITER ;
 DROP TABLE IF EXISTS `usertypes`;
 CREATE TABLE IF NOT EXISTS `usertypes` (
   `userTypeID` int(10) NOT NULL AUTO_INCREMENT,
-  `userTypeName` varchar(100) NOT NULL,
+  `userTypeName` varchar(50) NOT NULL,
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updateDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`userTypeID`)
