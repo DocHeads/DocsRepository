@@ -7,6 +7,10 @@
 ?>
 
 <?php
+    
+    $errMsg = '';
+    if(Session::getLoggedInUserType()== "ADMIN") {
+        
     #the code for the class
     
     #this one line of code is how you implement the class
@@ -53,25 +57,31 @@
 
     #if really desired, a filter box can be used for all fields
     $deptTable->addAjaxFilterBoxAllFields();
-
-
-?>
-    <h2>Create a Department</h2>
+    
+    echo '<h2>Create a Department</h2>
         <div style="float: left">
             <p style="font-size: 12px;">Total Returned Rows: <b><?=$deptTable->insertRowsReturned();?></b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
-        <div style="clear:both;"></div>
+        <div style="clear:both;"></div>';
 
-<?php
-    #actually show the table
+        #actually show the table
     $deptTable->showTable();
 
     #create folder for added department
-    function makeDir($val){
-        if (!file_exists('../uploads/'. $val)) {
-            mkdir('../uploads/'. $val, 0777, true);
+        function makeDir($val){
+            if (!file_exists('../uploads/'. $val)) {
+                mkdir('../uploads/'. $val, 0777, true);
+            }
         }
     }
+    else {
+            
+        $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
+        print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
+        print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+        header( "refresh:5;url=../Authentication/login.php" );          
+    }
+
 ?>

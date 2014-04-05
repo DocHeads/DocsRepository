@@ -11,6 +11,9 @@
 ?>
 
 <?php
+    
+    $errMsg = '';
+    if(Session::getLoggedInUserType()== "ADMIN") {
     #the code for the class
     
     #this one line of code is how you implement the class
@@ -90,29 +93,34 @@
     #i can disallow adding rows to the table
     #http://ajaxcrud.com/api/index.php?id=disallowAdd
     $subTable->disallowAdd();
-
-?>
-    <h2>Submission Administration</h2>
+    
+    echo '    <h2>Submission Administration</h2>
         <div style="float: left">
             <p style="font-size: 12px;">Total Returned Rows: <b><?=$subTable->insertRowsReturned();?></b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
-        <div style="clear:both;"></div>
-
-<?php
+        <div style="clear:both;"></div>';
 
     #actually show the table
     $subTable->showTable();
 
 
-    function myCallBackFunctionForAdd($array){
-        // echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
-        // print_r($array);
-    }
+        function myCallBackFunctionForAdd($array){
+            // echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
+            // print_r($array);
+        }
 
-    function myCallBackFunctionForEdit($array){
-        // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
-        // print_r($array);
+        function myCallBackFunctionForEdit($array){
+            // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
+            // print_r($array);
+        }
+    }
+    else {
+            
+        $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
+        print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
+        print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+        header( "refresh:5;url=../Authentication/login.php" );          
     }
 ?>
