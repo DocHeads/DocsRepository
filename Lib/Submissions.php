@@ -42,12 +42,12 @@ class Submission
   {
     $conn = new MySqlConnect();
     $errMsg;
-    $user = $_SESSION['username'];
+    $user = $_SESSION['name'];
     $email = $_SESSION['email'];
     $dept = $_POST['department'];
     $courseId = $_POST['course'];
     $comments = $_POST['comments'];
-    $submissionUrl = "../DocsRepo/uploads/{$dept}/{$_FILES['submissionfile']['name']}";
+    $submissionUrl = "../DocsRepository/uploads/{$dept}/{$_FILES['submissionfile']['name']}";
     $gradingUrl = NULL;
     $studentInstUrl = NULL;
     $instructorInstUrl = NULL;
@@ -65,7 +65,7 @@ class Submission
 
     if (isset($_FILES['gradingFile']))
     {
-      $gradingUrl = "../DocsRepo/uploads/{$dept}/{$_FILES['gradingFile']['name']}";
+      $gradingUrl = "../DocsRepository/uploads/{$dept}/{$_FILES['gradingFile']['name']}";
       if (!move_uploaded_file($_FILES['gradingFile']['tmp_name'], $gradingUrl))
       {
         // Problem! Set $errMsg value based upon the error:
@@ -94,7 +94,7 @@ class Submission
     }
     if (isset($_FILES['studentInstFile']))
     {
-      $studentInstUrl = "../DocsRepo/uploads/{$dept}/{$_FILES['studentInstFile']['name']}";
+      $studentInstUrl = "../DocsRepository/uploads/{$dept}/{$_FILES['studentInstFile']['name']}";
       if (!move_uploaded_file($_FILES['studentInstFile']['tmp_name'], $studentInstUrl))
       {
         // Problem! Set $errMsg value based upon the error:
@@ -123,7 +123,7 @@ class Submission
     }
     if (isset($_FILES['instructorInstFile']))
     {
-      $instructorInstUrl = "../DocsRepo/uploads/{$dept}/{$_FILES['instructorInstFile']['name']}";
+      $instructorInstUrl = "../DocsRepository/uploads/{$dept}/{$_FILES['instructorInstFile']['name']}";
       if (!move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], $instructorInstUrl))
       {
         // Problem! Set $errMsg value based upon the error:

@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<label for="department">Department *</label>   
         <?php
         $department = Departments::getDeptList();
-            echo '<form>';
             echo '<select name="department">';
             echo '<option selected="selected">Select your department...</option>';
                 foreach($department as $key=>$value) {  
@@ -71,8 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 foreach($course as $key=>$value) {  
                     echo '<option value="'.$key.'">'.$value.'</option>';
                 }  
-            echo '</select>';
-            echo '</form>';    
+            echo '</select>';   
          ?> 
 		<div class="btn-holder">
 			<button type="submit">
