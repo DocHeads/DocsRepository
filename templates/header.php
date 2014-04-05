@@ -67,7 +67,7 @@
             {
               if (isset($_SESSION['name']))
               {
-                print '<tr><td><ul id="nav"><li><a href="../Home/index.php">Home</a></li><li><a href="../User/userSubmissions.php">Documents</a></li><li><a href="../Submission/submissionUpload.php">Upload Document</a></li><li><a href="../Misc/help.php">Help</a><ul><li><a href="../Misc/contactUs.php">Contact Us</a></li></ul></li>';
+                print '<tr><td><ul id="nav"><li><a href="../Home/index.php">Home</a></li><li><a href="../User/userSubmissions.php">Documents</a></li><li><a href="../Submission/submissionUpload.php">Upload Document</a></li>';
                 if (isset($_SESSION['userType']))
                 {
                   if (Session::getLoggedInUserType() == "ADMIN")
@@ -81,6 +81,7 @@
 						</li>';
                   }
                 }
+                print '<li><a href="../Misc/help.php">Help</a><ul><li><a href="../Misc/contactUs.php">Contact Us</a></li></ul></li>';
                 print '</ul></td><td style="padding-right: 10px;" align="right"><h6 style="color: #333333;">Welcome, ' . Session::getLoggedInName() . ' | <a href="../User/profile.php">Edit Profile</a> | <a href="../Authentication/logout.php">Logout</a></h6>';
                 print '</td></tr>';
               }
