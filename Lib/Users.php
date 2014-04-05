@@ -172,11 +172,11 @@ class Users
 
     $email = $conn -> sqlCleanup($email);
     // query the db for the value comparison
-    $result = $conn -> executeQueryResult("SELECT userId FROM Users WHERE emailAddress = '{$email}'");
+    $result = $conn -> executeQueryResult("SELECT userId FROM users WHERE emailAddress = '{$email}'");
 
     // get a row count to verify only 1 row is returned
     $count = mysql_num_rows($result);
-    if ($count == 1)
+    if ($count > 0)
     {
       $isFound = TRUE;
     }

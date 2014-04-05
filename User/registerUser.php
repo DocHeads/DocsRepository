@@ -39,22 +39,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
               {
                 if ($_POST['optIn'] == 'on')
                 {
-                  $emailOptIn = TRUE;
+                  $emailOptIn = 'YES';
                 }
-                else if ($_POST['optIn'] == 'off')
+                else
+                if ($_POST['optIn'] == 'off')
                 {
-                  $emailOptIn = FALSE;
+                  $emailOptIn = 'NO';
                 }
               }
-			     
-			     // check to see if user exists before inserting record
+              // check to see if user exists before inserting record
+              if (Users::exists(trim($email)))
+              {
+                $errMsg = 'User already exists for that email. Please pick a different email or reset your password';
+              }
+              else
+              {
                 if (Users::registerUser($password, $firstName, $lastName, $email, $emailOptIn))
                 {
+                  // validate the user and set $_SESSION variables
                   Users::validateUser($email, $password);
-                  // print "<script language='Javascript'>document.location.href='../Authentication/login.php' ;</script>";
-                  header( "location: ../Home/index.php" );
-                  $errMsg = 'Success! A confirmation email will be sent to ' . $email . '<br /><br />Redirecting to the login page in <span id="countdown">5</span>.';
+
+                  // redirect to the landing page
+                  header("location: ../Home/index.php");
                 }
+              }
             }
             else
             {
@@ -91,54 +99,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <h2>Create a new User!</h2>
 <p>
-	Complete the form below and choose submit.  You will receive a confirmation email shortly after.
+  Complete the form below and choose submit.  You will receive a confirmation email shortly after.
 </p>
 <?php print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
 <br />
 <form id="register" name="register" style="width: 450px;" action="registerUser.php" method="POST">
-	<fieldset>
-		<legend>
-			<strong>Personal Information:</strong>
-		</legend>
-		<br>
-		<table>
-			<tr>
-				<td width="200px"> First Name: </td>
-				<td>
-				<input type="text" name="fname" size="30" onblur="this.value = toTitleCase(this.value)" value="<?php
+  <fieldset>
+    <legend>
+      <strong>Personal Information:</strong>
+    </legend>
+    <br>
+    <table>
+      <tr>
+        <td width="200px"> First Name: </td>
+        <td>
+        <input type="text" name="fname" size="30" onblur="this.value = toTitleCase(this.value)" value="<?php
         if (isset($_POST['fname']))
         {
           print $_POST['fname'];
         }
-				?>">
-				</td>
-			</tr>
-			<tr>
-				<td> Last Name: </td>
-				<td>
-				<input type="text" onblur="this.value = toTitleCase(this.value)" name="lname" size="30" value="<?php
+        ?>">
+        </td>
+      </tr>
+      <tr>
+        <td> Last Name: </td>
+        <td>
+        <input type="text" onblur="this.value = toTitleCase(this.value)" name="lname" size="30" value="<?php
         if (isset($_POST['lname']))
         {
           print $_POST['lname'];
         }
-				?>">
-				</td>
-			</tr>
-			<tr>
-				<td> E-mail: </td>
-				<td>
-				<input type="text" name="email" onblur="this.value= validateEmail(this.value)" size="30" value="<?php
+        ?>">
+        </td>
+      </tr>
+      <tr>
+        <td> E-mail: </td>
+        <td>
+        <input type="text" name="email" onblur="this.value= validateEmail(this.value)" size="30" value="<?php
         if (isset($_POST['email']))
         {
           print $_POST['email'];
         }
-				?>">
-				</td>
-			</tr>
-			<tr>
-				<td> Check to receive e-mail updates on document submissions</td>
-				<td>
-				<input type="checkbox" name="optIn" <?php
+        ?>">
+        </td>
+      </tr>
+      <tr>
+        <td> Check to receive e-mail updates on document submissions</td>
+        <td> <input type="checkbox" name="optIn" <?php
         if (isset($_POST['optIn']))
         {
           if ($_POST['optIn'] == 'on')
@@ -146,45 +153,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             print 'checked';
           }
         }
-				?>
-				</td>
-			</tr>
-		</table>
-	</fieldset>
-	<br />
-	<fieldset>
-		<legend>
-			<strong>Account Information:</strong>
-		</legend>
-		<br>
-		<table>
-			<tr>
-				<td width="200"> Password:</td>
-				<td>
-				<input type="password" name="password" size="30" value="<?php
-        if (isset($_POST['password']))
-        {
-          print $_POST['password'];
-        }
-				?>">
-				</td>
-			</tr>
-			<tr>
-				<td> Verify Password:</td>
-				<td>
-				<input type="password" name="passConfirm" size="30" value="<?php
-        if (isset($_POST['passConfirm']))
-        {
-          print $_POST['passConfirm'];
-        }
-				?>">
-				</td>
-			</tr>
-		</table>
-	</fieldset>
-	<p>
-		<input type="submit" name="submit" value="Submit" />
-	</p>
+        ?>
+        </td>
+        </tr>
+        </table>
+        </fieldset>
+        <br />
+        <fieldset>
+        <legend>
+        <strong>Account Information:</strong>
+        </legend>
+        <br>
+        <table>
+          <tr>
+            <td width="200"> Password:</td>
+            <td>
+            <input type="password" name="password" size="30" value="<?php
+            if (isset($_POST['password']))
+            {
+              print $_POST['password'];
+            }
+            ?>">
+            </td>
+          </tr>
+          <tr>
+            <td> Verify Password:</td>
+            <td>
+            <input type="password" name="passConfirm" size="30" value="<?php
+            if (isset($_POST['passConfirm']))
+            {
+              print $_POST['passConfirm'];
+            }
+            ?>">
+            </td>
+          </tr>
+        </table>
+  </fieldset>
+  <hr />
+  <p align="center">
+    <input type="submit" name="submit" value="Submit" /><br /><br /><a href="../Authentication/forgotPassword.php">Reset Password</a>
+  </p>
 </form>
 
 <?php
