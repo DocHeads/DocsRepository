@@ -5,7 +5,7 @@ include ('../templates/header.php');
 ?>
 <?php
 $errMsg = '';
-    if(Session::getLoggedInUserType()==Users::getUserTypeIDValue("ADMIN")) {
+    if(Session::getLoggedInUserType()== "ADMIN") {
         print'<h2>Administration</h2>
 <table>
     <tbody>
