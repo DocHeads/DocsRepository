@@ -48,7 +48,7 @@ require_once 'PEAR.php';
 /**
  * PEAR's Mail:: interface. Defines the interface for implementing
  * mailers under the PEAR hierarchy, and provides supporting functions
- * useful in multiple mailer backends.
+ * useful in multiple mailer backends. 
  *
  * @access public
  * @version $Revision: 294747 $
