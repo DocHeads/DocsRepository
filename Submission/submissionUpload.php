@@ -1,8 +1,11 @@
 <?php
- include '../Lib/Session.php';
+ include ('../Lib/Session.php');
  Session::validateSession();
 include ('../templates/header.php');
-include '../Lib/Submissions.php';
+include ('../Lib/Submissions.php');
+include ('../Lib/Departments.php');
+include ('../Lib/Courses.php');
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   Submission::uploadFile();
@@ -11,25 +14,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <h2>Submit a document to the Computer Apps Repository (*=required field)</h2>
 <form action="submissionUpload.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-	<input type="hidden" id="volume" value="1" />
-
-	<label for="fileName">Document *</label> &nbsp
+    <label for="docName">Document Name</label>
+    <input type="hidden" id="volume" value="1" />
+    <input type="text" id="deptName"><br /><br />
+	<label for="docFile">Document *</label> &nbsp
 	<input type="file" name="fileName[]" size="200" required="required">
-	<!--						<input type="file" name="fileName[]" id="fileName" class="clsFile" required="required" size="200"> -->
 	<br>
 
-	<label for="fileDescription">Document Description *</label>
-	<textarea	id="fileDescription" name="fileDescription" value="" wrap="virtual" 
+	<label for="comments">Document Description *</label>
+	<textarea	id="comments" name="comments" value="" wrap="virtual" 
 									rows="5em" cols="80em"
 									valign="top"
 									align="left"
-									required="required"
-						>
-						</textarea>
+									required="required">
+	</textarea>
 	<br>
 
-	<label for="gradingRubric">Grading Rubric (optional)</label>
-	<input type="file" name="fileName[]" id="gradingRubric" class="clsFile">
+	<label for="rubricFileName">Grading Rubric (optional)</label>
+	<input type="file" name="fileName[]" id="rubricFileName" class="clsFile">
 
 	<br>
 
@@ -46,42 +48,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	<label for="willGrade">Will you grade assignments based on this document? &nbsp </label>
 	<input type="radio" name="willYouGrade" id="willYouGrade" value="Yes" class="radio-box" checked >
 	Yes &nbsp
-	<input type="radio" name="willYouGrade" id="willYouGrade" value="No"  class="radio-box"         >
+	<input type="radio" name="willYouGrade" id="willYouGrade" value="No"  class="radio-box">
 	No
 	<p>
-		<label for="department">Department *</label>
-		<select name="department" id="department" required="required">
-			<option value="" selected="selected">Select a Department</option>
-			<?php $departments = "../Data/departments.xml";
-			$xml = simplexml_load_file($departments);
-			foreach ($xml as $department) {
-				echo '<option value=' . $department -> name . '>' . $department -> name . '</option>';
-			}
-			?>
-		</select>
-		<br>
+		<label for="department">Department *</label>   
+        <?php
+        $department = Departments::getDeptList();
+            echo '<form>';
+            echo '<select name="department">';
+            echo '<option selected="selected">Select your department...</option>';
+                foreach($department as $key=>$value) {  
+                    echo '<option value="'.$key.'">'.$value.'</option>';
+                }  
+            echo '</select>';
 
-		<label for="department">Course *</label>
-		<select name="course" id="course" required="required">
-			<option value="" selected="selected">Select a Course</option>
-			<?php
-			$courses = "../Data/courses.xml";
-			$xml = simplexml_load_file($courses);
-			foreach ($xml as $course) {
-				echo '<option value=' . $course -> name . '>' . $course -> name . '</option>';
-			}
-			?>
-		</select>
-		<br>
-		
-		<label for="additionalComments">Additional Comments (optional)</label>
-		<textarea	id="additionalComments" name="additionalComments" value="" wrap="virtual" 
-									rows="5em" cols="80em"
-									valign="top"
-									align="left"
-						>
-						</textarea>
-		<br>
+		    echo '<br>';
+		    echo '<label for="course">Course *</label>';
+
+        $course = Courses::getCourseList();
+            echo '<select name="course">';
+            echo '<option selected="selected">Select your course...</option>';
+                foreach($course as $key=>$value) {  
+                    echo '<option value="'.$key.'">'.$value.'</option>';
+                }  
+            echo '</select>';
+            echo '</form>';    
+         ?> 
 		<div class="btn-holder">
 			<button type="submit">
 				Submit
