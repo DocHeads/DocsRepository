@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       if (Users::validateUser($email, $password))
       {
         // forward the user to the user portal
-        
         header( 'Location: ../Home/index.php' ) ;
         $errMsg = 'valid email/password';
       }

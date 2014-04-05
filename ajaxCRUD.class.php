@@ -90,9 +90,10 @@
                 if ($row_current_value  == ''){
                     qr("INSERT INTO $table ($pk) VALUES (\"$id\")");
                 }
-
+                
                 $success = qr("UPDATE $table SET $field = \"$val\" WHERE $pk = $sql_id");
-
+                echo $success;
+                
                 if ($val == '') $val = "&nbsp;&nbsp;";
 
                 //when updating, we use the Table name, Field name, & the Primary Key (id) to feed back to client-side-processing
@@ -273,7 +274,6 @@ class ajaxCRUD{
 
     //(if true) put a checkbox before each row
     var $showCheckbox;
-
     var $loading_image_html;
 
     /* these default to english words (e.g. "Add", "Delete" below); but can be
@@ -748,6 +748,11 @@ class ajaxCRUD{
                 ajax_file = \"$this->ajax_file\"; \n
                 this_page = \"" . $_SERVER['REQUEST_URI'] . "\"\n
                 loading_image_html = \"$this->loading_image_html\"; \n
+
+                function callAddForm(tableName, usePost)
+                {
+                    validateAddForm(tableName, usePost);
+                }
 
                 function validateAddForm(tableName, usePost){
                     var validator = $('#add_form_' + tableName).validate();
@@ -1969,7 +1974,7 @@ class ajaxCRUD{
             if (!$this->ajax_add){
                 $postForm = "true";
             }
-            $add_html .= "<input class=\"editingSize\" type=\"button\" onClick=\"validateAddForm('$this->db_table', $postForm);\" value=\"Save $item\">";
+            $add_html .= "<input class=\"editingSize\" type=\"button\" onClick=\"callAddForm('$this->db_table', $postForm);\" value=\"Save $item\">";
 
 
             $add_html .= "</td><td><input style='float: right;' class=\"btn editingSize\" type=\"button\" onClick=\"this.form.reset();$('#add_form_$this->db_table').slideUp('slow');\" value=\"" . $this->cancelText . "\"></td></tr>\n</table>\n";

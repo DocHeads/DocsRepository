@@ -77,10 +77,10 @@
 
     #implement a callback function after updating/editing a field
     $userTable->onUpdateExecuteCallBackFunction("fname", "myCallBackFunctionForEdit");
-    $userTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
-    $userTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
-    $userTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
-    $userTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
+    // $userTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
+    // $userTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
+    // $userTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
+    // $userTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
     
     #i can order my table by whatever i want
     $userTable->addOrderBy("ORDER BY emailAddress ASC");
@@ -89,14 +89,32 @@
     #http://ajaxcrud.com/api/index.php?id=disallowAdd
     $userTable->disallowAdd();
 
-    echo '    <h2>User Administration</h2>
-        <div style="float: left">
-            <p style="font-size: 12px;">Total Returned Rows: <b><?=$userTable->insertRowsReturned();?></b></p>
+    echo '<h2>User Administration</h2>
+            <div style="float: left">
+                <p style="font-size: 12px;">Total Returned Rows: <b>'; 
+             
+             ?>
+                <?=$userTable->insertRowsReturned();?>
+             
+             <?php 
+             
+                echo '</b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
         <div style="clear:both;"></div>';
-        
+    
+    }
+    else {
+            
+        $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
+        print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
+        print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+        header( "refresh:5;url=../Authentication/login.php" );          
+    }
+?>
+
+<?php
     #actually show the table
     $userTable->showTable();
 
@@ -109,13 +127,4 @@
             // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
             // print_r($array);
         }
-    
-    }
-    else {
-            
-        $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
-        print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
-        print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
-        header( "refresh:5;url=../Authentication/login.php" );          
-    }
 ?>
