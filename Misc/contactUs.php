@@ -2,52 +2,63 @@
 include '../Lib/Session.php';
 Session::validateSession();
 include ('../templates/header.php');
+include ('../Lib/DocsMailer.php');
+
+$errMsg = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  // send the email off to the webmaster; needs to change
+  $to = "Brian Dunavent <b.dunavent@gmail.com>";
+  $name = trim($_SESSION['name']);
+  $email = trim($_SESSION['email']);
+  $subject = trim($_POST['subject']);
+  $body = trim($_POST['body']);
+  
+  // send it from the logged in user
+  $from = $name . " <". $email .">";
+  
+  if (sendMail($to, 
+               $from, 
+               $subject, 
+               $body))
+  {
+    print'<br/>';
+    $errMsg = 'Email sent successfully';
+  }
+}
 ?>
 
 <h2>Contact Us</h2>
 <p>
-    Complete the form and submit!
+  Complete the form and submit!
 </p>
-<br />
-<form name="contactUs" style="width: 450px;" action="">
-    <fieldset>
-        <legend>
-            <strong>Contact Us</strong>
-        </legend>
-        <table>
-            <tr>
-                <td height="30px" width="200px"> Name:</td>
-                <td>
-                <input name="contactName" type="text" size="30">
-                </td>
-            </tr>
-            <tr>
-                <td height="30px" width="200px"> Email:</td>
-                <td>
-                <input name="contactEmail" type="text" size="30">
-                </td>
-            </tr>
-            <tr>
-                <td height="30px" width="200px"> Subject:</td>
-                <td>
-                <input name="contactSubject" type="text" size="30">
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top; padding-top: 10px;"> Message:</td>
-                <td>                
-                    <textarea   id="contactMessage" name="contactMessage" value="" wrap="virtual" 
+<?php print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
+<br/>
+<form style="width: 450px;" action="contactUs.php" method="post">
+  <fieldset>
+    <legend>
+      <strong>Contact Us</strong>
+    </legend>
+    <table>
+      <tr>
+        <td height="30px" width="200px"> Subject:</td>
+        <td>
+        <input name="subject" type="text" size="30">
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top; padding-top: 10px;"> Message:</td>
+        <td>        <textarea   id="body" name="body" value="" wrap="virtual" 
                         rows="5em" cols="30em"
                         valign="top"
                         align="left">
-                    </textarea>
-               </td>
-            </tr>
-        </table>
-    </fieldset>
-    <p>
-        <input type="submit" name="submit" value="Send Message" />
-    </p>
+                    </textarea></td>
+      </tr> 
+    </table>
+  </fieldset>
+  <p>
+    <input type="submit" name="submit" value="Send Message" />
+  </p>
 </form>
 
 <?php

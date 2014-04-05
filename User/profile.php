@@ -130,7 +130,7 @@ else
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="font-size: 10px" >**Check if you'd like to get email updates when submission repository is updated</td>
+        <td style="font-size: 11px" >**Check if you'd like to get email updates when submission repository is updated</td>
       </tr>
       <?php
       if (Session::getLoggedInUserType() == 'ADMIN')

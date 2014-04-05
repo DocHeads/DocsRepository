@@ -28,7 +28,7 @@ class Users
   public static function encodePassword($password)
   {
     // hash the password and return a 128 bit hash
-    $passEncoding = hash("sha512", $password);
+    $passEncoding = hash("sha512", trim($password));
 
     return $passEncoding;
   }
@@ -129,7 +129,7 @@ class Users
     $count = mysql_num_rows($result);
     if ($count == 1)
     {
-		var_dump($result);
+      var_dump($result);
       // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
       while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
       {
@@ -185,24 +185,118 @@ class Users
   }
 
   /**
+   * Method used to request a password reset in the system. Sets a temporary pass
+   * key hashed with md5 algorithm, emails the passed in email address the proper
+   * URL with email and temp pass key values
+   *
+   * @param $email - string value for the email address to reset the password
+   * @return TRUE if the email is sent to corresponding email address
+   */
+  public static function requestPasswordReset($email)
+  {
+    $isReq = FALSE;
+    $conn = new MySqlConnect();
+    $email = $conn -> sqlCleanup($email);
+    $ts = $conn -> getCurrentTs();
+    $name = '';
+
+    // generate a random number for tha hash key
+    $randNum = rand();
+    $hash = hash("md5", $randNum);
+
+    $isReq = $conn -> executeQuery("UPDATE users SET tempPassKey = '{$hash}', updateDate = '{$ts}' WHERE emailAddress = '{$email}'");
+    $conn -> freeConnection();
+    // get the first and last name of the user
+    $conn2 = new MySqlConnect();
+    $result = $conn2 -> executeQueryResult("SELECT  fName, lName FROM users WHERE emailAddress = '{$email}'");
+
+    if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+    {
+      $name = $row['fName'] . ' ' . $row['lName'];
+    }
+    // send the hash key to the user's email to confirm and follow back to the
+    // site
+    $from = "Brian Dunavent <b.dunavent@gmail.com>";
+    $subject = 'UC Document Repository: Confirm Password Reset';
+    $body = "Dear {$name},\n\nPlease follow the URL to confirm your password reset request at the UC Document Repository.\n\n";
+    $body .= "https://localhost/DocsRepository/Authentication/resetPassword.php?email={$email}&tempKey={$hash}";
+
+    // send it from the logged in user
+    $to = $name . " <" . $email . ">";
+
+    if (sendMail($to, $from, $subject, $body))
+    {
+      $isReq = TRUE;
+    }
+    $conn2 -> freeConnection();
+    return $isReq;
+  }
+
+  /**
+   * Method used to confirm that the password request is legitimate by passing in
+   * an email and temp pass key generated in an email to the user. These values
+   * are returned in the URL for validation before a password reset can occur.
+   * Also sets the userId SESSION value.
+   *
+   * @param $email - string value for the email address to validate against
+   * @param $tempKey - string value of the temp pass key from the hashed value in
+   * confirmation email
+   * @return TRUE if the password and temp key are from the same user record in system
+   */
+  public static function confirmPasswordReset($email, $tempKey)
+  {
+    $isConfirmed = FALSE;
+    $conn = new MySqlConnect();
+    $email = $conn -> sqlCleanup($email);
+    $tempKey = $conn -> sqlCleanup($tempKey);
+    $dbEmail = null;
+    $dbUserID = null;
+
+    $result = $conn -> executeQueryResult("SELECT userID, emailAddress FROM users WHERE tempPassKey = '{$tempKey}' AND emailAddress = '{$email}'");
+    if (isset($result))
+    {
+      // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
+      if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+      {
+        // get the email in the db for the user with the corresponding
+        // tempPassKey set
+        $dbEmail = $row['emailAddress'];
+      }
+    }
+
+    // compare the sent email to the email in db
+    if ($email == $dbEmail)
+    {
+      session_start();
+      $isConfirmed = TRUE;
+      // put the userId in the SESSION variable for retrieval when saving the
+      // new password to the db
+      $_SESSION['userId'] = $row['userID'];
+    }
+
+    $conn -> freeConnection();
+    return $isConfirmed;
+  }
+
+  /**
    * Method used to reset a user's password. Calls encodePassword to hash the
    * value of the password parameter before it gets updated in the database
    *
-   * @param $username - string value of the username used in the database update
+   * @param $email - string value of the email used in the database update
    * @param $password - string of the plain text password to hash before updated
    * in the database
    * @return $isCommit - boolean; returns TRUE if update is committed
    */
-  public function resetPassword($username, $password)
+  public static function resetPassword($email, $password)
   {
     $conn = new MySqlConnect();
     $isCommit = FALSE;
 
-    $username = $conn -> sqlCleanup($username);
+    $email = $conn -> sqlCleanup($email);
     $hash = Users::encodePassword($password);
     $ts = $conn -> getCurrentTs();
 
-    $isCommit = $conn -> executeQuery("UPDATE Users SET password = '%s', updatedTs = '%s' WHERE username = '%s'", $hash, $ts, $username);
+    $isCommit = $conn -> executeQuery("UPDATE Users SET password = '{$hash}', tempPassKey = null, updateDate = '{$ts}' WHERE emailAddress = '{$email}'");
     $conn -> freeConnection();
     return $isCommit;
   }
@@ -426,5 +520,6 @@ class Users
     $conn -> freeConnection();
     return $userTypesArray;
   }
+
 }
 ?>
