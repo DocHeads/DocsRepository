@@ -8,6 +8,7 @@
  * - Validating users
  */
 include ('../Lib/MySqlConnect.php');
+include ('../Lib/DocsMailer.php');
 class Users
 {
   protected $username;
@@ -241,7 +242,8 @@ class Users
    * @param $email - string value for the email address to validate against
    * @param $tempKey - string value of the temp pass key from the hashed value in
    * confirmation email
-   * @return TRUE if the password and temp key are from the same user record in system
+   * @return TRUE if the password and temp key are from the same user record in
+   * system
    */
   public static function confirmPasswordReset($email, $tempKey)
   {
@@ -327,6 +329,28 @@ class Users
 
     $isCommit = $conn -> executeQuery($sqlQuery);
     $conn -> freeConnection();
+
+    // email user registration confirmation
+    $name = "{$firstName} {$lastName}";
+    $to = "{$name} <{$email}>";
+    // send the hash key to the user's email to confirm and follow back to the
+    // site
+    $from = "UC Document Repository <docheadsuc@gmail.com>";
+    $subject = 'UC Document Repository: Confirm Password Reset';
+    $body = "Dear {$name},\n\n";
+    $body .= "Thank you for registering with the UC Document Repository.\n";
+    $body .= "Please allow 24-48 hours for validation and account setup.\n\n";
+    $body .= "Thank you for your patience.\n\n";
+    $body .= "- UC Document Repository Team\n";
+    $body .= "  contactEmail@mail.uc.edu";
+
+    // send it from the logged in user
+    $to = $name . " <" . $email . ">";
+
+    if (sendMail($to, $from, $subject, $body))
+    {
+      $isCommit = TRUE;
+    }
 
     return $isCommit;
   }

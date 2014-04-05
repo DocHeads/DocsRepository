@@ -144,8 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </td>
       </tr>
       <tr>
-        <td> Check to receive e-mail updates on document submissions</td>
-        <td> <input type="checkbox" name="optIn" <?php
+        <td colspan="2"><br /> <input type="checkbox" name="optIn" <?php
         if (isset($_POST['optIn']))
         {
           if ($_POST['optIn'] == 'on')
@@ -153,8 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             print 'checked';
           }
         }
-        ?>
-        </td>
+        ?>> Check to Receive e-mail documents are submitted</td>
         </tr>
         </table>
         </fieldset>
@@ -191,7 +189,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   </fieldset>
   <hr />
   <p align="center">
-    <input type="submit" name="submit" value="Submit" /><br /><br /><a href="../Authentication/forgotPassword.php">Reset Password</a>
+    <input type="submit" name="submit" value="Submit" />
+    <br /><br />
   </p>
 </form>
 
