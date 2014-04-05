@@ -21,26 +21,26 @@ $errMsg = '';
         </tr>
         
         <tr>
-            <td><h6>Manage Users</h6></td>
-            <td><h6><a href="userAdministration.php">Manage</a></h6></td>
+            <td><h6>User Administration</h6></td>
+            <td><a href="userAdministration.php"><button style="font-size: 10px;" type="button">Manage</button></a></td>
         </tr>
         <tr>
             <td colspan="2"><h5>Submission Administration</h5></td>
         </tr>
         
         <tr>
-            <td><h6>Manage Submissions</h6></td>
-            <td><h6><a href="submissionAdministration.php">Manage</a></h6></td>
+            <td><h6>Submission Administration</h6></td>
+            <td><a href="submissionAdministration.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
         </tr>
         
         <tr>
-            <td><h6>Create a Department</h6></td>
-            <td><h6><a href="createDept.php">Create</a></h6></td>
+            <td><h6>Department Administration</h6></td>
+            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
         </tr>
 
         <tr>
-            <td><h6>Create a Course</h6></td>
-            <td><h6><a href="createCourse.php">Create</a></h6></td>
+            <td><h6>Course Administration</h6></td>
+            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
         </tr>
     </tbody>
 
