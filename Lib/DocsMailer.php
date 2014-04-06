@@ -15,9 +15,9 @@
  error_reporting(E_ALL ^ E_STRICT);
  $isSent = FALSE;
  
- $host = "mail1206.opentransfer.com";
- $username = "briandunavent@qcsoftware.com";
- $password = "M4nt1c0re";
+ $host = ConfigProperties::$EmailServer;
+ $username = ConfigProperties::$EmailServerUsername;
+ $password = ConfigProperties::$EmailServerPassword;
  
  $headers = array ('From' => $from,
    'To' => $to,

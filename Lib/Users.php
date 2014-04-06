@@ -417,7 +417,7 @@ class Users
       while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
       {
         // access the password value in the db
-        $userList = array_push($row[0]);
+        $userList = array_push($row['username']);
       }
     }
     $conn -> freeConnection();

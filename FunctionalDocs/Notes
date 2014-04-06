@@ -25,14 +25,15 @@ Config properties:
 - Base uploads directory
 - Upload File Size
 
-Update the php.ini file upload size
+Update the php.ini file upload size:
+- upload_max_filesize = 40M      // Maximum allowed size for uploaded files.
+- post_max_size = 40M            // Must be greater than or equal to upload_max_filesize
 
 To Do:
-- Email users when document is submitted
-- Submission Upload testing
 - XML Configuration file and parsing - possibly just make a config class
 - Admin Home page
 - Standard Home page
+- Submission records need a link to download file or link to profile to download file
 - Creating new dept needs to make the corresponding uploads directory
 
 

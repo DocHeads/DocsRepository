@@ -6,11 +6,6 @@
 
 class MySqlConnect
 {
-  protected $hostname = "localhost";
-  protected $mysqlUsername = "root";
-  protected $mysqlPassword = "";
-  protected $databaseName = "docdatabase";
-  protected $sqlQuery;
   protected $result;
 
   /**
@@ -40,8 +35,8 @@ class MySqlConnect
   public function executeQuery($sqlQuery)
   {
     $isCommit = FALSE;
-    mysql_connect($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword) or die('Could not connect: ' . mysql_error());
-    mysql_select_db($this -> databaseName);
+    mysql_connect(ConfigProperties::$DatabaseServerName, ConfigProperties::$DatabaseUsername, ConfigProperties::$DatabasePassword) or die('Could not connect: ' . mysql_error());
+    mysql_select_db(ConfigProperties::$DatabaseName);
     $isCommit = mysql_query($sqlQuery) or die("MySql Error: " . mysql_error());
 
     return $isCommit;
@@ -58,8 +53,8 @@ class MySqlConnect
    */
   public function executeQueryResult($sqlQuery)
   {
-    mysql_connect($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword) or die('Could not connect: ' . mysql_error());
-    mysql_select_db('docdatabase');
+    mysql_connect(ConfigProperties::$DatabaseServerName, ConfigProperties::$DatabaseUsername, ConfigProperties::$DatabasePassword) or die('Could not connect: ' . mysql_error());
+    mysql_select_db(ConfigProperties::$DatabaseName);
     $this -> result = mysql_query($sqlQuery) or die("MySql Error: " . mysql_error());
 
     return $this -> result;

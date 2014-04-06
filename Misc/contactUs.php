@@ -7,7 +7,7 @@ $errMsg = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   // send the email off to the webmaster; needs to change
-  $to = "Brian Dunavent <b.dunavent@gmail.com>";
+  $to = ConfigProperties::$ContactUsFormRecipient;
   $name = trim($_SESSION['name']);
   $email = trim($_SESSION['email']);
   $subject = trim($_POST['subject']);
@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                $subject, 
                $body))
   {
-    print'<br/>';
     $errMsg = 'Email sent successfully';
   }
 }
@@ -31,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <p>
   Complete the form and submit!
 </p>
-<?php print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
-<br/>
+<?php print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p><br/>'; ?>
 <form style="width: 450px;" action="contactUs.php" method="post">
   <fieldset>
     <legend>

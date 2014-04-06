@@ -49,7 +49,6 @@ class Courses
     $courseList = array();
     include 'MySqlConnect.php';
     $conn = new MySqlConnect();
-    $conn -> __construct();
     $deptId = $conn -> sqlCleanup($deptId);
 
     //
@@ -83,7 +82,6 @@ class Courses
     $propertiesArray = array();
     include 'MySqlConnect.php';
     $conn = new MySqlConnect();
-    $conn -> __construct();
 
     $sqlQuery = "SELECT deptId, courseName FROM Courses WHERE courseId = '{$courseId}'";
 
@@ -110,7 +108,6 @@ class Courses
   {
     $isCommit = FALSE;
     include 'MySqlConnect.php';
-    $conn = new MySqlConnect();
     $conn -> __construct();
 
     $courseId = $conn -> sqlCleanup($courseId);
@@ -136,7 +133,6 @@ class Courses
     $isCommit = FALSE;
     include 'MySqlConnect.php';
     $conn = new MySqlConnect();
-    $conn -> __construct();
     $ts = $conn -> getCurrentTs();
 
     $courseName = $conn -> sqlCleanup($courseName);
@@ -165,7 +161,6 @@ class Courses
     $isCommit = FALSE;
     include 'MySqlConnect.php';
     $conn = new MySqlConnect();
-    $conn -> __construct();
     $ts = $conn -> getCurrentTs();
 
     $courseName = $conn -> sqlCleanup($courseId);

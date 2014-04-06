@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $course = $_POST['course'];
   $comments = $_POST['comments'];
   $willYouGrade = $_POST['willYouGrade'];
-  $fileUploadBaseDir = "C:\\xampp\\htdocs\\DocsRepository\\uploads\\";
-  $winFileUploadBaseDir = "C:/xampp/htdocs/DocsRepository/uploads/";
+  $fileUploadBaseDir = ConfigProperties::$BaseUploadDirectory;
+  $winFileUploadBaseDir = ConfigProperties::$WinBaseUploadDirectory;
   $submissionFile = "{$_FILES['submissionfile']['name']}";
   $gradingFile = "{$_FILES['gradingFile']['name']}";
   $studentInstFile = "{$_FILES['studentInstFile']['name']}";
@@ -31,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $body = '';
 
   // validate the submission file upload
-  if (!file_exists("{$winFileUploadBaseDir}{$dept}/{$submissionFile}"))
+  if (!file_exists("{$winFileUploadBaseDir}/{$dept}/{$submissionFile}"))
   {
-    if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\{$submissionFile}"))
+    if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$submissionFile}"))
     {
       $errMsg = "Submission: {$docName} File: {$submissionFile} upload success.";
 
@@ -53,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
       if (!empty($gradingFile))
       {
-        if (file_exists("{$winFileUploadBaseDir}{$dept}/{$gradingFile}"))
+        if (file_exists("{$winFileUploadBaseDir}/{$dept}/{$gradingFile}"))
         {
-          $errMsgGrade = 'Duplicate file name. Duplicate Grading file name: ' . $gradingFile . ' failed to upload.';
+          $errMsgGrade = 'Duplicate file name error: Duplicate Grading file name ' . $gradingFile . ' failed to upload.';
           $gradingFile = null;
         }
         else
         {
-          if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\{$gradingFile}"))
+          if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$gradingFile}"))
           {
             $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
           }
@@ -96,14 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       if (!empty($studentInstFile))
       {
         // student instruction upload file check and process
-        if (file_exists("{$winFileUploadBaseDir}{$dept}/{$studentInstFile}"))
+        if (file_exists("{$winFileUploadBaseDir}/{$dept}/{$studentInstFile}"))
         {
-          $errMsgStud = 'Duplicate file name. Instruction file name: ' . $studentInstFile . ' failed to upload.';
+          $errMsgStud = 'Duplicate file name error: Instruction file name: ' . $studentInstFile . ' failed to upload.';
           $studentInstFile = null;
         }
         else
         {
-          if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\$studentInstFile"))
+          if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\$studentInstFile"))
           {
             $errMsgStud = 'Student Instruction File: ' . $studentInstFile . ' upload success.';
           }
@@ -138,14 +138,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
       if (!empty($instructorInstFile))
       {
-        if (file_exists("{$winFileUploadBaseDir}{$dept}/{$instructorInstFile}"))
+        if (file_exists("{$winFileUploadBaseDir}/{$dept}/{$instructorInstFile}"))
         {
-          $errMsgInst = 'Duplicate file name. Instructor Instruction File: ' . $instructorInstFile . ' failed to upload.';
+          $errMsgInst = 'Duplicate file name error: Instructor Instruction File: ' . $instructorInstFile . ' failed to upload.';
           $instructorInstFile = null;
         }
         else
         {
-          if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\{$instructorInstFile}"))
+          if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$instructorInstFile}"))
           {
             $errMsgInst = 'Instructor Instruction File: ' . $instructorInstFile . ' upload success.';
           }
@@ -266,11 +266,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
   if (!empty($errMsgStud))
   {
-    print '<p><span style="color: #b11117"><b>&bull;' . $errMsgStud . '</b></span></p>';
+    print '<p><span style="color: #b11117"><b>&bull; ' . $errMsgStud . '</b></span></p>';
   }
   if (!empty($errMsgInst))
   {
-    print '<p><span style="color: #b11117"><b>&bull;' . $errMsgInst . '</b></span></p>';
+    print '<p><span style="color: #b11117"><b>&bull; ' . $errMsgInst . '</b></span></p>';
   }
 }
 ?>

@@ -2,8 +2,6 @@
 class Submission
 {
 
-  
-
   public static function updateSubmission($subID, $email, $submissionUrl, $deptName, $courseName, $gradingUrl, $studentInstUrl, $instructorInstUrl, $comments, $willYouGrade)
   {
     $isCommit = FALSE;
@@ -11,18 +9,18 @@ class Submission
     $ts = $conn -> getCurrentTs();
 
     $updateSql = "UPDATE Submissions
-SET docName = '{$submissionUrl}',
-deptName = '{$deptName}',
-courseName = '{$courseName}',
-emailAddress = '{$email}',
-rubricFileName = '{$gradingUrl}',
-studentInstructions = '{$studentInstUrl}',
-instructorInstructions = '{$instructorInstUrl}',
-rubricFileName = '{$gradingUrl}',
-comments = '{$comments}',
-willYouGrade = '{$willYouGrade}',
-updateDate = '{$ts}'
-WHERE subID = '{$subID}'";
+                     SET docName = '{$submissionUrl}',
+                     deptName = '{$deptName}',
+                     courseName = '{$courseName}',
+                     emailAddress = '{$email}',
+                     rubricFileName = '{$gradingUrl}',
+                     studentInstructions = '{$studentInstUrl}',
+                     instructorInstructions = '{$instructorInstUrl}',
+                     rubricFileName = '{$gradingUrl}',
+                     comments = '{$comments}',
+                     willYouGrade = '{$willYouGrade}',
+                     updateDate = '{$ts}'
+               WHERE subID = '{$subID}'";
 
     // update existing submission record in the database
     $isCommit = $conn -> executeQuery($updateSql);
