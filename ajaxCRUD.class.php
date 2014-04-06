@@ -360,7 +360,7 @@ class ajaxCRUD{
         $this->addText           = "Add";
         $this->deleteText        = "Delete";
         $this->cancelText        = "Cancel";
-        $this->emptyTableMessage = "No data in this table. Click add button below.";
+        $this->emptyTableMessage = "No data in this table.";
 
         $this->onAddExecuteCallBackFunction         = '';
         $this->onFileUploadExecuteCallBackFunction  = '';

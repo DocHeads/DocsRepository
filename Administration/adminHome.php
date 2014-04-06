@@ -13,38 +13,64 @@
 $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
         print'<div style="height: 350px;">';
-        print'<h2>Administration</h2>
-<table align="left">
-    <tbody>
-        <tr>
-            <td colspan="2"><h5>User Administration</h5></td>
-        </tr>
-        
-        <tr>
-            <td><h6>User Administration</h6></td>
-            <td><a href="userAdministration.php"><button style="font-size: 10px;" type="button">Manage</button></a></td>
-        </tr>
-        <tr>
-            <td colspan="2"><h5>Submission Administration</h5></td>
-        </tr>
-        
-        <tr>
-            <td><h6>Submission Administration</h6></td>
-            <td><a href="submissionAdministration.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
-        </tr>
-        
-        <tr>
-            <td><h6>Department Administration</h6></td>
-            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
-        </tr>
+        print'<h2>Administration</h2>';
 
-        <tr>
-            <td><h6>Course Administration</h6></td>
-            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
-        </tr>
-    </tbody>
-
-</table>';
+ echo '<table align="left" border="5">
+                <tbody>
+                    <tr>
+                        <td>';
+                                $subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
+                            
+                                $subTable->omitPrimaryKey();
+                                
+                                #the table fields have prefixes; i want to give the heading titles something more meaningful
+                                $subTable->displayAs("docName", "Document Name");
+                                $subTable->displayAs("deptName", "Department Name");
+                                $subTable->displayAs("courseName", "Course Name");
+                                $subTable->displayAs("comments", "Comments");
+                                $subTable->displayAs("studentInstruction", "Student Instructions");
+                                $subTable->displayAs("rubricFileName", "Rubric File");
+                                $subTable->displayAs("willYouGrade", "Grade?");
+                                $subTable->displayAs("createDate", "Creation Date");                                
+                            
+                                #i could omit a field if I wanted
+                                #http://ajaxcrud.com/api/index.php?id=omitField
+                                $subTable->omitField("updateDate");
+                                $subTable->omitField("willYouGrade");
+                                $subTable->omitField("rubricFileName");
+                                $subTable->omitField("studentInstruction");
+                                $subTable->omitField("instructorInstruction");
+                                $subTable->omitField("comments");
+                                $subTable->omitField("emailAddress");
+                                                            
+                                #i could disable fields from being editable
+                                $subTable->disallowEdit('emailAddress');
+                                
+                                #set the number of rows to display (per page)
+                                $subTable->setLimit(3);
+                            
+                                #implement a callback function after updating/editing a field
+                                $subTable->onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
+                                
+                                $emailAddress = $_SESSION['email'];
+                                
+                                #i can order my table by whatever i want
+                                $subTable->addOrderBy("ORDER BY emailAddress ASC");
+                                
+                                #i can use a where field to better-filter my table
+                                $subTable->addWhereClause("WHERE emailAddress = '$emailAddress'");
+                                
+                                #i can disallow adding rows to the table
+                                #http://ajaxcrud.com/api/index.php?id=disallowAdd
+                                $subTable->disallowAdd();
+                                echo '<h2 style="font-size: 14px;"><b>My Submissions:</b></h2>';
+                                #actually show the table
+                                $subTable->showTable();
+                        
+                        echo '</td>
+                    </tr>
+                </tbody>        
+            </table>';
 
 echo '<table align="right" border="5">
                 <tbody>
@@ -111,7 +137,7 @@ echo '<table align="right" border="5">
                     </tr>
                 </tbody>        
             </table>';
-    
+            
     echo '</div>';
     }
     else {
@@ -138,3 +164,42 @@ echo '<table align="right" border="5">
 <?php
 include ('../templates/footer.html');
 ?>
+
+
+
+
+
+
+
+
+<!-- <table align="left">
+    <tbody>
+        <tr>
+            <td colspan="2"><h5>User Administration</h5></td>
+        </tr>
+        
+        <tr>
+            <td><h6>User Administration</h6></td>
+            <td><a href="userAdministration.php"><button style="font-size: 10px;" type="button">Manage</button></a></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h5>Submission Administration</h5></td>
+        </tr>
+        
+        <tr>
+            <td><h6>Submission Administration</h6></td>
+            <td><a href="submissionAdministration.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
+        </tr>
+        
+        <tr>
+            <td><h6>Department Administration</h6></td>
+            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
+        </tr>
+
+        <tr>
+            <td><h6>Course Administration</h6></td>
+            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
+        </tr>
+    </tbody>
+
+</table>'; -->

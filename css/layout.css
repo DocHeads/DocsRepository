@@ -1,7 +1,7 @@
 
 /*	=BASE
 ========================================================================== */
-	html { font-size: 100%; height: 100%; overflow-y: scroll; -webkit-overflow-scrolling : touch; -webkit-tap-highlight-color : rgb(52,158,219); -webkit-text-size-adjust : 100%; -ms-text-size-adjust : 100%; background: #000000 URL("../img/bg-flag.jpg") no-repeat 50% 0;}
+	html { font-size: 100%; height: 100%; margin-right: 140px; overflow-y: scroll; -webkit-overflow-scrolling : touch; -webkit-tap-highlight-color : rgb(52,158,219); -webkit-text-size-adjust : 100%; -ms-text-size-adjust : 100%; background: #000000 URL("../img/bg-flag.jpg") no-repeat 50% 0;}
 	body { height: 100%; margin:0; padding:0; font-size: 16px; line-height: 1; font-family: "Segoe UI", Segoe, Tahoma, Geneva, sans-serif; color:#444; }
 	
 	::-webkit-selection { background: rgba(0,0,0,0.2); color: #fff; text-shadow : none; }
@@ -149,10 +149,10 @@
 /*	=CONTENT
 ========================================================================== */
 	#masthead						{ background-color:rgba(15,43,77,0.5); border-bottom:1px solid #1e4a7e; }
-	#masthead .wrapper				{ padding:20px; width:800px; }
+	#masthead .wrapper				{ padding:20px; width:900px; }
 	#masthead .logo					{ background:transparent URL("../img/logo-masthead.png") no-repeat 0 0; width:318px; height:41px;}
 	
-	.page-header					{ padding:20px 20px 5px 20px; }
+	/*.page-header					{ padding:20px 20px 5px 20px; }*/
 	.page-header h2					{ margin:10px 400px 30px 0;}
 	.page-header ol					{ margin:0 300px 5px 0; counter-reset: itemnr;}
 	.page-header li:before			{ content: counter(itemnr,  decimal) ". "; counter-increment: itemnr; display: marker; background:#153b68; font-weight:bold; color:#fff; padding:0 0 3px 10px; margin-right:10px; text-align:center; -webkit-border-radius: 40px; -moz-border-radius: 40px; border-radius: 40px;}
@@ -161,19 +161,19 @@
 	.page-header li:last-child		{ background-position:100% 60%;}
 	
 	
-	#form-column					{ position:absolute; top:50px; right:10px; width:780px; }
+	#form-column					{ position:absolute; top:50px; right:10px; width:900px; }
 
 	#header                         {   background:#e7e2e0;
-		                                width: 800px;
+		                                width: 900px;
 		                                margin-left: auto;
 		                                margin-right: auto;
 		                                height:141px;
 	                                }
 	                                
-	#header .badge                  { position:top width:800px; height:112px; background:transparent URL("../Images/uclogo.png") no-repeat 0 0; display:block; top:0px;}
+	#header .badge                  { position:top width:900px; height:112px; background:transparent URL("../Images/uclogo.png") no-repeat 0 0; display:block; top:0px;}
 									
 	#form-container					{	background:#e7e2e0;
-										width: 780px;
+										width: 880px;
 										margin-left:auto;
 										margin-right: auto;
 										margin-bottom:20px; 
