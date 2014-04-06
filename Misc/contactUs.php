@@ -2,7 +2,6 @@
 include '../Lib/Session.php';
 Session::validateSession();
 include ('../templates/header.php');
-include ('../Lib/DocsMailer.php');
 
 $errMsg = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')

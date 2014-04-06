@@ -1,6 +1,5 @@
 <?php
 include ('../templates/header.php');
-include ('../Lib/DocsMailer.php');
 $errMsg = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -22,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   You will recieve a temporary password shortly.
 </p>
 <br />
-<?php print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
+<?php print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p><br/>'; ?>
 <form style="width: 450px;" action="forgotPassword.php" method="post">
   <fieldset>
     <legend>
