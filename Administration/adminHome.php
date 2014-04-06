@@ -17,7 +17,7 @@ $errMsg = '';
         print'<h2>Administration</h2>';
 
  echo '<table width="420" align="left" border="5">
-                <tbody style="display: block; height: 260px;">
+                <tbody style="display: block; height: 258px;">
                     <tr>
                         <td>';
                                 $mySubTable = new ajaxCRUD("Item", "submissions", "subID", "../");
@@ -79,7 +79,7 @@ $errMsg = '';
             </table>';
 
 echo '<table width="396" align="right" border="5">
-                <tbody style="display: block; height: 260px;">
+                <tbody style="display: block; height: 258px;">
                     <tr>
                         <td>';
                                 $userTable = new ajaxCRUD("Item", "users", "userID", "../");

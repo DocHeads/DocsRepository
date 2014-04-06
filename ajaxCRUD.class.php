@@ -845,7 +845,7 @@ class ajaxCRUD{
                 $report_msg[] = "$item " . $this->deleteText . "d";
             }
             else{
-                $error_msg[] = "$item could not be deleted. Please try again.";
+                $error_msg[] = "$item could not be deleted.";
             }
         }//action = delete
 
