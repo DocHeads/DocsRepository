@@ -107,7 +107,7 @@
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
-        <div style="clear:both;"></div>';
+        <br style="clear:both;"></div>';
 
     }
     else {

@@ -12,7 +12,7 @@
 <?php
 $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
-        print'<div style="height: 350px;">';
+        print'<div>';
         print'<h2>Administration</h2>';
 
  echo '<table width="420" align="left" border="5">
@@ -143,7 +143,7 @@ echo '<table width="450" align="right" border="5">
                 </tbody>        
             </table>';
 
-             echo '<table align="left" border="5">
+             echo '<br /><br /><table align="left" border="5">
                 <tbody>
                     <tr>
                         <td>';
@@ -194,7 +194,7 @@ echo '<table width="450" align="right" border="5">
                         echo '</td>
                     </tr>
                 </tbody>        
-            </table>';
+            </table><br style="clear:both;" />';
             
     echo '</div>';
     }
@@ -208,6 +208,7 @@ echo '<table width="450" align="right" border="5">
 ?>
 
 <?php
+
     function myCallBackFunctionForAdd($array){
                                         
     }
@@ -217,7 +218,6 @@ echo '<table width="450" align="right" border="5">
     }
                                 
 ?>
-
 
 <?php
 include ('../templates/footer.html');
