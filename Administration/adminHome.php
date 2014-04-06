@@ -15,7 +15,7 @@ $errMsg = '';
         print'<div style="height: 350px;">';
         print'<h2>Administration</h2>';
 
- echo '<table align="left" border="5">
+ echo '<table width="420" align="left" border="5">
                 <tbody>
                     <tr>
                         <td>';
@@ -24,9 +24,9 @@ $errMsg = '';
                                 $mySubTable->omitPrimaryKey();
                                 
                                 #the table fields have prefixes; i want to give the heading titles something more meaningful
-                                $mySubTable->displayAs("docName", "Document Name");
-                                $mySubTable->displayAs("deptName", "Department Name");
-                                $mySubTable->displayAs("courseName", "Course Name");
+                                $mySubTable->displayAs("docName", "Document");
+                                $mySubTable->displayAs("deptName", "Department");
+                                $mySubTable->displayAs("courseName", "Course");
                                 $mySubTable->displayAs("comments", "Comments");
                                 $mySubTable->displayAs("studentInstruction", "Student Instructions");
                                 $mySubTable->displayAs("rubricFileName", "Rubric File");
@@ -36,6 +36,7 @@ $errMsg = '';
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
                                 $mySubTable->omitField("updateDate");
+                                //$mySubTable->omitField("deptName");
                                 $mySubTable->omitField("willYouGrade");
                                 $mySubTable->omitField("rubricFileName");
                                 $mySubTable->omitField("studentInstruction");
@@ -44,7 +45,11 @@ $errMsg = '';
                                 $mySubTable->omitField("emailAddress");
                                                             
                                 #i could disable fields from being editable
-                                $mySubTable->disallowEdit('emailAddress');
+                                $mySubTable->disallowEdit('createDate');
+                                $mySubTable->disallowEdit('deptName');
+                                $mySubTable->disallowEdit('courseName');
+                                $mySubTable->disallowEdit('docName');
+                                
                                 
                                 #set the number of rows to display (per page)
                                 $mySubTable->setLimit(3);
@@ -72,7 +77,7 @@ $errMsg = '';
                 </tbody>        
             </table>';
 
-echo '<table align="right" border="5">
+echo '<table width="450" align="right" border="5">
                 <tbody>
                     <tr>
                         <td>';
@@ -137,7 +142,7 @@ echo '<table align="right" border="5">
                     </tr>
                 </tbody>        
             </table>';
-            
+
              echo '<table align="left" border="5">
                 <tbody>
                     <tr>
@@ -148,7 +153,7 @@ echo '<table align="right" border="5">
                                 
                                 #the table fields have prefixes; i want to give the heading titles something more meaningful
                                 $subTable->displayAs("docName", "Document Name");
-                                $subTable->displayAs("deptName", "Department Name");
+                                $subTable->displayAs("deptName", "Dept Name");
                                 $subTable->displayAs("courseName", "Course Name");
                                 $subTable->displayAs("comments", "Comments");
                                 $subTable->displayAs("studentInstruction", "Student Instructions");
@@ -163,6 +168,7 @@ echo '<table align="right" border="5">
                                                             
                                 #i could disable fields from being editable
                                 $subTable->disallowEdit('emailAddress');
+                                $subTable->disallowEdit('createDate');
                                 
                                 #set the number of rows to display (per page)
                                 $subTable->setLimit(3);
