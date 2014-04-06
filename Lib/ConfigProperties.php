@@ -74,12 +74,12 @@ class ConfigProperties
   /**
    * Email server username credential
    */ 
-  public static $EmailServerUsername = "briandunavent@qcsoftware.com";
+  public static $EmailServerUsername = "phpemailer@opentransfer.com";
   
   /**
    * Email password credential
    */
-  public static $EmailServerPassword = "M4nt1c0re";
+  public static $EmailServerPassword = "Php3m41l";
   
   /**
    * Help/Contact Us Form email recipient
