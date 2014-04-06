@@ -6,6 +6,7 @@
     Session::validateSession();
     include ('../templates/header.php');
     include ('../Lib/Departments.php');
+    include ('../Lib/Courses.php');
     
 ?>
 
@@ -16,7 +17,7 @@ $errMsg = '';
         print'<h2>Administration</h2>';
 
  echo '<table width="420" align="left" border="5">
-                <tbody>
+                <tbody style="display: block; height: 300px;">
                     <tr>
                         <td>';
                                 $mySubTable = new ajaxCRUD("Item", "submissions", "subID", "../");
@@ -78,7 +79,7 @@ $errMsg = '';
             </table>';
 
 echo '<table width="450" align="right" border="5">
-                <tbody>
+                <tbody style="display: block; height: 300px;">
                     <tr>
                         <td>';
                                 $userTable = new ajaxCRUD("Item", "users", "userID", "../");
@@ -143,35 +144,46 @@ echo '<table width="450" align="right" border="5">
                 </tbody>        
             </table>';
 
-             echo '<br /><br /><table align="left" border="5">
+             echo '<br /><br /><table align="center" border="5">
                 <tbody>
                     <tr>
-                        <td>';
+                        <td style="max-height:300px">';
                                 $subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
                             
                                 $subTable->omitPrimaryKey();
                                 
                                 #the table fields have prefixes; i want to give the heading titles something more meaningful
+                                $subTable->displayAs("emailAddress", "User Name");
                                 $subTable->displayAs("docName", "Document Name");
-                                $subTable->displayAs("deptName", "Dept Name");
-                                $subTable->displayAs("courseName", "Course Name");
+                                $subTable->displayAs("deptName", "Department");
+                                $subTable->displayAs("courseName", "Course");
                                 $subTable->displayAs("comments", "Comments");
-                                $subTable->displayAs("studentInstruction", "Student Instructions");
                                 $subTable->displayAs("rubricFileName", "Rubric File");
                                 $subTable->displayAs("willYouGrade", "Grade?");
                                 $subTable->displayAs("createDate", "Creation Date");                                
                             
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
+                                $subTable->omitField("willYouGrade");
+                                $subTable->omitField("studentInstruction");
+                                $subTable->omitField("instructorInstruction");
                                 $subTable->omitField("updateDate");
                                 $subTable->omitField("comments");
+                                $subTable->omitField("rubricFileName");
+                                
+                                
+                                $allowableUserTypeIDValues = Departments::getDeptList();
+                                $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
+    
+                                $allowableUserTypeIDValues = Courses::getCourseList();
+                                $subTable->defineAllowableValues("courseName", $allowableUserTypeIDValues);
                                                             
                                 #i could disable fields from being editable
                                 $subTable->disallowEdit('emailAddress');
                                 $subTable->disallowEdit('createDate');
                                 
                                 #set the number of rows to display (per page)
-                                $subTable->setLimit(3);
+                                $subTable->setLimit(10);
                             
                                 #implement a callback function after updating/editing a field
                                 $subTable->onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
@@ -184,6 +196,9 @@ echo '<table width="450" align="right" border="5">
                                 #i can use a where field to better-filter my table
                                 $subTable->addWhereClause("WHERE emailAddress = '$emailAddress'");
                                 
+                                #if really desired, a filter box can be used for all fields
+                                $subTable->addAjaxFilterBoxAllFields();
+                            
                                 #i can disallow adding rows to the table
                                 #http://ajaxcrud.com/api/index.php?id=disallowAdd
                                 $subTable->disallowAdd();
