@@ -17,9 +17,10 @@ $errMsg = '';
         print'<h2>Administration</h2>';
 
  echo '<table width="420" align="left" border="5">
-                <tbody style="display: block; height: 258px;">
-                    <tr>
-                        <td>';
+                <tbody style="display: block; height: 300px;">
+                    <tr height="300">
+                        <td width="420" style="vertical-align:top;">';
+                        
                                 $mySubTable = new ajaxCRUD("Item", "submissions", "subID", "../");
                             
                                 $mySubTable->omitPrimaryKey();
@@ -79,9 +80,9 @@ $errMsg = '';
             </table>';
 
 echo '<table width="396" align="right" border="5">
-                <tbody style="display: block; height: 258px;">
-                    <tr>
-                        <td>';
+                <tbody style="display: block; height: 300px;">
+                    <tr height="300">
+                        <td width="420" style="vertical-align:top;">';
                                 $userTable = new ajaxCRUD("Item", "users", "userID", "../");
                             
                                 $userTable->omitPrimaryKey();
