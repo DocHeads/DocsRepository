@@ -153,10 +153,31 @@ class Users
         $_SESSION['userType'] = $userType;
         $_SESSION['email'] = $email;
         $_SESSION['timeout'] = time();
+        // clear any tempPassKey record that may or may not exist in the user
+        // record that that has been validated
+        Users::clearTempPassKey($userId);
       }
     }
     $conn -> freeConnection();
     return $isValid;
+  }
+
+  /**
+   * Method called to clear the temp pass key hash value set in the database by a
+   * password reset request
+   *
+   * @param $userId - int value of the userId primary key value
+   * @return TRUE if temp key is cleared/set to null
+   */
+  public static function clearTempPassKey($userId)
+  {
+    $isCommit = FALSE;
+    $conn = new MySqlConnect();
+    $email = $conn -> sqlCleanup($email);
+    // query the db for the value comparison
+    $isCommit = $conn -> executeQuery("UPDATE users SET tempPassKey = null WHERE userId = '{$userId}'");
+    $conn -> freeConnection();
+    return $isCommit;
   }
 
   /**
@@ -209,26 +230,36 @@ class Users
     $conn -> freeConnection();
     // get the first and last name of the user
     $conn2 = new MySqlConnect();
-    $result = $conn2 -> executeQueryResult("SELECT  fName, lName FROM users WHERE emailAddress = '{$email}'");
+    $result = $conn2 -> executeQueryResult("SELECT fName, lName FROM users WHERE emailAddress = '{$email}'");
 
-    if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+    if (mysql_num_rows($result) == 1)
     {
-      $name = $row['fName'] . ' ' . $row['lName'];
+      if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+      {
+        $name = $row['fName'] . ' ' . $row['lName'];
+
+        // send the hash key to the user's email to confirm and follow back to
+        // the
+        // site
+        $from = "UC Document Repository <docheadsuc@gmail.com>";
+        $subject = 'UC Document Repository: Confirm Password Reset';
+        $body = "Dear {$name},\n\nPlease follow the URL to confirm your password reset request at the UC Document Repository.\n\n";
+        $body .= "https://localhost/DocsRepository/Authentication/resetPassword.php?email={$email}&tempKey={$hash}";
+
+        // send it from the logged in user
+        $to = $name . " <" . $email . ">";
+
+        if (sendMail($to, $from, $subject, $body))
+        {
+          $isReq = TRUE;
+        }
+      }
     }
-    // send the hash key to the user's email to confirm and follow back to the
-    // site
-    $from = "Brian Dunavent <b.dunavent@gmail.com>";
-    $subject = 'UC Document Repository: Confirm Password Reset';
-    $body = "Dear {$name},\n\nPlease follow the URL to confirm your password reset request at the UC Document Repository.\n\n";
-    $body .= "https://localhost/DocsRepository/Authentication/resetPassword.php?email={$email}&tempKey={$hash}";
-
-    // send it from the logged in user
-    $to = $name . " <" . $email . ">";
-
-    if (sendMail($to, $from, $subject, $body))
+    else
     {
-      $isReq = TRUE;
+      $isReq = FALSE;
     }
+
     $conn2 -> freeConnection();
     return $isReq;
   }
@@ -552,7 +583,7 @@ class Users
     $emailUsers = array();
     $from = "UC Docs Repository <docheadsuc@gmail.com>";
     $subject = "Document Submission Update";
-    
+
     $sql = "SELECT emailAddress FROM users WHERE emailOptIn = 'YES' AND isValidated = 'YES'";
 
     // update existing submission record in the database

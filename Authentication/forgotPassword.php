@@ -9,6 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
       $errMsg = 'Password reset request sent. Please check your email to confirm your request. Email may be in your spam folder';
     }
+    else
+    {
+      $errMsg = 'No user record found in system for email address: ' . $_POST['email'];
+    }
   }
 }
 ?>

@@ -35,7 +35,7 @@ if (isset($_GET['email']) && (isset($_GET['tempKey'])))
   }
   else
   {
-    $errMsg = "Invalid password reset key for email address\n\n";
+    $errMsg = "Password reset request invalid or no longer exists for email address\n\n";
     $errMsg .= "Please try resetting the password again. If problems persist, please contact a site administrator for help.";
   }
 }
