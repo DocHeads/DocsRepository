@@ -16,7 +16,7 @@ $errMsg = '';
         print'<div>';
         print'<h2>Administration</h2>';
 
- echo '<table width="425" align="left" border="5">
+ echo '<table width="420" align="left" border="5">
                 <tbody style="display: block; height: 300px;">
                     <tr>
                         <td>';
@@ -192,9 +192,6 @@ echo '<table width="420" align="right" border="5">
                                 
                                 #i can order my table by whatever i want
                                 $subTable->addOrderBy("ORDER BY emailAddress ASC");
-                                
-                                #i can use a where field to better-filter my table
-                                $subTable->addWhereClause("WHERE emailAddress = '$emailAddress'");
                                 
                                 #if really desired, a filter box can be used for all fields
                                 $subTable->addAjaxFilterBoxAllFields();

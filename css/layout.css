@@ -164,7 +164,7 @@
 	#form-column					{ position:absolute; top:50px; right:10px; width:900px; }
 
 	#header                         {   background:#e7e2e0;
-		                                width: 900px;
+		                                width: 910px;
 		                                margin-left: auto;
 		                                margin-right: auto;
 		                                height:141px;
@@ -173,7 +173,7 @@
 	#header .badge                  { position:top width:900px; height:112px; background:transparent URL("../Images/uclogo.png") no-repeat 0 0; display:block; top:0px;}
 									
 	#form-container					{	background:#e7e2e0;
-										width: 880px;
+										width: 890px;
 										margin-left:auto;
 										margin-right: auto;
 										margin-bottom:20px; 
