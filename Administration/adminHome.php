@@ -13,7 +13,6 @@
 <?php
 $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
-        print'<div>';
         print'<h2>Administration</h2>';
 
  echo '<table width="420" align="left" border="5">
@@ -21,58 +20,24 @@ $errMsg = '';
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
                         
-                                $mySubTable = new ajaxCRUD("Item", "submissions", "subID", "../");
-                            
-                                $mySubTable->omitPrimaryKey();
-                                
-                                #the table fields have prefixes; i want to give the heading titles something more meaningful
-                                $mySubTable->displayAs("docName", "Document");
-                                $mySubTable->displayAs("deptName", "Department");
-                                $mySubTable->displayAs("courseName", "Course");
-                                $mySubTable->displayAs("comments", "Comments");
-                                $mySubTable->displayAs("studentInstruction", "Student Instructions");
-                                $mySubTable->displayAs("rubricFileName", "Rubric File");
-                                $mySubTable->displayAs("willYouGrade", "Grade?");
-                                $mySubTable->displayAs("createDate", "Creation Date");                                
-                            
-                                #i could omit a field if I wanted
-                                #http://ajaxcrud.com/api/index.php?id=omitField
-                                $mySubTable->omitField("updateDate");
-                                //$mySubTable->omitField("deptName");
-                                $mySubTable->omitField("willYouGrade");
-                                $mySubTable->omitField("rubricFileName");
-                                $mySubTable->omitField("studentInstruction");
-                                $mySubTable->omitField("instructorInstruction");
-                                $mySubTable->omitField("comments");
-                                $mySubTable->omitField("emailAddress");
-                                                            
-                                #i could disable fields from being editable
-                                $mySubTable->disallowEdit('createDate');
-                                $mySubTable->disallowEdit('deptName');
-                                $mySubTable->disallowEdit('courseName');
-                                $mySubTable->disallowEdit('docName');
-                                
-                                
-                                #set the number of rows to display (per page)
-                                $mySubTable->setLimit(3);
-                            
-                                #implement a callback function after updating/editing a field
-                                $mySubTable->onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
-                                
-                                $emailAddress = $_SESSION['email'];
-                                
-                                #i can order my table by whatever i want
-                                $mySubTable->addOrderBy("ORDER BY emailAddress ASC");
-                                
-                                #i can use a where field to better-filter my table
-                                $mySubTable->addWhereClause("WHERE emailAddress = '$emailAddress'");
-                                
-                                #i can disallow adding rows to the table
-                                #http://ajaxcrud.com/api/index.php?id=disallowAdd
-                                $mySubTable->disallowAdd();
-                                echo '<h2 style="font-size: 14px;"><b>My Submissions:</b></h2>';
-                                #actually show the table
-                                $mySubTable->showTable();
+                        echo '<h2>My Recent Submissions</h2>';
+                        
+                        $con=mysqli_connect("localhost","root","","docdatabase");
+// Check connection
+if (mysqli_connect_errno())
+  {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+$result = mysqli_query($con,"SELECT * FROM submissions");
+
+while($row = mysqli_fetch_array($result))
+  {
+  echo $row['docName'] . " " . $row['createDate'];
+  echo "<br>";
+  }
+
+mysqli_close($con);
                         
                         echo '</td>
                     </tr>
@@ -208,8 +173,6 @@ echo '<table width="396" align="right" border="5">
                     </tr>
                 </tbody>        
             </table><br style="clear:both;" />';
-            
-    echo '</div>';
     }
     else {
             
@@ -235,42 +198,5 @@ echo '<table width="396" align="right" border="5">
 <?php
 include ('../templates/footer.html');
 ?>
-
-
-
-
-
-
-
-
-<!-- <table align="left">
-    <tbody>
-        <tr>
-            <td colspan="2"><h5>User Administration</h5></td>
-        </tr>
-        
-        <tr>
-            <td><h6>User Administration</h6></td>
-            <td><a href="userAdministration.php"><button style="font-size: 10px;" type="button">Manage</button></a></td>
-        </tr>
-        <tr>
-            <td colspan="2"><h5>Submission Administration</h5></td>
-        </tr>
-        
-        <tr>
-            <td><h6>Submission Administration</h6></td>
-            <td><a href="submissionAdministration.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
-        </tr>
-        
-        <tr>
-            <td><h6>Department Administration</h6></td>
-            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
-        </tr>
-
-        <tr>
-            <td><h6>Course Administration</h6></td>
-            <td><a href="createDept.php"><button style="font-size: 10px; type="button">Manage</button></a></td>
-        </tr>
-    </tbody>
 
 </table>'; -->
