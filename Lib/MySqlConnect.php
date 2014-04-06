@@ -12,7 +12,7 @@ class MySqlConnect
   protected $databaseName = "docdatabase";
   protected $sqlQuery;
   protected $result;
-  
+
   /**
    * Method called just before execution of a sql query. Use this to prevent sql
    * injection on each where clause parameter - escapes special string
@@ -33,15 +33,15 @@ class MySqlConnect
   /**
    * Method used to execute a query that doesn't expect a result set - CREATE,
    * UPDATE, DELETE
-     * 
+   *
    * @param $sqlQuery - string value representing the SQL query
    * @return $isCommit - boolean: returns true if query is committed
    */
   public function executeQuery($sqlQuery)
   {
     $isCommit = FALSE;
-        mysql_connect($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword) or die('Could not connect: ' . mysql_error());
-        mysql_select_db($this -> databaseName);
+    mysql_connect($this -> hostname, $this -> mysqlUsername, $this -> mysqlPassword) or die('Could not connect: ' . mysql_error());
+    mysql_select_db($this -> databaseName);
     $isCommit = mysql_query($sqlQuery) or die("MySql Error: " . mysql_error());
 
     return $isCommit;

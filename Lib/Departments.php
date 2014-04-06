@@ -11,7 +11,7 @@ class Departments
     $deptList = array();
 
     $conn = new MySqlConnect();
-    $result = $conn -> executeQuery("SELECT deptName FROM Departments ORDER BY deptName Desc");
+    $result = $conn -> executeQuery("SELECT deptName FROM Departments ORDER BY deptName");
 
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
     {

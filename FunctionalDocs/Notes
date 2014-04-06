@@ -13,7 +13,7 @@ https://ucfilespace.uc.edu/phpmyadmin/index.php
 user/pass: dunavebc/dunavebc
 
 Config properties:
-- Timeout value
+- Domain Name
 - Db server
 - Db name
 - Db username
@@ -21,62 +21,22 @@ Config properties:
 - email server
 - email username
 - email password
+- Timeout value
+- Base uploads directory
+- Upload File Size
 
-// Stored proc that gets department name for corresponding deptID
-DELIMITER $$
-CREATE PROCEDURE GetDeptName(
-         IN deptID INT,
-         OUT deptName VARCHAR(100))
-BEGIN
-    SELECT deptName
-    INTO deptName
-    FROM departments
-    WHERE deptID = deptID;
-END$$
-DELIMITER ;
+Update the php.ini file upload size
 
-// function that gets department name for corresponding deptID
+To Do:
+- Email users when document is submitted
+- Submission Upload testing
+- XML Configuration file and parsing - possibly just make a config class
+- Admin Home page
+- Standard Home page
+- Creating new dept needs to make the corresponding uploads directory
 
-DROP FUNCTION IF EXISTS GetDeptName;
-DELIMITER $$
-CREATE FUNCTION GetDeptName(dID INT)
-  RETURNS VARCHAR(100)
-BEGIN
-  DECLARE dName VARCHAR(100);
-  SELECT deptName 
-  INTO dName
-  FROM departments 
-  WHERE deptID = dID;
-  RETURN dName;
-END;
-$$
-DELIMITER ;
 
-// Gets course name for corresponding courseID
-DELIMITER $$
-CREATE PROCEDURE GetCourseName(
-         IN courseID INT,
-         OUT courseName VARCHAR(100))
-BEGIN
-    SELECT courseName
-    INTO courseName
-    FROM courses
-    WHERE courseID = courseID;
-END$$
-DELIMITER ;
-
-// function that gets course name for corresponding deptID
-DROP FUNCTION IF EXISTS GetCourseName;
-DELIMITER $$
-CREATE FUNCTION GetCourseName(cID INT)
-  RETURNS VARCHAR(100)
-BEGIN
-  DECLARE cName VARCHAR(100);
-  SELECT courseName 
-  INTO cName
-  FROM courses 
-  WHERE courseID = cID;
-  RETURN cName;
-END;
-$$
-DELIMITER ;
+Testing:
+- text areas have spaces in the input already before even typing
+- Invalid users panel - > only Validated? column should be editable
+- Should an email go to the ADMIN users to remind them of a new user validation? 

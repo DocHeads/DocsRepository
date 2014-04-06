@@ -11,8 +11,7 @@ class Courses
    * name.
    *
    * Ex.
-   *    $courseList = [ '1' => 'Accounting 101', '2' => 'Acounting 201', '3' =>
-   * 'Biology 101',...]
+   *    $courseList = [ 'Accounting 101', 'Acounting 201', 'Biology 101',...]
    *
    * @return $courseList - associative array of strings of ALL course IDs and
    * names in the system; alphabetical by course name

@@ -545,5 +545,28 @@ class Users
     return $userTypesArray;
   }
 
+  public static function emailOptInUsers($body)
+  {
+    $isComplete = FALSE;
+    $conn = new MySqlConnect();
+    $emailUsers = array();
+    $from = "UC Docs Repository <docheadsuc@gmail.com>";
+    $subject = "Document Submission Update";
+    
+    $sql = "SELECT emailAddress FROM users WHERE emailOptIn = 'YES'";
+
+    // update existing submission record in the database
+    $result = $conn -> executeQueryResult($sql);
+    while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
+    {
+      // assign the primary key value to the name
+      //array_push($emailUsers, $row);
+      sendMail($row['emailAddress'], $from, $subject, $body);
+    }
+
+    $conn -> freeConnection();
+    return $isComplete;
+  }
+
 }
 ?>
