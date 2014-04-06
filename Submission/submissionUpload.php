@@ -13,10 +13,7 @@ $errMsgInst = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  var_dump($_POST);
-  print '<br /><br />';
-  var_dump($_FILES);
-  print '<br /><br />';
+
   $conn = new MySqlConnect();
   $email = $_SESSION['email'];
   $docName = $_POST['docName'];
@@ -31,18 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $studentInstFile = "{$_FILES['studentInstFile']['name']}";
   $instructorInstFile = "{$_FILES['instructorInstFile']['name']}";
   $deptID = NULL;
+  $body = '';
 
   // validate the submission file upload
   if (!file_exists("{$winFileUploadBaseDir}{$dept}/{$submissionFile}"))
   {
     if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\{$submissionFile}"))
     {
-      $errMsg = "File: {$submissionFile} uploaded successfully.";
-      
+      $errMsg = "Submission: {$docName} File: {$submissionFile} upload success.";
+
       // email the opt in users
-      $body .= "-------------------\n\n";
       $body .= "Submission Profile:\n";
-      $body .= "-------------------\n\n";
+      $body .= "-----------------------\n\n";
+      $body .= "Submission Name: {$docName}\n\n";
       $body .= "File Name: {$submissionFile}\n\n";
       $body .= "Dept: {$dept}\n\n";
       $body .= "Course: {$course}\n\n";
@@ -50,23 +48,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $body .= "Grading Rubric File: {$gradingFile}\n\n";
       $body .= "Student Inst File: {$studentInstFile}\n\n";
       $body .= "Instructor Inst File: {$instructorInstFile}\n\n";
-      
+
       Users::emailOptInUsers($body);
-      
+
       if (!empty($gradingFile))
       {
-        print "Check: {$winFileUploadBaseDir}{$dept}/{$gradingFile}" . file_exists("{$winFileUploadBaseDir}{$dept}/{$gradingFile}") . ".";
-
         if (file_exists("{$winFileUploadBaseDir}{$dept}/{$gradingFile}"))
         {
-          $errMsgGrade = 'Duplicate Grading file name: ' . $gradingFile . ' failed to upload.';
+          $errMsgGrade = 'Duplicate file name. Duplicate Grading file name: ' . $gradingFile . ' failed to upload.';
           $gradingFile = null;
         }
         else
         {
           if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\{$gradingFile}"))
           {
-            $errMsgGrade = 'Grading file' . $gradingFile . ' upload success';
+            $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
           }
           else
           {
@@ -102,14 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         // student instruction upload file check and process
         if (file_exists("{$winFileUploadBaseDir}{$dept}/{$studentInstFile}"))
         {
-          $errMsgStud = 'Duplicate Student Instruction file name: ' . $studentInstFile . ' failed to upload.';
+          $errMsgStud = 'Duplicate file name. Instruction file name: ' . $studentInstFile . ' failed to upload.';
           $studentInstFile = null;
         }
         else
         {
           if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\$studentInstFile"))
           {
-            $errMsgStud = 'Student Instruction File ' . $studentInstFile . ' upload success.';
+            $errMsgStud = 'Student Instruction File: ' . $studentInstFile . ' upload success.';
           }
           else
           {
@@ -144,14 +140,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       {
         if (file_exists("{$winFileUploadBaseDir}{$dept}/{$instructorInstFile}"))
         {
-          $errMsgInst = 'Duplicate Instructor Instruction File: ' . $instructorInstFile . ' failed to upload.';
+          $errMsgInst = 'Duplicate file name. Instructor Instruction File: ' . $instructorInstFile . ' failed to upload.';
           $instructorInstFile = null;
         }
         else
         {
           if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}{$dept}\\{$instructorInstFile}"))
           {
-            $errMsgInst = 'Instructor Instruction File ' . $instructorInstFile . ' upload success.';
+            $errMsgInst = 'Instructor Instruction File: ' . $instructorInstFile . ' upload success.';
           }
           else
           {
@@ -181,32 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           }
         }
       }
-
-      // else
-      // {
-      // // Grading file upload file check and upload
-      // if (!empty($_FILES['gradingFile']))
-      // {
-      // $gradingFile = "{$_FILES['gradingFile']['name']}";
-      // var_dump($gradingFile);
-      // Submission::uploadGradingFile($winFileUploadBaseDir, $fileUploadBaseDir,
-      // $dept, $submissionFile, $gradingFile);
-      // }
-      // // student instruction upload file check and process
-      // if (!empty($_FILES['studentInstFile']))
-      // {
-      // $studentInstFile = $_FILES['studentInstFile']['name'];
-      // Submission::uploadStudentInstFile($winFileUploadBaseDir,
-      // $fileUploadBaseDir, $dept, $submissionFile, $studentInstFile);
-      // }
-      // if (!empty($_FILES['instructorInstFile']))
-      // {
-      // $instructorInstFile = $_FILES['instructorInstFile']['name'];
-      // $studentInstFile = $_FILES['studentInstFile']['name'];
-      // Submission::uploadInstructorInstFile($winFileUploadBaseDir,
-      // $fileUploadBaseDir, $dept, $submissionFile, $instructorInstFile);
-      // }
-      // }
 
       // insert the submission record
       $conn = new MySqlConnect();
@@ -279,16 +249,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     $errMsg = "Submission file name: " . $submissionFile . " already exists. Please rename before submitting to repository.";
   }
-  
-  
+
 }
 ?>
 
 <h2>Submit a document to the UC Document Repository (*=required field)</h2>
-<?php print '<p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
-<?php print '<p><span style="color: #b11117"><b>' . $errMsgGrade . '</b></span></p>'; ?>
-<?php print '<p><span style="color: #b11117"><b>' . $errMsgStud . '</b></span></p>'; ?>
-<?php print '<p><span style="color: #b11117"><b>' . $errMsgInst . '</b></span></p>'; ?>
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  print '<p><span style="color: #b11117"><b>UPLOAD STATUS:</b></span></p>';
+  print '<p><span style="color: #b11117"><b>&bull; ' . $errMsg . '</b></span></p>';
+
+  if (!empty($errMsgGrade))
+  {
+    print '<p><span style="color: #b11117"><b>&bull; ' . $errMsgGrade . '</b></span></p>';
+  }
+  if (!empty($errMsgStud))
+  {
+    print '<p><span style="color: #b11117"><b>&bull;' . $errMsgStud . '</b></span></p>';
+  }
+  if (!empty($errMsgInst))
+  {
+    print '<p><span style="color: #b11117"><b>&bull;' . $errMsgInst . '</b></span></p>';
+  }
+}
+?>
 <br />
 <form action="submissionUpload.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
   <label for="docName">Document Name *</label>

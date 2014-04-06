@@ -553,7 +553,7 @@ class Users
     $from = "UC Docs Repository <docheadsuc@gmail.com>";
     $subject = "Document Submission Update";
     
-    $sql = "SELECT emailAddress FROM users WHERE emailOptIn = 'YES'";
+    $sql = "SELECT emailAddress FROM users WHERE emailOptIn = 'YES' AND isValidated = 'YES'";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
