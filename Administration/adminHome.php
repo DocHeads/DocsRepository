@@ -16,7 +16,7 @@ $errMsg = '';
         print'<div>';
         print'<h2>Administration</h2>';
 
- echo '<table width="420" align="left" border="5">
+ echo '<table width="425" align="left" border="5">
                 <tbody style="display: block; height: 300px;">
                     <tr>
                         <td>';
@@ -78,7 +78,7 @@ $errMsg = '';
                 </tbody>        
             </table>';
 
-echo '<table width="450" align="right" border="5">
+echo '<table width="420" align="right" border="5">
                 <tbody style="display: block; height: 300px;">
                     <tr>
                         <td>';
