@@ -36,7 +36,7 @@
     
     #i can disallow deleting of rows from the table
     #http://ajaxcrud.com/api/index.php?id=disallowDelete
-    $deptTable->disallowDelete();
+    // $deptTable->disallowDelete();
     
 
     #set the number of rows to display (per page)
