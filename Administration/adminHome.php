@@ -94,6 +94,9 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                                 
                                 #i could disable fields from being editable
                                 $userTable->disallowEdit('emailAddress');
+                                $userTable->disallowEdit('fname');
+                                $userTable->disallowEdit('lname');
+                                
                                 
                                 #set the number of rows to display (per page)
                                 $userTable->setLimit(3);
@@ -212,3 +215,5 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
 <?php
 include ('../templates/footer.html');
 ?>
+
+</table>'; -->
