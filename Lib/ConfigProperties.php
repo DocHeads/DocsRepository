@@ -34,9 +34,9 @@
   public static $BaseUploadDirectory = "../uploads";
   
   /**
-   * sets the application login session expiration time out value measured in minutes
+   * sets the application login session expiration time out value (INT) measured in minutes
    */
-  public static $LoginTimeout = "15";
+  public static $LoginTimeout = 15;
   
   // ----------------------------
   //      DATABASE SETTINGS

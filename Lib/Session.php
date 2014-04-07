@@ -6,6 +6,7 @@ Class Session
 
   public static function validateSession()
   {
+    $timeout = ConfigProperties::$LoginTimeout;
     session_start();
 
     // check to see if a user session is registered, else redirect to login
@@ -17,7 +18,7 @@ Class Session
     {
       // if user session is registered, check to see if the 15 min timeout window
       // has elapsed
-      if ($_SESSION['timeout'] + 15 * 60 < time())
+      if ($_SESSION['timeout'] + $timeout * 60 < time())
       {
         // if so, log out/destroy the session and redirect to login
         Session::logOutSession();
