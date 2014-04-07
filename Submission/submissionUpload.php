@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $comments = $_POST['comments'];
   $willYouGrade = $_POST['willYouGrade'];
   $fileUploadBaseDir = ConfigProperties::$BaseUploadDirectory;
-  $winFileUploadBaseDir = ConfigProperties::$BaseUploadDirectory;
   $submissionFile = "{$_FILES['submissionfile']['name']}";
   $gradingFile = "{$_FILES['gradingFile']['name']}";
   $studentInstFile = "{$_FILES['studentInstFile']['name']}";
@@ -31,11 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $body = '';
 
   // validate the submission file upload
-  if (!file_exists("{$winFileUploadBaseDir}/{$dept}/{$submissionFile}"))
+  if (!file_exists("{$fileUploadBaseDir}/{$dept}/{$submissionFile}"))
   {
     if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$submissionFile}"))
     {
       $errMsg = "Submission: {$docName} File: {$submissionFile} upload success.";
+      $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$submissionFile}\">{$submissionFile}</a>";
 
       // email the opt in users
       $body .= "Submission Profile:\n";
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
       if (!empty($gradingFile))
       {
-        if (file_exists("{$winFileUploadBaseDir}/{$dept}/{$gradingFile}"))
+        if (file_exists("{$fileUploadBaseDir}/{$dept}/{$gradingFile}"))
         {
           $errMsgGrade = 'Duplicate file name error: Duplicate Grading file name ' . $gradingFile . ' failed to upload.';
           $gradingFile = null;
@@ -63,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$gradingFile}"))
           {
             $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
+            $gradingFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$gradingFile}\">{$gradingFile}</a>";
           }
           else
           {
@@ -96,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       if (!empty($studentInstFile))
       {
         // student instruction upload file check and process
-        if (file_exists("{$winFileUploadBaseDir}/{$dept}/{$studentInstFile}"))
+        if (file_exists("{$fileUploadBaseDir}/{$dept}/{$studentInstFile}"))
         {
           $errMsgStud = 'Duplicate file name error: Instruction file name: ' . $studentInstFile . ' failed to upload.';
           $studentInstFile = null;
@@ -106,6 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\$studentInstFile"))
           {
             $errMsgStud = 'Student Instruction File: ' . $studentInstFile . ' upload success.';
+            $studentInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$studentInstFile}\">{$studentInstFile}</a>";
+            
           }
           else
           {
@@ -138,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
       if (!empty($instructorInstFile))
       {
-        if (file_exists("{$winFileUploadBaseDir}/{$dept}/{$instructorInstFile}"))
+        if (file_exists("{$fileUploadBaseDir}/{$dept}/{$instructorInstFile}"))
         {
           $errMsgInst = 'Duplicate file name error: Instructor Instruction File: ' . $instructorInstFile . ' failed to upload.';
           $instructorInstFile = null;
@@ -148,6 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$instructorInstFile}"))
           {
             $errMsgInst = 'Instructor Instruction File: ' . $instructorInstFile . ' upload success.';
+            $instructorInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$instructorInstFile}\">{$instructorInstFile}</a>";
           }
           else
           {
