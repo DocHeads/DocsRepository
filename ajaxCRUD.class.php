@@ -90,10 +90,9 @@
                 if ($row_current_value  == ''){
                     qr("INSERT INTO $table ($pk) VALUES (\"$id\")");
                 }
-                
+
                 $success = qr("UPDATE $table SET $field = \"$val\" WHERE $pk = $sql_id");
-                echo $success;
-                
+
                 if ($val == '') $val = "&nbsp;&nbsp;";
 
                 //when updating, we use the Table name, Field name, & the Primary Key (id) to feed back to client-side-processing
@@ -274,6 +273,7 @@ class ajaxCRUD{
 
     //(if true) put a checkbox before each row
     var $showCheckbox;
+
     var $loading_image_html;
 
     /* these default to english words (e.g. "Add", "Delete" below); but can be
@@ -360,7 +360,7 @@ class ajaxCRUD{
         $this->addText           = "Add";
         $this->deleteText        = "Delete";
         $this->cancelText        = "Cancel";
-        $this->emptyTableMessage = "No data in this table.";
+        $this->emptyTableMessage = "No data in this table. Click add button below.";
 
         $this->onAddExecuteCallBackFunction         = '';
         $this->onFileUploadExecuteCallBackFunction  = '';
@@ -506,10 +506,6 @@ class ajaxCRUD{
     }
 
     function formatFieldWithFunction($field, $function_name){
-        $this->format_field_with_function[$field] = $function_name;
-    }
-    
-    function callFunction($field, $function_name){
         $this->format_field_with_function[$field] = $function_name;
     }
 
@@ -749,11 +745,6 @@ class ajaxCRUD{
                 this_page = \"" . $_SERVER['REQUEST_URI'] . "\"\n
                 loading_image_html = \"$this->loading_image_html\"; \n
 
-                function callAddForm(tableName, usePost)
-                {
-                    validateAddForm(tableName, usePost);
-                }
-
                 function validateAddForm(tableName, usePost){
                     var validator = $('#add_form_' + tableName).validate();
                     if (validator.form()){
@@ -845,7 +836,7 @@ class ajaxCRUD{
                 $report_msg[] = "$item " . $this->deleteText . "d";
             }
             else{
-                $error_msg[] = "$item could not be deleted.";
+                $error_msg[] = "$item could not be deleted. Please try again.";
             }
         }//action = delete
 
@@ -1301,92 +1292,6 @@ class ajaxCRUD{
 
         $top_html .= "<a name='ajaxCRUD" . $num_ajaxCRUD_tables_instantiated ."' id='ajaxCRUD" . $num_ajaxCRUD_tables_instantiated  ."'></a>\n";
 
-        if (!isset($extra_query_params)) $extra_query_params = "";//this is used by certain applications which require extra query params to be passed (not typical)
-
-        if (count($this->ajaxFilter_fields) > 0){
-            $top_html .= "<form id=\"" . $this->db_table . "_filter_form\">\n";
-            $top_html .= "<table cellspacing='5' align='center'><tr><thead>";
-
-            foreach ($this->ajaxFilter_fields as $filter_field){
-                $display_field = $filter_field;
-                if ($this->displayAs_array[$filter_field] != ''){
-                    $display_field = $this->displayAs_array[$filter_field];
-                }
-
-                //TODO: this var is used to see if there is a defined relationship with the field (I hate this approach and need to re-architect it!)
-                $found_category_index = array_search($filter_field, $this->db_table_fk_array);
-
-                $textbox_size = $this->ajaxFilterBoxSize[$filter_field];
-
-                $filter_value = "";
-                if (isset($_REQUEST[$filter_field]) && $_REQUEST[$filter_field] != ''){
-                    //$filter_value = $_REQUEST[$filter_field];
-                    $filter_value = utf8_encode($_REQUEST[$filter_field]);
-                }
-
-                $top_html .= "<th><b>$display_field</b>:";
-
-                //check for valid values (set by defineAllowableValues)
-                if (isset($this->allowed_values[$filter_field]) && is_array($this->allowed_values[$filter_field])){
-                    $top_html .= "<select name=\"$filter_field\" onChange=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
-                    $top_html .= "<option value=\"\">==Select==</option>\n";
-                    foreach ($this->allowed_values[$filter_field] as $list){
-                        if (is_array($list)){
-                            $list_val = $list[0];
-                            $list_option = $list[1];
-                        }
-                        else{
-                            $list_val = $list;
-                            $list_option = $list;
-                        }
-                        $top_html .= "<option value=\"$list_val\">$list_option</option>\n";
-                    }
-                    $top_html .= "</select>\n";
-                }
-                //check for defined link to another db table (pk/fk relationship) (set by defineRelationship)
-                else if (is_numeric($found_category_index)){
-                    $top_html .= "<select name=\"$filter_field\" onChange=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
-                    $top_html .= "<option value=\"\">==Select==</option>\n";
-
-                    //this field is a reference to another table's primary key (eg it must be a foreign key)
-                    $category_field_name = $this->category_field_array[$found_category_index];
-                    $category_table_name = $this->category_table_array[$found_category_index];
-                    $category_table_pk   = $this->category_table_pk_array[$found_category_index];
-
-                    //this array is set above (used a few places in the class) - sorry, a bit of repeating code here :-(
-                    foreach ($dropdown_array[$found_category_index] as $dropdown){
-                        $dropdown_value = $dropdown[$this->category_table_pk_array[$found_category_index]];
-                        $dropdown_text = $dropdown[$this->category_field_array[$found_category_index]];
-                        $top_html .= "<option value=\"$dropdown_value\">$dropdown_text</option>\n";
-                    }
-
-                    $top_html .= "</select>\n";
-                }
-                //check for a checkbox for this field
-                else if (isset($this->checkbox[$filter_field]) && is_array($this->checkbox[$filter_field])){
-                    $values = $this->checkbox[$filter_field];
-                    $value_on = $values[0];
-                    $value_off = $values[1];
-
-                    $checked = '';
-                    if (isset($field_value) && $field_value == $value_on) $checked = "checked";
-
-                    $top_html .= "<input type=\"checkbox\" name=\"$filter_field\" $checked value=\"$value_on\" onClick=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
-                }
-                //a "regualar" textbox filter box
-                else{
-                    $custom_class = "";
-                    if (isset($this->display_field_with_class_style[$filter_field]) && $this->display_field_with_class_style[$filter_field] != '') {
-                        $custom_class = $this->display_field_with_class_style[$filter_field];
-                    }
-
-                    $top_html .= "<input type=\"text\" class=\"$custom_class\" size=\"$textbox_size\" name=\"$filter_field\" value=\"$filter_value\" onKeyUp=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
-                }
-                $top_html .= "&nbsp;&nbsp;</th>";
-            }
-            $top_html .= "</tr></thead></table>\n";
-            $top_html .= "</form>\n";
-        }
 
 
         #############################################
@@ -1974,7 +1879,7 @@ class ajaxCRUD{
             if (!$this->ajax_add){
                 $postForm = "true";
             }
-            $add_html .= "<input class=\"editingSize\" type=\"button\" onClick=\"callAddForm('$this->db_table', $postForm);\" value=\"Save $item\">";
+            $add_html .= "<input class=\"editingSize\" type=\"button\" onClick=\"validateAddForm('$this->db_table', $postForm);\" value=\"Save $item\">";
 
 
             $add_html .= "</td><td><input style='float: right;' class=\"btn editingSize\" type=\"button\" onClick=\"this.form.reset();$('#add_form_$this->db_table').slideUp('slow');\" value=\"" . $this->cancelText . "\"></td></tr>\n</table>\n";
