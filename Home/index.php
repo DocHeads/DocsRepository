@@ -23,112 +23,50 @@ if (Users::isAuthorized())
   }
   else
       {
-         echo '<div style="padding: 0px 20px 0px 20px">';
-         echo '<table width="800" align="center" border="2">
-                <tbody style="display: block; height: 250px;">
-                    <tr width="800" height="250">
-                        <td width="800" style="vertical-align:top;">';
+ echo '<table align="center" border="2">
+                <tbody style="display: block; height: 300px;">
+                    <tr height="300">
+                        <td width="420" style="vertical-align:top;">';
                         
                         echo '<h2 style="font-size: 14px"><b>My Recent Submissions:</b></h2>';
                         
-                        $dbhost = 'localhost';
-                        $dbuser = 'root';
-                        $dbpass = '';
-                        $rec_limit = 5;
+                        $con=mysqli_connect("localhost","root","","docdatabase");
+                        // Check connection
+                        if (mysqli_connect_errno())
+                          {
+                          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                          }
                         
-                        $conn = mysql_connect($dbhost, $dbuser, $dbpass);
-                        
-                        if(! $conn )
-                        {
-                          die('Could not connect: ' . mysql_error());
-                        }
-                        
-                        mysql_select_db('docdatabase');
-                        
-                        $sql = "SELECT COUNT(subID) FROM submissions ";
-                        
-                        $retval = mysql_query( $sql, $conn );
-                        
-                        if(! $retval )
-                        {
-                          die('Could not get data: ' . mysql_error());
-                        }
-                        $row = mysql_fetch_array($retval, MYSQL_NUM );
-                        
-                        $rec_count = $row[0];
-                        
-                        if( isset($_GET{'page'} ) )
-                        {
-                           $page = $_GET{'page'} + 1;
-                           $offset = $rec_limit * $page ;
-                        }
-                        else
-                        {
-                           $page = 0;
-                           $offset = 0;
-                        }
-                        $left_rec = $rec_count - ($page * $rec_limit);
-                        
-                        $sql = "SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC LIMIT $offset, $rec_limit";
-                        
-                        $retval = mysql_query( $sql, $conn );
-                        if(! $retval )
-                        {
-                            die('Could not get data: ' . mysql_error());
-                        }
+                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC LIMIT 0,5");
 
-                            echo "<table class='customTable' width='800' align='center'>
-                                <tr>
-                                <thead align='center'>
-                                <th height='20px'>Submission Name</th>
-                                <th height='20px'>File</th>
-                                <th height='20px'>Department</th>
-                                <th height='20px'>Course</th>                                
-                                <th height='20px'>Instructor Instructions</th>
-                                <th height='20px'>Student Instructions</th>
-                                <th height='20px'><strong>Created On</strong></th>
-                                <th height='20px'><strong>Action</strong></th>
-                                </thead>
-                                </tr>";
-                            
-                            while($row = mysql_fetch_array($retval, MYSQL_ASSOC))
-                              {
-                                  echo "<tr>";
-                                  echo "<td>" . $row['docName'] . "</td>";
-                                  echo "<td>" . $row['submissionFile'] . "</td>";
-                                  echo "<td>" . $row['deptName'] . "</td>";
-                                  echo "<td>" . $row['courseName'] . "</td>";
-                                  echo "<td>" . $row['instructorInstruction'] . "</td>";
-                                  echo "<td>" . $row['studentInstruction'] . "</td>";
-                                  echo "<td>" . $row['createDate'] . "</td>";
-                                  echo "<td><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
-                              echo "</tr>";
-                              }
-                              
-                              if( $page > 0 )
-                                {
-                                   $last = $page - 2;
-                                   echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a> |";
-                                   echo "<a href=\"$_PHP_SELF?page=$page\">Next 10 Records</a>";
-                                }
-                                else if( $page == 0 )
-                                {
-                                   echo "<a href=\"$_PHP_SELF?page=$page\">Next 10 Records</a>";
-                                }
-                                else if( $left_rec < $rec_limit )
-                                {
-                                   $last = $page - 2;
-                                   echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a>";
-                                }
-                            echo "</table>";
-
-                            mysql_close($conn);
-                            
-                            echo '</td>
-                                  </tr>
-                                  </tbody>        
-                                  </table><br style="clear:both;" />';
+                        echo "<table class='customTable' width='350' align='center'>
+                        <tr>
+                        <thead align='left'>
+                        <th height='20px'>Submission</th>
+                        <th height='20px'>File</th>
+                        <th height='20px'><strong>Created On</strong></th>
+                        <th height='20px'><strong>Action</strong></th>
+                        </thead>
+                        </tr>";
                         
+                        while($row = mysqli_fetch_array($result))
+                          {
+                          echo "<tr>";
+                          echo "<td>" . $row['docName'] . "</td>";
+                          echo "<td>" . $row['submissionFile'] . "</td>";
+                          echo "<td>" . $row['createDate'] . "</td>";
+                          echo "<td><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
+                          echo "</tr>";
+                          }
+                        echo "</table>";
+                        
+                        mysqli_close($con);
+                        
+                        echo '</td>
+                    </tr>
+                </tbody>        
+            </table>';
+         
 
             echo '<table style="top-margin: 20px;" align="center" border="2">
                 <tbody>
