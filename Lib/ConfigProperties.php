@@ -74,12 +74,12 @@
   /**
    * Email server username credential
    */ 
-  public static $EmailServerUsername = "phpemailer@opentransfer.com";
+  public static $EmailServerUsername = "briandunavent@opentransfer.com";
   
   /**
    * Email password credential
    */
-  public static $EmailServerPassword = "Php3m41l";
+  public static $EmailServerPassword = "M4nt1c0re";
   
   /**
    * Help/Contact Us Form email recipient

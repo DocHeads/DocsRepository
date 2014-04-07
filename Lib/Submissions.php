@@ -8,7 +8,7 @@ class Submission
     $conn = new MySqlConnect();
     $ts = $conn -> getCurrentTs();
 
-    $updateSql = "UPDATE Submissions
+    $updateSql = "UPDATE submissions
                      SET docName = '{$submissionUrl}',
                      deptName = '{$deptName}',
                      courseName = '{$courseName}',

@@ -52,7 +52,7 @@ class Courses
     $deptId = $conn -> sqlCleanup($deptId);
 
     //
-    $sqlQuery = "SELECT courseId, courseName FROM Courses WHERE deptId = '{$deptId}' ORDER BY courseName";
+    $sqlQuery = "SELECT courseId, courseName FROM courses WHERE deptId = '{$deptId}' ORDER BY courseName";
 
     $courseListResult = $conn -> executeQueryResult($sqlQuery);
 
@@ -83,7 +83,7 @@ class Courses
     include 'MySqlConnect.php';
     $conn = new MySqlConnect();
 
-    $sqlQuery = "SELECT deptId, courseName FROM Courses WHERE courseId = '{$courseId}'";
+    $sqlQuery = "SELECT deptId, courseName FROM courses WHERE courseId = '{$courseId}'";
 
     $courseListResult = $conn -> executeQueryResult($sqlQuery);
 
@@ -138,7 +138,7 @@ class Courses
     $courseName = $conn -> sqlCleanup($courseName);
     $deptId = $conn -> sqlCleanup($deptId);
 
-    $sqlQuery = "INSERT INTO Courses (courseName, deptId, createdDate, updateDate)";
+    $sqlQuery = "INSERT INTO courses (courseName, deptId, createdDate, updateDate)";
     $sqlQuery .= "            VALUES ('{$courseName}', '{$deptId}', '{$ts}', '$ts')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
@@ -167,7 +167,7 @@ class Courses
     $courseName = $conn -> sqlCleanup($courseName);
     $deptId = $conn -> sqlCleanup($deptId);
 
-    $sqlQuery = "UPDATE Courses ";
+    $sqlQuery = "UPDATE courses ";
     $sqlQuery .= "  SET courseName = '{$courseName}', deptId = '{$deptId}', updateDate = '{$ts}'";
     $sqlQuery .= "WHERE courseId = '{$courseId}'";
 

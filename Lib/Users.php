@@ -9,6 +9,8 @@
  */
 include ('../Lib/MySqlConnect.php');
 include ('../Lib/DocsMailer.php');
+// ini_set('display_errors',1); 
+ // error_reporting(E_ALL);
 class Users
 {
   protected $username;
@@ -329,7 +331,7 @@ class Users
     $hash = Users::encodePassword($password);
     $ts = $conn -> getCurrentTs();
 
-    $isCommit = $conn -> executeQuery("UPDATE Users SET password = '{$hash}', tempPassKey = null, updateDate = '{$ts}' WHERE emailAddress = '{$email}'");
+    $isCommit = $conn -> executeQuery("UPDATE users SET password = '{$hash}', tempPassKey = null, updateDate = '{$ts}' WHERE emailAddress = '{$email}'");
     $conn -> freeConnection();
     return $isCommit;
   }
@@ -355,7 +357,7 @@ class Users
 
     // hash the password
     $hash = Users::encodePassword($password);
-    $sqlQuery = "INSERT INTO Users (password, fName, lName, emailAddress, userType, emailOptIn, isValidated, createDate, updateDate)";
+    $sqlQuery = "INSERT INTO users (password, fName, lName, emailAddress, userType, emailOptIn, isValidated, createDate, updateDate)";
     $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userType}', '{$emailOptIn}', 'NO', '{$ts}', '{$ts}')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
@@ -398,7 +400,7 @@ class Users
     $conn = new MySqlConnect();
 
     $username = $conn -> sqlCleanup($username);
-    $isCommit = $conn -> executeQuery("DELETE FROM Users WHERE username = '%s'", $username);
+    $isCommit = $conn -> executeQuery("DELETE FROM users WHERE username = '%s'", $username);
 
     $conn -> freeConnection();
     return $isCommit;
@@ -410,7 +412,7 @@ class Users
     $userList = array();
     $conn = new MySqlConnect();
 
-    $result = $conn -> executeQueryResult("SELECT username FROM Users");
+    $result = $conn -> executeQueryResult("SELECT username FROM users");
     if (isset($result))
     {
       // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
@@ -440,7 +442,7 @@ class Users
     $userList = array();
     $conn = new MySqlConnect();
 
-    $result = $conn -> executeQueryResult("SELECT email FROM Users WHERE isValidated = 0");
+    $result = $conn -> executeQueryResult("SELECT email FROM users WHERE isValidated = 0");
     if (isset($result))
     {
       // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
@@ -494,7 +496,7 @@ class Users
     $emailOptIn = $conn -> sqlCleanup($emailOptIn);
 
     // start building the UPDATE statement
-    $updateSql = "UPDATE Users";
+    $updateSql = "UPDATE users";
     $updateSql .= "  SET fName = '{$fName}',";
     $updateSql .= "      lName = '{$lName}',";
     $updateSql .= "      userType = '{$userType}',";
@@ -530,7 +532,7 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT fName, lName, userType, emailOptIn, isValidated FROM Users WHERE emailAddress = '{$email}'";
+    $sql = "SELECT fName, lName, userType, emailOptIn, isValidated FROM users WHERE emailAddress = '{$email}'";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);

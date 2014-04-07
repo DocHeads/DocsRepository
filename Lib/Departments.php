@@ -11,7 +11,7 @@ class Departments
     $deptList = array();
 
     $conn = new MySqlConnect();
-    $result = $conn -> executeQuery("SELECT deptName FROM Departments ORDER BY deptName");
+    $result = $conn -> executeQuery("SELECT deptName FROM departments ORDER BY deptName");
 
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
     {
@@ -28,7 +28,7 @@ class Departments
     $currentTs = $conn -> getCurrentTs();
 
     $deptName = $conn -> sqlCleanup($deptName);
-    $isCreated = $conn -> executeQuery("INSERT INTO Departments(departmentName, createTs, updatedTs) VALUES ('%s', '%s', '%s')", $deptName, $currentTs, $currentTs);
+    $isCreated = $conn -> executeQuery("INSERT INTO departments(departmentName, createTs, updatedTs) VALUES ('%s', '%s', '%s')", $deptName, $currentTs, $currentTs);
     $conn -> freeConnection();
     return $isCreated;
   }
@@ -40,7 +40,7 @@ class Departments
     $currentTs = $conn -> getCurrentTs();
 
     $deptName = $conn -> sqlCleanup($deptName);
-    $isDeleted = $conn -> executeQuery("DELETE FROM Departments WHERE departmentName = '%s'", $deptName);
+    $isDeleted = $conn -> executeQuery("DELETE FROM departments WHERE departmentName = '%s'", $deptName);
     $conn -> freeConnection();
     return $isDeleted;
   }
