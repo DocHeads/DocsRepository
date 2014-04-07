@@ -15,7 +15,7 @@ $emailAddress = $_SESSION['email'];
 $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
         print'<h2>Administration</h2>';
-
+echo '<div style="padding: 0px 20px 0px 20px">';
  echo '<table width="420" align="left" border="5">
                 <tbody style="display: block; height: 300px;">
                     <tr height="300">
@@ -56,7 +56,7 @@ $errMsg = '';
                 </tbody>        
             </table>';
 
-echo '<table width="396" align="right" border="5">
+echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                 <tbody style="display: block; height: 300px;">
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
@@ -121,8 +121,9 @@ echo '<table width="396" align="right" border="5">
                     </tr>
                 </tbody>        
             </table>';
-
-             echo '<br /><br /><table align="center" border="5">
+    echo '</div>';
+            
+            echo '<table style="top-margin: 20px;" align="center" border="5">
                 <tbody>
                     <tr>
                         <td>';
@@ -139,16 +140,17 @@ echo '<table width="396" align="right" border="5">
                                 $subTable->displayAs("rubricFileName", "Rubric File");
                                 $subTable->displayAs("willYouGrade", "Grade?");
                                 $subTable->displayAs("createDate", "Creation Date");                                
-                            
+                                $subTable->displayAs("submissionFile", "Submission File"); 
+                                                            
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
                                 $subTable->omitField("willYouGrade");
                                 $subTable->omitField("studentInstruction");
                                 $subTable->omitField("instructorInstruction");
                                 $subTable->omitField("updateDate");
-                                $subTable->omitField("comments");
+                                $subTable->omitField("comments");   
                                 $subTable->omitField("rubricFileName");
-                                
+                                $subTable->omitField("submissionFile");
                                 
                                 $allowableUserTypeIDValues = Departments::getDeptList();
                                 $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
@@ -159,6 +161,8 @@ echo '<table width="396" align="right" border="5">
                                 #i could disable fields from being editable
                                 $subTable->disallowEdit('emailAddress');
                                 $subTable->disallowEdit('createDate');
+                                $subTable->disallowEdit('submissionFile');
+                                
                                 
                                 #set the number of rows to display (per page)
                                 $subTable->setLimit(10);
