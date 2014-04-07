@@ -23,12 +23,14 @@ if (Users::isAuthorized())
   }
   else
       {
- echo '<table align="center" border="2">
-                <tbody style="display: block; height: 300px;">
-                    <tr height="300">
-                        <td width="420" style="vertical-align:top;">';
+     
+ echo '<div style="padding: 0px 20px 20px 20px">';
+ echo '<table class="customTable" width="840" align="center" border="2">
+                <tbody>
+                    <tr>
+                        <td style="vertical-align:top;">';
                         
-                        echo '<h2 style="font-size: 14px"><b>My Recent Submissions:</b></h2>';
+                        echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b></h2>";
                         
                         $con=mysqli_connect("localhost","root","","docdatabase");
                         // Check connection
@@ -37,13 +39,17 @@ if (Users::isAuthorized())
                           echo "Failed to connect to MySQL: " . mysqli_connect_error();
                           }
                         
-                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC LIMIT 0,5");
+                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC");
 
-                        echo "<table class='customTable' width='350' align='center'>
+                        echo "<table width='840px' class='customTable' align='center'>
                         <tr>
                         <thead align='left'>
                         <th height='20px'>Submission</th>
                         <th height='20px'>File</th>
+                        <th height='20px'><strong>Department</strong></th>
+                        <th height='20px'><strong>Course</strong></th>
+                        <th height='20px'><strong>Instructor Inst</strong></th>
+                        <th height='20px'><strong>Student Inst</strong></th>
                         <th height='20px'><strong>Created On</strong></th>
                         <th height='20px'><strong>Action</strong></th>
                         </thead>
@@ -52,10 +58,14 @@ if (Users::isAuthorized())
                         while($row = mysqli_fetch_array($result))
                           {
                           echo "<tr>";
-                          echo "<td>" . $row['docName'] . "</td>";
-                          echo "<td>" . $row['submissionFile'] . "</td>";
-                          echo "<td>" . $row['createDate'] . "</td>";
-                          echo "<td><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
+                          echo "<td height='20px'>" . $row['docName'] . "</td>";
+                          echo "<td height='20px'>" . $row['submissionFile'] . "</td>";
+                          echo "<td height='20px'>" . $row['deptName'] . "</td>";
+                          echo "<td height='20px'>" . $row['courseName'] . "</td>";
+                          echo "<td height='20px'>" . $row['instructorInstruction'] . "</td>";
+                          echo "<td height='20px'>" . $row['studentInstruction'] . "</td>";
+                          echo "<td height='20px'>" . $row['createDate'] . "</td>";
+                          echo "<td height='20px'><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
                           echo "</tr>";
                           }
                         echo "</table>";
@@ -65,7 +75,7 @@ if (Users::isAuthorized())
                         echo '</td>
                     </tr>
                 </tbody>        
-            </table>';
+            </table></div>';
          
 
             echo '<table style="top-margin: 20px;" align="center" border="2">
