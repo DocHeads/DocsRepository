@@ -16,7 +16,7 @@ $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
         print'<h2>Administration</h2>';
 echo '<div style="padding: 0px 20px 0px 20px">';
- echo '<table width="420" align="left" border="5">
+ echo '<table width="420" align="left" border="2">
                 <tbody style="display: block; height: 300px;">
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
@@ -56,7 +56,7 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                 </tbody>        
             </table>';
 
-echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
+echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
                 <tbody style="display: block; height: 300px;">
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
@@ -126,7 +126,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
             </table>';
     echo '</div>';
             
-            echo '<table style="top-margin: 20px;" align="center" border="5">
+            echo '<table style="top-margin: 20px;" align="center" border="2">
                 <tbody>
                     <tr>
                         <td>';
