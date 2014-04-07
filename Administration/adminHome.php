@@ -21,7 +21,7 @@ $errMsg = '';
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
                         
-                        echo '<h2 style="font-size: 14px"><b>My Recent Submissions</b></h2>';
+                        echo '<h2 style="font-size: 14px"><b>My Recent Submissions:</b></h2>';
                         
                         $con=mysqli_connect("localhost","root","","docdatabase");
                         // Check connection
