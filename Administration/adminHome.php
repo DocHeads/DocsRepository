@@ -45,10 +45,10 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                         while($row = mysqli_fetch_array($result))
                           {
                           echo "<tr>";
-                          echo "<td>" . $row['docName'] . "</td>";
-                          echo "<td>" . $row['submissionFile'] . "</td>";
-                          echo "<td>" . $row['createDate'] . "</td>";
-                          echo "<td><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
+                          echo "<td height='30px'>" . $row['docName'] . "</td>";
+                          echo "<td height='30px'>" . $row['submissionFile'] . "</td>";
+                          echo "<td height='30px'>" . $row['createDate'] . "</td>";
+                          echo "<td height='30px'><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
                           echo "</tr>";
                           }
                         echo "</table>";
