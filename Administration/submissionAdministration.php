@@ -3,7 +3,7 @@
     include_once('../templates/preheader.php'); // <-- this include file MUST go first before any HTML/output
     include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
     include ('../Lib/Session.php');
-//    Session::validateSession();
+    Session::validateSession();
     include ('../templates/header.php');
     include ('../Lib/Departments.php');
     include ('../Lib/Courses.php');
@@ -62,6 +62,8 @@
     $subTable->disallowEdit('studentInstruction');
     $subTable->disallowEdit('instructorInstruction');
     $subTable->disallowEdit('docName');
+    $subTable->disallowEdit('deptName');
+    
     
     
     #set the number of rows to display (per page)
