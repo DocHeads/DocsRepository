@@ -80,7 +80,7 @@
 
 /*	=FORMS
 ========================================================================== */
-	form 							{ margin-left: auto; margin-right: auto; width: 790px;}
+	form 							{ margin-left: auto; margin-right: auto; width: 850px;}
 	fieldset 							{ border: 0; margin: 0; padding: 0; }
 	label 							{ cursor: pointer; }
 	legend 							{ border: 0; *margin-left: -7px; padding: 0; }
@@ -383,7 +383,6 @@
 	width:20px;
 	font-family: Arial, Verdana;
 	font-size: 11px;
-	color: #716E6E;
 	font-weight:normal;
 	/* text-align: center; */
 	vertical-align: middle;
@@ -396,11 +395,12 @@
 	.customTable tr:nth-child(odd){ 
 	background-color: #DDD7D4;
 	color:#444444;
-	font-weight:bold;
+
 	}
 	/*  Define the background color for all the EVEN background rows  */
 	.customTable tr:nth-child(even){
 		background: #F9F8FB;
+		color:#716E6E;
 	}
 
 .ajaxCRUD {

@@ -130,7 +130,7 @@ if (Users::isAuthorized())
                                 #i can disallow adding rows to the table
                                 #http://ajaxcrud.com/api/index.php?id=disallowAdd
                                 $subTable->disallowAdd();
-                                echo '<h2 style="font-size: 14px;"><b>User Submissions:</b></h2>';
+                                echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
                                 #actually show the table
                                 $subTable->showTable();
                         

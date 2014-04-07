@@ -21,8 +21,8 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
                         
-                        echo '<h2 style="font-size: 14px"><b>My Recent Submissions:</b></h2>';
-                        
+                        echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b></h2>";
+                                                
                         $con=mysqli_connect("localhost","root","","docdatabase");
                         // Check connection
                         if (mysqli_connect_errno())
@@ -189,7 +189,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
                                 #i can disallow adding rows to the table
                                 #http://ajaxcrud.com/api/index.php?id=disallowAdd
                                 $subTable->disallowAdd();
-                                echo '<h2 style="font-size: 14px;"><b>User Submissions:</b></h2>';
+                                echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
                                 #actually show the table
                                 $subTable->showTable();
                         

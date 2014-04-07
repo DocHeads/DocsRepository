@@ -67,7 +67,8 @@
     $userTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
     $userTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
     $userTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
-    $userTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
+    $userTable->onUpdateExecuteCallBackFunction("userType", "myCallBackFunctionForEdit");
+    
     
     #i can order my table by whatever i want
     $userTable->addOrderBy("ORDER BY emailAddress ASC");
