@@ -45,7 +45,7 @@
     #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
     $allowableUserTypeIDValues = array("STANDARD", "ADMIN");
     $userTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
-    
+        
     $allowableisValidatedValues = array("YES", "NO");
     $userTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
     

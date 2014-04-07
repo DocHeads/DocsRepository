@@ -33,12 +33,19 @@
     $deptTable->omitAddField("createDate");
     
     $deptTable->disallowEdit('createDate');
+    
+    #i can disallow deleting of rows from the table
+    #http://ajaxcrud.com/api/index.php?id=disallowDelete
+    $deptTable->disallowDelete();
+    
 
     #set the number of rows to display (per page)
     $deptTable->setLimit(10);
 
     #i can order my table by whatever i want
     $deptTable->addOrderBy("ORDER BY createDate DESC");
+    
+    $deptTable->callFunction("deptName", "makeDir");
 
     #if really desired, a filter box can be used for all fields
     $deptTable->addAjaxFilterBoxAllFields();
