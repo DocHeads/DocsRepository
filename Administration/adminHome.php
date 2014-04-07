@@ -35,7 +35,8 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                         echo "<table class='customTable' width='350' align='center'>
                         <tr>
                         <thead align='left'>
-                        <th height='20px'>Submission File</th>
+                        <th height='20px'>Submission Name</th>
+                        <th height='20px'>File Name</th>
                         <th height='20px'><strong>Date Created</strong></th>
                         </thead>
                         </tr>";
@@ -43,6 +44,7 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                         while($row = mysqli_fetch_array($result))
                           {
                           echo "<tr>";
+                          echo "<td>" . $row['docName'] . "</td>";
                           echo "<td>" . $row['submissionFile'] . "</td>";
                           echo "<td>" . $row['createDate'] . "</td>";
                           // echo "<td><a href=\"../Submissions/submissionProfile.php?subID=\" . $row['subID] . "\">Edit</a></td>";
