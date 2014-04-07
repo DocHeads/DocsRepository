@@ -33,7 +33,7 @@
     $deptTable->omitAddField("createDate");
     
     $deptTable->disallowEdit('createDate');
-    $deptTable->disallowEdit('deptName');
+    //$deptTable->disallowEdit('deptName');
 
     #set the number of rows to display (per page)
     $deptTable->setLimit(10);
@@ -43,6 +43,8 @@
 
     #if really desired, a filter box can be used for all fields
     $deptTable->addAjaxFilterBoxAllFields();
+
+    $deptTable->formatFieldWithFunction('deptName', 'makeDir');
     
     echo '<h2>Department Administration</h2>
             <div style="float: left">
@@ -50,9 +52,7 @@
              
              ?>
                 <?=$deptTable->insertRowsReturned();?>
-             
              <?php 
-             
                 echo '</b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
@@ -71,6 +71,13 @@
 ?>
 
 <?php 
+
+    #create folder for added department
+    function makeDir($val){
+       if (!file_exists('../uploads/'. $val)) {
+           mkdir('../uploads/'. $val, 0777, true);
+       }
+     }  
     #actually show the table
     $deptTable->showTable();
 
@@ -83,11 +90,5 @@
             // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
             // print_r($array);
         }
-        
-        #create folder for added department
-        function makeDir($val){
-            if (!file_exists('../uploads/'. $val)) {
-                mkdir('../uploads/'. $val, 0777, true);
-            }
-        }  
+
 ?>
