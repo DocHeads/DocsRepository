@@ -148,12 +148,9 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
                                 $subTable->omitField("willYouGrade");
-                                $subTable->omitField("studentInstruction");
-                                $subTable->omitField("instructorInstruction");
                                 $subTable->omitField("updateDate");
                                 $subTable->omitField("comments");   
-                                $subTable->omitField("rubricFileName");
-                                $subTable->omitField("submissionFile");
+
                                 
                                 $allowableUserTypeIDValues = Departments::getDeptList();
                                 $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
