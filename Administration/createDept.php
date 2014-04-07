@@ -33,7 +33,6 @@
     $deptTable->omitAddField("createDate");
     
     $deptTable->disallowEdit('createDate');
-    $deptTable->disallowEdit('deptName');
 
     #set the number of rows to display (per page)
     $deptTable->setLimit(10);
@@ -55,6 +54,7 @@
              
                 echo '</b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
+            <h5 style="font-size: 12px; color:red;">***PLEASE NOTE: DO NOT change the Department Name.  Instead, use the create new function.***</h5>
         </div>
 
         <div style="clear:both;"></div>';

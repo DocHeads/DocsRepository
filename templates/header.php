@@ -77,7 +77,7 @@
 						<li><a href="../Administration/submissionAdministration.php">Submission Administration</a></li>
 						<li><a href="../Administration/createDept.php">Department Administration</a></li>
                         <li><a href="../Administration/createCourse.php">Course Administration</a></li>
-                        <li><a href="../Administration/emailUsers.php">Email Users</a></li></ul>
+                        </ul>
 						</li>';
                   }
                 }

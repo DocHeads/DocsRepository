@@ -279,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 ?>
 <br />
-<form action="submissionUpload.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+<form style="border:1px solid #c6bebb;" action="submissionUpload.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
   <label for="docName">Document Name *</label>
   <input type="hidden" id="volume" value="1" />
   <input type="text" name="docName">

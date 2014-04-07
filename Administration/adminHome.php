@@ -35,9 +35,10 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                         echo "<table class='customTable' width='350' align='center'>
                         <tr>
                         <thead align='left'>
-                        <th height='20px'>Submission Name</th>
-                        <th height='20px'>File Name</th>
-                        <th height='20px'><strong>Date Created</strong></th>
+                        <th height='20px'>Submission</th>
+                        <th height='20px'>File</th>
+                        <th height='20px'><strong>Created On</strong></th>
+                        <th height='20px'><strong>Action</strong></th>
                         </thead>
                         </tr>";
                         
@@ -47,7 +48,7 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                           echo "<td>" . $row['docName'] . "</td>";
                           echo "<td>" . $row['submissionFile'] . "</td>";
                           echo "<td>" . $row['createDate'] . "</td>";
-                          // echo "<td><a href=\"../Submissions/submissionProfile.php?subID=\" . $row['subID] . "\">Edit</a></td>";
+                          echo "<td><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
                           echo "</tr>";
                           }
                         echo "</table>";
@@ -145,7 +146,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                                 $subTable->displayAs("comments", "Comments");
                                 $subTable->displayAs("rubricFileName", "Grading Rubric");
                                 $subTable->displayAs("willYouGrade", "Grade?");
-                                $subTable->displayAs("createDate", "Date Created");                                
+                                $subTable->displayAs("createDate", "Created On");                                
                                 $subTable->displayAs("submissionFile", "File Name"); 
                                 $subTable->displayAs("instructorInstruction", "Instructor Inst");
                                 $subTable->displayAs("studentInstruction", "Student Inst");
@@ -155,6 +156,10 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                                 $subTable->omitField("willYouGrade");
                                 $subTable->omitField("updateDate");
                                 $subTable->omitField("comments");   
+                                $subTable->omitField("rubricFileName");
+                                $subTable->omitField("instructorInstruction");
+                                $subTable->omitField("studentInstruction");
+                                
 
                                 
                                 $allowableUserTypeIDValues = Departments::getDeptList();

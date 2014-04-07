@@ -25,27 +25,21 @@
     ##
     ########################################################
 
-    ## all that follows is setup configuration for your fields....
-    ## full API reference material for all functions can be found here - http://ajaxcrud.com/api/
-    ## note: many functions below are commented out (with //). note which ones are and which are not
-
-    #i can define a relationship to another table
-    #the 1st field is the fk in the table, the 2nd is the second table, the 3rd is the pk in the second table, the 4th is field i want to retrieve as the dropdown value
-    #http://ajaxcrud.com/api/index.php?id=defineRelationship
-    //$subTable->defineRelationship("fkID", "subTableRelationship", "pkID", "fldName", "fldSort DESC"); //use your own table - this table (subTableRelationship) not included in the installation script
-
     #i don't want to visually show the primary key in the table
     $subTable->omitPrimaryKey();
     
     #the table fields have prefixes; i want to give the heading titles something more meaningful
     $subTable->displayAs("emailAddress", "User Name");
+    $subTable->displayAs("docName", "Submission");
     $subTable->displayAs("deptName", "Department");
     $subTable->displayAs("courseName", "Course");
-    $subTable->displayAs("docName", "Document Name");
-    $subTable->displayAs("submissionFile", "Submission File");
-    $subTable->displayAs("rubricFileName", "Grading Rubric");
-    $subTable->displayAs("studentInstruction", "Student Inst");
+    $subTable->displayAs("comments", "Comments");
+    $subTable->displayAs("rubricFileName", "Rubric");
+    $subTable->displayAs("willYouGrade", "Will You Grade?");
+    $subTable->displayAs("createDate", "Created On");                                
+    $subTable->displayAs("submissionFile", "File Name"); 
     $subTable->displayAs("instructorInstruction", "Instructor Inst");
+    $subTable->displayAs("studentInstruction", "Student Inst");
 
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
@@ -53,24 +47,13 @@
     $subTable->omitField("createDate");
     $subTable->omitField("willYouGrade");
     $subTable->omitField("comments");
-
+    $subTable->omitField("rubricFileName");
 
     $allowableUserTypeIDValues = Departments::getDeptList();
     $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
-    
+
     $allowableUserTypeIDValues = Courses::getCourseList();
     $subTable->defineAllowableValues("courseName", $allowableUserTypeIDValues);
-
-    #i can set certain fields to only allow certain values
-    #http://ajaxcrud.com/api/index.php?id=defineAllowableValues
-    // $allowableUserTypeIDValues = array("STANDARD", "ADMIN");
-    // $subTable->defineAllowableValues("userType", $allowableUserTypeIDValues);
-  
-    // $allowableisValidatedValues = array("YES", "NO");
-    // $subTable->defineAllowableValues("isValidated", $allowableisValidatedValues);
-   
-    // $allowableemailOptInValues = array("YES", "NO");
-    // $subTable->defineAllowableValues("emailOptIn", $allowableemailOptInValues);
     
     #i could disable fields from being editable
     $subTable->disallowEdit('emailAddress');
@@ -78,6 +61,8 @@
     $subTable->disallowEdit('rubricFileName');
     $subTable->disallowEdit('studentInstruction');
     $subTable->disallowEdit('instructorInstruction');
+    $subTable->disallowEdit('docName');
+    
     
     #set the number of rows to display (per page)
     $subTable->setLimit(5);
@@ -86,11 +71,8 @@
     $subTable->addAjaxFilterBoxAllFields();
 
     #implement a callback function after updating/editing a field
+    $subTable->onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
     $subTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
-    // $subTable->onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
-    // $subTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
-    // $subTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
-    // $subTable->onUpdateExecuteCallBackFunction("User Type", "myCallBackFunctionForEdit");
     
     #i can order my table by whatever i want
     $subTable->addOrderBy("ORDER BY emailAddress ASC");
