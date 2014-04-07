@@ -42,15 +42,16 @@
     $subTable->displayAs("deptName", "Department");
     $subTable->displayAs("courseName", "Course");
     $subTable->displayAs("docName", "Document Name");
+    $subTable->displayAs("submissionFile", "Submission File");
+    $subTable->displayAs("rubricFileName", "Grading Rubric");
+    $subTable->displayAs("studentInstruction", "Student Inst");
+    $subTable->displayAs("instructorInstruction", "Instructor Inst");
 
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
     $subTable->omitField("updateDate");
     $subTable->omitField("createDate");
     $subTable->omitField("willYouGrade");
-    $subTable->omitField("rubricFileName");
-    $subTable->omitField("studentInstruction");
-    $subTable->omitField("instructorInstruction");
     $subTable->omitField("comments");
 
 
@@ -73,7 +74,11 @@
     
     #i could disable fields from being editable
     $subTable->disallowEdit('emailAddress');
-
+    $subTable->disallowEdit('submissionFile');
+    $subTable->disallowEdit('rubricFileName');
+    $subTable->disallowEdit('studentInstruction');
+    $subTable->disallowEdit('instructorInstruction');
+    
     #set the number of rows to display (per page)
     $subTable->setLimit(5);
 

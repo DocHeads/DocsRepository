@@ -143,12 +143,12 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                                 $subTable->displayAs("deptName", "Department");
                                 $subTable->displayAs("courseName", "Course");
                                 $subTable->displayAs("comments", "Comments");
-                                $subTable->displayAs("rubricFileName", "Rubric");
+                                $subTable->displayAs("rubricFileName", "Grading Rubric");
                                 $subTable->displayAs("willYouGrade", "Grade?");
                                 $subTable->displayAs("createDate", "Date Created");                                
                                 $subTable->displayAs("submissionFile", "File Name"); 
-                                $subTable->displayAs("instructorInstruction", "Instructor Inst.");
-                                $subTable->displayAs("studentInstruction", "Student Inst.");
+                                $subTable->displayAs("instructorInstruction", "Instructor Inst");
+                                $subTable->displayAs("studentInstruction", "Student Inst");
 
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
