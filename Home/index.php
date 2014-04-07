@@ -15,66 +15,75 @@ include ('../Lib/Departments.php');
 <?php
 if (Users::isAuthorized())
 {
-  $errMsg = '';
+    $emailAddress = $_SESSION['email'];
+    $errMsg = '';
   if (Session::getLoggedInUserType() == "ADMIN")
   {
     header('Location: ../Administration/adminHome.php');
   }
   else
       {
-        print '<h1>User Submissions</h1>';
-        print '<span style="color: #b11117"><b>' . $errMsg . '</b></span>';
-        print '<table id="recordTable" class="drop-shadow">';
-        print '<thead>';
-        print '<tr>';
-        print '<th align="left"><a title="Create New Submission" href="../Submission/submissionUpload.php"><img src="..\Images\greenPlus.png" /></a><th>Name</th><th>Department</th><th>Course Assigned</th><th>Created On</th><th>Last Update</th><th>Action</th>';
-        print '</tr>';
-        print '</thead>';
-        print '<tbody>';
-        // create rows based on records in the db
-        // loop through the existing records and display them in the table
-        $conn = new mysqli('localhost', 'root', '', 'docdatabase');
-        $query = "SELECT subID, docName, GetDeptName(deptID) deptName, GetCourseName(courseID) courseName, createDate, updateDate FROM submissions WHERE userID = " . Session::getLoggedInUserId() . " ORDER BY updateDate DESC";
-        $result = $conn -> query($query);
-    
-        while ($row = $result -> fetch_array(MYSQLI_ASSOC))
-        {
-          //print "<form action=\"index.php\" method=\"post\">";
-          print "<tr>";
-          // hidden recordingId value
-          printf("<td>%s</td>", $row['subID']);
-          // recordingTitle value
-          printf("<td>%s</td>", $row['docName']);
-          // recordingArtist value
-          printf("<td>%s</td>", $row['deptName']);
-          // musicCategory value
-          printf("<td><td>%s</td>", $row['courseName']);
-          // notes
-          printf("<td>%s</td>", $row['createDate']);
-          // recordingCompany value
-          printf("<td>%s</td>", $row['updateDate']);
-    
-          print "<td><input title=\"Update/Save record entry\" type=\"image\" src=\"..\\Images\\save.png\" height=\"24\" width=\"24\" name=\"update\" value=\"Update\" />";
-          print "<input title=\"Delete record entry\" type=\"image\" src=\"..\\Images\\redX.png\" name=\"delete\" value=\"Delete\" /></td>";
-          print "</tr>";
-          //print "</form>";
-        }
-    
-        print '</tbody>';
-        print '<tfoot>';
-        print '<tr>';
-        print '<td colspan="7">&nbsp;</td>';
-        print '</tr>';
-        print '</tfoot>';
-        print '</table>';
+         echo '<div style="padding: 0px 20px 0px 20px">';
+         echo '<table width="800" align="center" border="2">
+                <tbody style="display: block; height: 250px;">
+                    <tr width="800" height="250">
+                        <td width="800" style="vertical-align:top;">';
+                        
+                        echo '<h2 style="font-size: 14px"><b>My Recent Submissions:</b></h2>';
+                        
+                        $con=mysqli_connect("localhost","root","","docdatabase");
+                        // Check connection
+                        if (mysqli_connect_errno())
+                          {
+                          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                          }
+                        
+                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC LIMIT 0,5");
+                        
+                        if (empty($result)) {
+                            echo "No description available";
+                        } else {
+
+                            echo "<table class='customTable' width='800' align='center'>
+                                <tr>
+                                <thead align='left'>
+                                <th height='20px'>Submission Name</th>
+                                <th height='20px'>File</th>
+                                <th height='20px'>Department</th>
+                                <th height='20px'>Course</th>                                
+                                <th height='20px'>Instructor Instructions</th>
+                                <th height='20px'>Student Instructions</th>
+                                <th height='20px'><strong>Created On</strong></th>
+                                <th height='20px'><strong>Action</strong></th>
+                                </thead>
+                                </tr>";
+                            
+                            while($row = mysqli_fetch_array($result))
+                              {
+                                  echo "<tr>";
+                                  echo "<td>" . $row['docName'] . "</td>";
+                                  echo "<td>" . $row['submissionFile'] . "</td>";
+                                  echo "<td>" . $row['deptName'] . "</td>";
+                                  echo "<td>" . $row['courseName'] . "</td>";
+                                  echo "<td>" . $row['instructorInstruction'] . "</td>";
+                                  echo "<td>" . $row['studentInstruction'] . "</td>";
+                                  echo "<td>" . $row['createDate'] . "</td>";
+                                  echo "<td><a href=\"../Submission/submissionProfile.php?subID=" . $row['subID'] . "\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
+                              echo "</tr>";
+                              }
+                            echo "</table>";
+                            
+                            mysqli_close($con);
+                            
+                            echo '</td>
+                                  </tr>
+                                  </tbody>        
+                                  </table><br style="clear:both;" />';
+                        }
       }
     }
     else
     {
       print '<p>Your account will be verified within 24-48 hours!  <br /><br />Please contact the site administrator for more information.</p>';
     }
-?>
-
-<?php
-include ('../templates/footer.html');
 ?>
