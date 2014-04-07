@@ -17,7 +17,6 @@ if (Users::isAuthorized())
 {
     $emailAddress = $_SESSION['email'];
     $errMsg = '';
-    $rec_limit = 10;
   if (Session::getLoggedInUserType() == "ADMIN")
   {
     header('Location: ../Administration/adminHome.php');
