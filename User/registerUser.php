@@ -1,4 +1,5 @@
 <?php
+include ('../Lib/ConfigProperties.php');
 include ('../templates/header.php');
 $errMsg = '';
 $firstName = null;

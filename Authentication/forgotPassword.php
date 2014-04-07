@@ -1,4 +1,5 @@
 <?php
+include ('../Lib/ConfigProperties.php');
 include ('../templates/header.php');
 $errMsg = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
