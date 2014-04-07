@@ -172,7 +172,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
                                 $subTable->disallowEdit('emailAddress');
                                 $subTable->disallowEdit('createDate');
                                 $subTable->disallowEdit('submissionFile');
-                                
+                                $subTable->disallowEdit('deptName');
                                 
                                 #set the number of rows to display (per page)
                                 $subTable->setLimit(10);
