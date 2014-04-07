@@ -30,7 +30,7 @@ echo '<div style="padding: 0px 20px 0px 20px">';
                           echo "Failed to connect to MySQL: " . mysqli_connect_error();
                           }
                         
-                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' LIMIT 0,5");
+                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC LIMIT 0,5");
 
                         echo "<table class='customTable' width='350' align='center'>
                         <tr>
