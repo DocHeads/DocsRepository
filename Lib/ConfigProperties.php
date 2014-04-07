@@ -17,7 +17,7 @@
  * 
  *    $domain = Config::DomainName;
  */
-class ConfigProperties
+ class ConfigProperties
 {
   // ----------------------------
   //  BASIC APPLICATION SETTINGS

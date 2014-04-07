@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $comments = $_POST['comments'];
   $willYouGrade = $_POST['willYouGrade'];
   $fileUploadBaseDir = ConfigProperties::$BaseUploadDirectory;
-  $winFileUploadBaseDir = ConfigProperties::$WinBaseUploadDirectory;
+  $winFileUploadBaseDir = ConfigProperties::$BaseUploadDirectory;
   $submissionFile = "{$_FILES['submissionfile']['name']}";
   $gradingFile = "{$_FILES['gradingFile']['name']}";
   $studentInstFile = "{$_FILES['studentInstFile']['name']}";

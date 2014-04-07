@@ -11,6 +11,7 @@
 ?>
 
 <?php
+$emailAddress = $_SESSION['email'];
 $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
         print'<h2>Administration</h2>';
@@ -20,24 +21,35 @@ $errMsg = '';
                     <tr height="300">
                         <td width="420" style="vertical-align:top;">';
                         
-                        echo '<h2>My Recent Submissions</h2>';
+                        echo '<h2 style="font-size: 14px"><b>My Recent Submissions</b></h2>';
                         
                         $con=mysqli_connect("localhost","root","","docdatabase");
-// Check connection
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  }
+                        // Check connection
+                        if (mysqli_connect_errno())
+                          {
+                          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                          }
+                        
+                        $result = mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' LIMIT 0,5");
 
-$result = mysqli_query($con,"SELECT * FROM submissions");
-
-while($row = mysqli_fetch_array($result))
-  {
-  echo $row['docName'] . " " . $row['createDate'];
-  echo "<br>";
-  }
-
-mysqli_close($con);
+                        echo "<table class='customTable' width='350' align='center'>
+                        <tr>
+                        <thead align='left'>
+                        <th height='20px'>Submission Name</th>
+                        <th height='20px'><strong>Date Created</strong></th>
+                        </thead>
+                        </tr>";
+                        
+                        while($row = mysqli_fetch_array($result))
+                          {
+                          echo "<tr>";
+                          echo "<td>" . $row['docName'] . "</td>";
+                          echo "<td>" . $row['createDate'] . "</td>";
+                          echo "</tr>";
+                          }
+                        echo "</table>";
+                        
+                        mysqli_close($con);
                         
                         echo '</td>
                     </tr>
@@ -153,8 +165,6 @@ echo '<table width="396" align="right" border="5">
                             
                                 #implement a callback function after updating/editing a field
                                 $subTable->onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
-                                
-                                $emailAddress = $_SESSION['email'];
                                 
                                 #i can order my table by whatever i want
                                 $subTable->addOrderBy("ORDER BY emailAddress ASC");

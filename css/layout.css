@@ -368,6 +368,39 @@
 	color:#445276;
 }
 
+.customTable{
+		border-collapse:collapse; 
+	}
+	
+	.customTable th {
+	font-weight: bold;
+	color:#000;
+	font-size: 12px;
+	background: #CC9999;
+	padding-left:5px;
+	}
+	.customTable td {
+	padding: 10px 10px;
+	font-family: Arial, Verdana;
+	font-size: 11px;
+	color: #716E6E;
+	font-weight:normal;
+	/* text-align: center; */
+	vertical-align: middle;
+	}
+	/* provide some minimal visual accomodation for IE8 and below */
+	.customTable tr{
+		background: #b8d1f3;
+	}
+	/*  Define the background color for all the ODD background rows  */
+	.customTable tr:nth-child(odd){ 
+	background-color: #DDD7D4;
+	}
+	/*  Define the background color for all the EVEN background rows  */
+	.customTable tr:nth-child(even){
+		background: #FFFFFF;
+	}
+
 .ajaxCRUD {
 	background: #F4F2FD;
 	border-color: #BBB1ED;
@@ -414,6 +447,7 @@
 .ajaxCRUD td, .ajaxCRUD th{
 	padding: 5px 5px;
 }
+
 table td.odd, table tr.odd, tr.odd td, tbody tr.odd th{
 	background-color: #DDD7D4;
 	color:#444444;
