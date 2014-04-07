@@ -139,15 +139,17 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="5">
                                 
                                 #the table fields have prefixes; i want to give the heading titles something more meaningful
                                 $subTable->displayAs("emailAddress", "User Name");
-                                $subTable->displayAs("docName", "Document Name");
+                                $subTable->displayAs("docName", "Submission");
                                 $subTable->displayAs("deptName", "Department");
                                 $subTable->displayAs("courseName", "Course");
                                 $subTable->displayAs("comments", "Comments");
-                                $subTable->displayAs("rubricFileName", "Rubric File");
+                                $subTable->displayAs("rubricFileName", "Rubric");
                                 $subTable->displayAs("willYouGrade", "Grade?");
-                                $subTable->displayAs("createDate", "Creation Date");                                
-                                $subTable->displayAs("submissionFile", "Submission File"); 
-                                                            
+                                $subTable->displayAs("createDate", "Date Created");                                
+                                $subTable->displayAs("submissionFile", "File Name"); 
+                                $subTable->displayAs("instructorInstruction", "Instructor Inst.");
+                                $subTable->displayAs("studentInstruction", "Student Inst.");
+
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
                                 $subTable->omitField("willYouGrade");
