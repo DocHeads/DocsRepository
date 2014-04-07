@@ -47,7 +47,6 @@
     </script>
 
     <?php
-    include ('../Lib/ConfigProperties.php');
     include ('../Lib/Users.php');
     ?>
 
