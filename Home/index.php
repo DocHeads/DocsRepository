@@ -35,7 +35,7 @@ if (Users::isAuthorized())
                         $dbhost = 'localhost';
                         $dbuser = 'root';
                         $dbpass = '';
-                        $rec_limit = 10;
+                        $rec_limit = 5;
                         
                         $conn = mysql_connect($dbhost, $dbuser, $dbpass);
                         
@@ -92,7 +92,7 @@ if (Users::isAuthorized())
                                 </thead>
                                 </tr>";
                             
-                            while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
+                            while($row = mysql_fetch_array($retval, MYSQL_ASSOC))
                               {
                                   echo "<tr>";
                                   echo "<td>" . $row['docName'] . "</td>";
@@ -123,7 +123,7 @@ if (Users::isAuthorized())
                                 }
                             echo "</table>";
 
-                            mysqli_close($conn);
+                            mysql_close($conn);
                             
                             echo '</td>
                                   </tr>
