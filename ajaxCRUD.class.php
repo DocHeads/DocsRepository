@@ -1329,7 +1329,7 @@ class ajaxCRUD{
                 //check for valid values (set by defineAllowableValues)
                 if (isset($this->allowed_values[$filter_field]) && is_array($this->allowed_values[$filter_field])){
                     $top_html .= "<select name=\"$filter_field\" onChange=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
-                    $top_html .= "<option value=\"\">==Select==</option>\n";
+                    $top_html .= "<option value=\"\"></option>\n";
                     foreach ($this->allowed_values[$filter_field] as $list){
                         if (is_array($list)){
                             $list_val = $list[0];
@@ -1346,7 +1346,7 @@ class ajaxCRUD{
                 //check for defined link to another db table (pk/fk relationship) (set by defineRelationship)
                 else if (is_numeric($found_category_index)){
                     $top_html .= "<select name=\"$filter_field\" onChange=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
-                    $top_html .= "<option value=\"\">==Select==</option>\n";
+                    $top_html .= "<option value=\"\"></option>\n";
 
                     //this field is a reference to another table's primary key (eg it must be a foreign key)
                     $category_field_name = $this->category_field_array[$found_category_index];
