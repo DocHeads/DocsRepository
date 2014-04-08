@@ -80,7 +80,7 @@
 
 /*	=FORMS
 ========================================================================== */
-	form 							{ margin-left: auto; margin-right: auto; width: 850px;}
+	form 							{ margin-left: auto; margin-right: auto; width: 920px;}
 	fieldset 							{ border: 0; margin: 0; padding: 0; }
 	label 							{ cursor: pointer; }
 	legend 							{ border: 0; *margin-left: -7px; padding: 0; }
