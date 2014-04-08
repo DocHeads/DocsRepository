@@ -14,42 +14,129 @@ include ('../Lib/Courses.php');
 $errMsg='';
 if(Session::getLoggedInUserType()=="ADMIN") {
 print '<h2>Administration</h2>';
-echo '<div style="padding: 0px 20px 0px 20px">';
-echo '<table width="420" align="left" border="2">
-                 <tbody style="display: block; height: 300px;">
-                    <tr height="300">
-                        <td width="420" style="vertical-align:top;">';
+echo '<div style="padding: 0px 50px 0px 50px">';
+echo '<table width="375" align="left">
+                                 <tbody style="display: block; height: 320px;">
+                    <tr height="320">
+
+                        <td width="375" style="vertical-align:top;">';
 echo "<h2 style='font-size: 14px'><b>".Session::getLoggedInName()."'s Submissions:</b></h2>";
-$con=mysqli_connect("localhost","root","","docdatabase");
-// Check connection
-if(mysqli_connect_errno()) {
-echo "Failed to connect to MySQL: ".mysqli_connect_error();
-}
-$result=mysqli_query($con,"SELECT * FROM submissions WHERE emailAddress = '$emailAddress' ORDER BY createDate DESC LIMIT 0,5");
+
 echo "<table class='customTable' width='350' align='center'>
                       <tr>
                          <thead align='left'>
-                         <th height='20px'>Submission</th>
-                        <th height='20px'>File</th>
-                        <th height='20px'><strong>Created On</strong></th>
-                           <th height='20px'><strong>Action</strong></th>
+                            <th height='20px'>Submission</th>
+                            <th height='20px'><strong>Created On</strong></th>
+                            <th height='20px'><strong>Action</strong></th>
                           </thead>
                       </tr>";
-while($row=mysqli_fetch_array($result)) {
-echo "<tr>";
-echo "<td height='30px'>".$row['docName']."</td>";
-echo "<td height='30px'>".$row['submissionFile']."</td>";
-echo "<td height='30px'>".$row['createDate']."</td>";
-echo "<td height='30px'><a href=\"../Submission/submissionProfile.php?subID=".$row['subID']."\"><img width='13px' src=\"../Images/edit.png\"></a></td>";
-echo "</tr>";
+
+                        mysql_connect("localhost","root","") or die (mysql_error());
+                        mysql_select_db("docdatabase") or die (mysql_error());
+
+                        $sql = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC");
+
+                        $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
+if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
+    $pn = preg_replace('#[^0-9]#i', '', $_GET['pn']); // filter everything but numbers for security(new)
+    //$pn = ereg_replace("[^0-9]", "", $_GET['pn']); // filter everything but numbers for security(deprecated)
+} else { // If the pn URL variable is not present force it to be value of page number 1
+    $pn = 1;
 }
-echo "</table>";
-mysqli_close($con);
+//This is where we set how many database items to show on each page
+$itemsPerPage = 5;
+// Get the value of the last page in the pagination result set
+$lastPage = ceil($nr / $itemsPerPage);
+// Be sure URL variable $pn(page number) is no lower than page 1 and no higher than $lastpage
+if ($pn < 1) { // If it is less than 1
+    $pn = 1; // force if to be 1
+} else if ($pn > $lastPage) { // if it is greater than $lastpage
+    $pn = $lastPage; // force it to be $lastpage's value
+}
+// This creates the numbers to click in between the next and back buttons
+// This section is explained well in the video that accompanies this script
+$centerPages = "";
+$sub1 = $pn - 1;
+$sub2 = $pn - 2;
+$add1 = $pn + 1;
+$add2 = $pn + 2;
+if ($pn == 1) {
+    $centerPages .= '&nbsp; <span class="pagNumActive">' . $pn . '</span> &nbsp;';
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $add1 . '">' . $add1 . '</a> &nbsp;';
+} else if ($pn == $lastPage) {
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $sub1 . '">' . $sub1 . '</a> &nbsp;';
+    $centerPages .= '&nbsp; <span class="pagNumActive">' . $pn . '</span> &nbsp;';
+} else if ($pn > 2 && $pn < ($lastPage - 1)) {
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $sub2 . '">' . $sub2 . '</a> &nbsp;';
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $sub1 . '">' . $sub1 . '</a> &nbsp;';
+    $centerPages .= '&nbsp; <span class="pagNumActive">' . $pn . '</span> &nbsp;';
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $add1 . '">' . $add1 . '</a> &nbsp;';
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $add2 . '">' . $add2 . '</a> &nbsp;';
+} else if ($pn > 1 && $pn < $lastPage) {
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $sub1 . '">' . $sub1 . '</a> &nbsp;';
+    $centerPages .= '&nbsp; <span class="pagNumActive">' . $pn . '</span> &nbsp;';
+    $centerPages .= '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $add1 . '">' . $add1 . '</a> &nbsp;';
+}
+// This line sets the "LIMIT" range... the 2 values we place to choose a range of rows from database in our query
+$limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
+// Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
+// $sql2 is what we will use to fuel our while loop statement below
+$sql2 = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC $limit");
+
+
+$paginationDisplay = ""; // Initialize the pagination output variable
+// This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
+if ($lastPage != "1"){
+    // This shows the user what page they are on, and the total number of pages
+    $paginationDisplay .= '<strong>' . $pn . '</strong> ' . $lastPage. '&nbsp;  &nbsp;  &nbsp; ';
+    // If we are not on page 1 we can place the Back button
+    if ($pn != 1) {
+        $previous = $pn - 1;
+        $paginationDisplay .=  '&nbsp;  <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $previous . '"> <<</a> ';
+    }
+    // Lay in the clickable numbers display here between the Back and Next links
+    $paginationDisplay .= '<span class="paginationNumbers">' . $centerPages . '</span>';
+    // If we are not on the very last page we can place the Next button
+    if ($pn != $lastPage) {
+        $nextPage = $pn + 1;
+        $paginationDisplay .=  '&nbsp;  <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $nextPage . '"> >></a> ';
+    }
+}
+
+$outputList = '';
+
+while($row = mysql_fetch_array($sql2)){
+
+    $subID = $row["subID"];
+    $docName = $row["docName"];
+    $createDate = $row["createDate"];
+
+    $outputList .= '<tr>'
+                    . '<td height="30px">' . $docName . '</td>
+                       <td height="30px">' . $createDate . '</td>
+                       <td height="30px"><a href=\"../Submission/submissionProfile.php?subID=' . $subID . '\"
+                       <td height="30px"><img width="13px" src="../Images/edit.png"></td>
+                       </tr>';
+                          
+}
+
+            
+?>
+            <?php print "$outputList"; ?>
+            <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
+            <tr><td bgcolor="#e7e2e0" colspan="3" align="center"><?php echo $paginationDisplay; ?></td></tr>
+   
+
+<?php 
+
+                        echo "</table>";
+
+
 echo '</td>
                        </tr>
                    </tbody>        
                </table>';
-echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
+echo '<table style="margin-bottom: 20px;" width="396" align="right">
                 <tbody style="display: block; height: 300px;">
                      <tr height="300">
                        <td width="420" style="vertical-align:top;">';
@@ -83,7 +170,7 @@ $userTable->disallowEdit('emailAddress');
 $userTable->disallowEdit('fname');
 $userTable->disallowEdit('lname');
 #set the number of rows to display (per page)
-$userTable->setLimit(3);
+$userTable->setLimit(5);
 #implement a callback function after updating/editing a field
 $userTable->onUpdateExecuteCallBackFunction("fname","myCallBackFunctionForEdit");
 $userTable->onUpdateExecuteCallBackFunction("lname","myCallBackFunctionForEdit");
@@ -104,7 +191,7 @@ echo '</td>
                    </tbody>        
                </table>';
 echo '</div>';
-echo '<table style="top-margin: 20px;" align="center" border="2">
+echo '<table style="top-margin: 20px;" align="center">
                   <tbody>
                        <tr>
                          <td>';
