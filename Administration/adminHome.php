@@ -227,6 +227,7 @@ $subTable->disallowEdit('emailAddress');
 $subTable->disallowEdit('createDate');
 $subTable->disallowEdit('submissionFile');
 $subTable->disallowEdit('deptName');
+$subTable->disallowEdit('edit');
 #set the number of rows to display (per page)
 $subTable->setLimit(10);
 #implement a callback function after updating/editing a field
