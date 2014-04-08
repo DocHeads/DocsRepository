@@ -67,7 +67,7 @@
             {
               if (isset($_SESSION['name']))
               {
-                print '<tr><td><ul id="nav"><li><a href="../Home/index.php">Home</a></li><li><a href="../User/userSubmissions.php">Documents</a></li><li><a href="../Submission/submissionUpload.php">Upload Document</a></li>';
+                print '<tr><td><ul id="nav"><li><a href="../Home/index.php">Home</a></li><li><a href="../Submission/submissionUpload.php">Upload Document</a></li>';
                 if (isset($_SESSION['userType']))
                 {
                   if (Session::getLoggedInUserType() == "ADMIN")
