@@ -141,16 +141,18 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   `deptName` varchar(100) NOT NULL,
   `courseName` varchar(100) NOT NULL,
   `docName` varchar(100) NOT NULL,
-  `comments` varchar(5) DEFAULT NULL,
-  `instructorInstruction` varchar(5) DEFAULT NULL,
-  `studentInstruction` varchar(5) DEFAULT NULL,
-  `rubricFileName` varchar(5) DEFAULT NULL,
-  `willYouGrade` tinyint(1) DEFAULT NULL,
+  `comments` longtext,
+  `submissionFile` varchar(500) NOT NULL,
+  `instructorInstruction` varchar(500) DEFAULT NULL,
+  `studentInstruction` varchar(500) DEFAULT NULL,
+  `rubricFileName` varchar(500) DEFAULT NULL,
+  `willYouGrade` varchar(3) DEFAULT NULL,
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updateDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `edit` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`subID`),
   KEY `deptID` (`deptName`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

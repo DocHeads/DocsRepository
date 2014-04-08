@@ -150,6 +150,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
                                 $subTable->displayAs("submissionFile", "File Name"); 
                                 $subTable->displayAs("instructorInstruction", "Instructor Inst");
                                 $subTable->displayAs("studentInstruction", "Student Inst");
+                                $subTable->displayAs("edit", "Edit");
 
                                 #i could omit a field if I wanted
                                 #http://ajaxcrud.com/api/index.php?id=omitField
@@ -173,6 +174,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
                                 $subTable->disallowEdit('createDate');
                                 $subTable->disallowEdit('submissionFile');
                                 $subTable->disallowEdit('deptName');
+                                $subTable->disallowEdit('edit');
                                 
                                 #set the number of rows to display (per page)
                                 $subTable->setLimit(10);

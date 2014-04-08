@@ -74,7 +74,7 @@
   /**
    * Email server username credential
    */ 
-  public static $EmailServerUsername = "briandunavent@opentransfer.com";
+  public static $EmailServerUsername = "briandunavent@qcsoftware.com";
   
   /**
    * Email password credential
