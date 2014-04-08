@@ -189,7 +189,6 @@ $subTable -> displayAs("studentInstruction", "Student Inst");
 $subTable -> omitField("willYouGrade");
 $subTable -> omitField("updateDate");
 $subTable -> omitField("comments");
-$subTable -> omitField("rubricFileName");
 #i could disable fields from being editable
 $subTable -> disallowEdit('emailAddress');
 $subTable -> disallowEdit('createDate');

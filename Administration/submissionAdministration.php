@@ -44,10 +44,8 @@
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
     $subTable->omitField("updateDate");
-    $subTable->omitField("createDate");
     $subTable->omitField("willYouGrade");
     $subTable->omitField("comments");
-    $subTable->omitField("rubricFileName");
 
     $allowableUserTypeIDValues = Departments::getDeptList();
     $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
