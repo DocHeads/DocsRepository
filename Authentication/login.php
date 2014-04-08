@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			</p></td>
 			<td style="width: 200px;">
 			<p>
-				<input type="text" name="email" size="20" value="<?php
+				<input type="text" name="email" width="120" size="20" value="<?php
         if (isset($_POST['email']))
         {
           print $_POST['email'];
