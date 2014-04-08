@@ -89,18 +89,18 @@ $paginationDisplay = ""; // Initialize the pagination output variable
 // This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
 if ($lastPage != "1"){
     // This shows the user what page they are on, and the total number of pages
-    $paginationDisplay .= 'Page <strong>' . $pn . '</strong> of ' . $lastPage. '&nbsp;  &nbsp;  &nbsp; ';
+    //$paginationDisplay .= '<strong>' . $pn . '</strong> ' . $lastPage. '&nbsp;  &nbsp;  &nbsp; ';
     // If we are not on page 1 we can place the Back button
     if ($pn != 1) {
         $previous = $pn - 1;
-        $paginationDisplay .=  '&nbsp;  <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $previous . '"> Back</a> ';
+        $paginationDisplay .=  '&nbsp;  <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $previous . '"> <<</a> ';
     }
     // Lay in the clickable numbers display here between the Back and Next links
     $paginationDisplay .= '<span class="paginationNumbers">' . $centerPages . '</span>';
     // If we are not on the very last page we can place the Next button
     if ($pn != $lastPage) {
         $nextPage = $pn + 1;
-        $paginationDisplay .=  '&nbsp;  <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $nextPage . '"> Next</a> ';
+        $paginationDisplay .=  '&nbsp;  <a href="' . $_SERVER['PHP_SELF'] . '?pn=' . $nextPage . '"> >></a> ';
     }
 }
 
@@ -108,25 +108,24 @@ $outputList = '';
 
 while($row = mysql_fetch_array($sql2)){
 
-    $id = $row["subID"];
-    $firstname = $row["docName"];
-    $country = $row["createDate"];
+    $subID = $row["subID"];
+    $docName = $row["docName"];
+    $createDate = $row["createDate"];
 
     $outputList .= '<tr>'
-                    . '<td height="30px">' . $firstname . '</td>
-                       <td height="30px">' . $country . '</td>
-                       <td height="30px"><a href=\"../Submission/submissionProfile.php?subID=' . $id . '\"
+                    . '<td height="30px">' . $docName . '</td>
+                       <td height="30px">' . $createDate . '</td>
+                       <td height="30px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
                        <td height="30px"><img width="13px" src="../Images/edit.png"></td>
                        </tr>';
                           
 }
-
             
 ?>
-            <?php print "$outputList"; ?>
-            <?php echo $paginationDisplay; ?>
-            <h5 style="font-size: 12px;">Total Items: <?php echo $nr; ?></h5>
-
+         <?php print "$outputList"; ?>
+         <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
+         <tr><td bgcolor="#e7e2e0" colspan="3" align="center"><?php echo $paginationDisplay; ?></td></tr>
+   
 <?php 
 
                         echo "</table>";
