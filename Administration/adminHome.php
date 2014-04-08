@@ -15,11 +15,11 @@ $emailAddress = $_SESSION['email'];
 $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
         print'<h2>Administration</h2>';
-echo '<div style="padding: 0px 20px 0px 20px">';
- echo '<table width="420" align="left" border="2">
-                <tbody style="display: block; height: 300px;">
-                    <tr height="300">
-                        <td width="420" style="vertical-align:top;">';
+echo '<div style="padding: 0px 50px 0px 50px">';
+ echo '<table width="375" align="left" border="2">
+                <tbody style="display: block; height: 320px;">
+                    <tr height="320">
+                        <td width="375" style="vertical-align:top;">';
 
                         echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b></h2>";
                                                 
@@ -135,8 +135,8 @@ while($row = mysql_fetch_array($sql2)){
                 </tbody>        
             </table>';
 echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
-                <tbody style="display: block; height: 300px;">
-                    <tr height="300">
+                <tbody style="display: block; height: 320px;">
+                    <tr height="320">
                         <td width="420" style="vertical-align:top;">';
                                 $userTable = new ajaxCRUD("Item", "users", "userID", "../");
                             
@@ -177,7 +177,7 @@ echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
                                 
                                 
                                 #set the number of rows to display (per page)
-                                $userTable->setLimit(3);
+                                $userTable->setLimit(5);
                             
                                 #implement a callback function after updating/editing a field
                                 $userTable->onUpdateExecuteCallBackFunction("fname", "myCallBackFunctionForEdit");
