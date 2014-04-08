@@ -380,6 +380,7 @@
 	padding-left:5px;
 	}
 	.customTable td {
+	padding-right: 10px;
 	font-family: Arial, Verdana;
 	font-size: 11px;
 	font-weight:normal;
@@ -463,6 +464,7 @@ table td.odd, table tr.odd, tr.odd td, tbody tr.odd th{
 	max-width: 80px;
     overflow: hidden;
     text-align:center;
+   	padding-right: 10px;
 }
 
 .editingSize{

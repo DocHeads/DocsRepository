@@ -32,7 +32,7 @@ echo '<table width="800" align="center">
 
                         echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b></h2>";
                                                 
-echo "<table width='800' class='customTable' align='center'>
+echo "<table width='920' class='customTable' align='center'>
                         <tr>
                         <thead align='left'>
                         <th height='20px'>Submission</th>
@@ -40,7 +40,8 @@ echo "<table width='800' class='customTable' align='center'>
                         <th height='20px'>Department</th>
                         <th height='20px'>Course</th>
                         <th height='20px'>Instructor Inst</th>
-                        <th height='20px'>Student Inst</th>                        
+                        <th height='20px'>Student Inst</th>    
+                        <th height='20px'>Rubric</th>                        
                         <th height='20px'><strong>Created On</strong></th>
                         <th height='20px'><strong>Action</strong></th>
                         </thead>
@@ -49,7 +50,7 @@ echo "<table width='800' class='customTable' align='center'>
                         mysql_connect("localhost","root","") or die (mysql_error());
                         mysql_select_db("docdatabase") or die (mysql_error());
 
-                        $sql = mysql_query("SELECT subID, submissionFile, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
+                        $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
                         
                         
                         
@@ -99,7 +100,7 @@ $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
 
-$sql2 = mysql_query("SELECT subID, submissionFile, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
+$sql2 = mysql_query("SELECT subID, submissionFile, deptName, rubricFileName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
 
 
 $paginationDisplay = ""; // Initialize the pagination output variable
@@ -132,7 +133,8 @@ while($row = mysql_fetch_array($sql2)){
     $courseName = $row['courseName'];
     $instInst = $row['instructorInstruction'];
     $studInst = $row['studentInstruction'];
-    $createDate = $row["createDate"];
+    $createDate = $row['createDate'];
+    $rubricName = $row['rubricFileName'];
     
 
     $outputList .= '<tr>'
@@ -142,6 +144,7 @@ while($row = mysql_fetch_array($sql2)){
                        <td height="30px">' . $courseName . '</td>
                        <td height="30px">' . $instInst . '</td>
                        <td height="30px">' . $studInst . '</td>
+                       <td height="30px">' . $rubricName . '</td>
                        <td height="30px">' . $createDate . '</td>
                        
                        <td height="30px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
@@ -169,49 +172,49 @@ echo '<table width="860" align="center">
                 <tbody>
                     <tr>
                         <td>';
-$subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
-$subTable -> omitPrimaryKey();
+$subTable=new ajaxCRUD("Item","submissions","subID","../");
+$subTable->omitPrimaryKey();
 #the table fields have prefixes; i want to give the heading titles something more
 # meaningful
-$subTable -> displayAs("emailAddress", "User Name");
-$subTable -> displayAs("docName", "Submission");
-$subTable -> displayAs("submissionFile", "Download");
-$subTable -> displayAs("deptName", "Department");
-$subTable -> displayAs("courseName", "Course");
-$subTable -> displayAs("comments", "Comments");
-$subTable -> displayAs("rubricFileName", "Grading Rubric");
-$subTable -> displayAs("willYouGrade", "Grade?");
-$subTable -> displayAs("createDate", "Created On");
-$subTable -> displayAs("instructorInstruction", "Instructor Inst");
-$subTable -> displayAs("studentInstruction", "Student Inst");
+$subTable->displayAs("emailAddress","User Name");
+$subTable->displayAs("docName","Submission");
+$subTable->displayAs("submissionFile","Download");
+$subTable->displayAs("deptName","Department");
+$subTable->displayAs("courseName","Course");
+$subTable->displayAs("comments","Comments");
+$subTable->displayAs("rubricFileName","Grading Rubric");
+$subTable->displayAs("willYouGrade","Grade?");
+$subTable->displayAs("createDate","Created On");
+$subTable->displayAs("instructorInstruction","Instructor Inst");
+$subTable->displayAs("studentInstruction","Student Inst");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
-$subTable -> omitField("willYouGrade");
-$subTable -> omitField("updateDate");
-$subTable -> omitField("comments");
+$subTable->omitField("willYouGrade");
+$subTable->omitField("updateDate");
+$subTable->omitField("comments");
 #i could disable fields from being editable
-$subTable -> disallowEdit('emailAddress');
-$subTable -> disallowEdit('createDate');
-$subTable -> disallowEdit('deptName');
-$subTable -> disallowEdit('courseName');
-$subTable -> disallowEdit('submissionFile');
-$subTable -> disallowEdit('instructorInstruction');
-$subTable -> disallowEdit('studentInstruction');
+$subTable->disallowEdit('emailAddress');
+$subTable->disallowEdit('createDate');
+$subTable->disallowEdit('deptName');
+$subTable->disallowEdit('courseName');
+$subTable->disallowEdit('submissionFile');
+$subTable->disallowEdit('instructorInstruction');
+$subTable->disallowEdit('studentInstruction');
 #set the number of rows to display (per page)
-$subTable -> setLimit(10);
+$subTable->setLimit(10);
 #i can order my table by whatever i want
-$subTable -> addOrderBy("ORDER BY emailAddress ASC");
+$subTable->addOrderBy("ORDER BY emailAddress ASC");
 #if really desired, a filter box can be used for all fields
-$subTable -> addAjaxFilterBoxAllFields();
+$subTable->addAjaxFilterBoxAllFields();
 #i can disallow deleting of rows from the table
 #http://ajaxcrud.com/api/index.php?id=disallowDelete
-$subTable -> disallowDelete();
+$subTable->disallowDelete();
 #i can disallow adding rows to the table
 #http://ajaxcrud.com/api/index.php?id=disallowAdd
-$subTable -> disallowAdd();
+$subTable->disallowAdd();
 echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
 #actually show the table
-$subTable -> showTable();
+$subTable->showTable();
 echo '</td>
                     </tr>
                 </tbody>        
