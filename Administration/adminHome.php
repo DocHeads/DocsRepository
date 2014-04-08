@@ -16,7 +16,7 @@ $errMsg = '';
     if(Session::getLoggedInUserType()== "ADMIN") {
         print'<h2>Administration</h2>';
 echo '<div style="padding: 0px 50px 0px 50px">';
- echo '<table width="375" align="left" border="2">
+ echo '<table width="375" align="left">
                 <tbody style="display: block; height: 320px;">
                     <tr height="320">
                         <td width="375" style="vertical-align:top;">';
@@ -132,7 +132,7 @@ while($row = mysql_fetch_array($sql2)){
                     </tr>
                 </tbody>        
             </table>';
-				echo '<table style="margin-bottom: 20px;" width="396" align="right" border="2">
+				echo '<table style="margin-bottom: 20px;" width="396" align="right">
                 <tbody style="display: block; height: 320px;">
                     <tr height="320">
                         <td width="420" style="vertical-align:top;">';
@@ -187,7 +187,7 @@ while($row = mysql_fetch_array($sql2)){
                 </tbody>        
             </table>';
 				echo '</div>';
-				echo '<table style="top-margin: 20px;" align="center" border="2">
+				echo '<table style="top-margin: 20px;" align="center">
                 <tbody>
                     <tr>
                         <td>';
