@@ -194,7 +194,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $comments = $conn -> sqlCleanup($comments);
       $result = array();
 
-      $conn = new MySqlConnect();
       $insertSql = "INSERT INTO submissions (docName,
                                              submissionFile, 
                                              emailAddress, 
