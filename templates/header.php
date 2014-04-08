@@ -57,7 +57,7 @@
       <div id="content">
 
         <div id="header">
-          <table width="910px">
+          <table width="970px">
             <tr>
               <td colspan="2"><span class="badge"></span></td>
             </tr>

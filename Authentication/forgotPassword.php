@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </p>
 <br />
 <?php print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p><br/>'; ?>
-<form style="width: 450px;" action="forgotPassword.php" method="post">
+<form style="border:1px solid #c6bebb; width: 450px;" action="forgotPassword.php" method="post">
   <fieldset>
     <legend>
       <strong>Enter Your Email Address:</strong>

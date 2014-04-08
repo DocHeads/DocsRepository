@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </p>
 <?php print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
 <br />
-<form id="register" name="register" style="width: 450px;" action="registerUser.php" method="POST">
+<form id="register" name="register" style="border:1px solid #c6bebb; width: 450px;" action="registerUser.php" method="POST">
   <fieldset>
     <legend>
       <strong>Personal Information:</strong>

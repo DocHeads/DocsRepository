@@ -102,7 +102,7 @@ else
 </p>
 <?php print '<br /><p style="text-align: center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>'; ?>
 <br />
-<form style="width: 450px;" action="profile.php" method="post">
+<form style="border:1px solid #c6bebb; width: 450px;" action="profile.php" method="post">
   <fieldset>
     <legend>
       <strong>Personal Information:</strong>

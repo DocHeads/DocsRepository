@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </p>
 <br />
 
-<form style="width: 325px;" action="login.php" method="post">
-	<table>
+<form style="width: 380px; border:1px solid #c6bebb;" action="login.php" method="post">
+	<table align="center">
 		<?php print '<p align="center"><span style="color: #b11117"><br/><b>' . $errMsg . '</b></span></p>'; ?>
 		<tr>
 			<td style="width: 120px;">

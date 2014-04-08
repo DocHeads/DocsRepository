@@ -149,7 +149,7 @@
 /*	=CONTENT
 ========================================================================== */
 	#masthead						{ background-color:rgba(15,43,77,0.5); border-bottom:1px solid #1e4a7e; }
-	#masthead .wrapper				{ padding:20px; width:900px; }
+	#masthead .wrapper				{ padding:20px; width:950px; }
 	#masthead .logo					{ background:transparent URL("../img/logo-masthead.png") no-repeat 0 0; width:318px; height:41px;}
 	
 	/*.page-header					{ padding:20px 20px 5px 20px; }*/
@@ -164,16 +164,16 @@
 	#form-column					{ position:absolute; top:50px; right:10px; width:900px; }
 
 	#header                         {   background:#e7e2e0;
-		                                width: 910px;
+		                                width: 970px;
 		                                margin-left: auto;
 		                                margin-right: auto;
 		                                height:141px;
 	                                }
 	                                
-	#header .badge                  { position:top width:900px; height:112px; background:transparent URL("../Images/uclogo.png") no-repeat 0 0; display:block; top:0px;}
+	#header .badge                  { position:top width:980px; height:112px; background:transparent URL("../Images/uclogo.png") no-repeat 0 0; display:block; top:0px;}
 									
 	#form-container					{	background:#e7e2e0;
-										width: 890px;
+										width: 950px;
 										margin-left:auto;
 										margin-right: auto;
 										margin-bottom:20px; 

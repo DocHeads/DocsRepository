@@ -17,7 +17,7 @@ if (isset($_GET['email']) && (isset($_GET['tempKey'])))
   if (Users::confirmPasswordReset($sentEmail, $sentTempKey))
   {
     // print the password reset from below
-    print '<form style="width: 450px;" action="resetPassword.php" method="post">';
+    print '<form style="border:1px solid #c6bebb; width: 450px;" action="resetPassword.php" method="post">';
     print '<fieldset>';
     print '<legend>';
     print '<strong>Reset Password:</strong>';
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
   
   print '<p align="center"><span style="color: #b11117"><b>' . $errMsg . '</b></span></p><br/>';
-  print '<form style="width: 450px;" action="resetPassword.php" method="post">';
+  print '<form style="border:1px solid #c6bebb; width: 450px;" action="resetPassword.php" method="post">';
   print '<fieldset>';
   print '<legend>';
   print '<strong>Reset Password:</strong>';
