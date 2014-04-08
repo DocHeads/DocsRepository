@@ -26,7 +26,7 @@ if (Users::isAuthorized())
      
  echo '<div style="padding: 0px 20px 20px 20px">';
  
-echo '<table width="800" align="center" border="2">
+echo '<table width="800" align="center">
                 <tbody style="display: block; height: 300px;">
                     <tr height="300">
                         <td style="vertical-align:top;">';
@@ -155,6 +155,8 @@ while($row = mysql_fetch_array($sql2)){
          <?php print "$outputList"; ?>
          <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
          <tr><td bgcolor="#e7e2e0" colspan="8" align="center"><?php echo $paginationDisplay; ?></td></tr>
+         <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
+         
    
 <?php 
 
@@ -171,7 +173,7 @@ while($row = mysql_fetch_array($sql2)){
  echo '</div>';
          
 
-            echo '<table style="top-margin: 20px;" align="center" border="2">
+            echo '<table style="top-margin: 20px;" align="center">
                 <tbody>
                     <tr>
                         <td>';
