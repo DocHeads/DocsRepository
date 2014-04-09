@@ -430,7 +430,7 @@ if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
 echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">';
 }
 ?>
-<br /><br />
+<br />
 
 <?php 
 if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
