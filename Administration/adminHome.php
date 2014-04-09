@@ -196,7 +196,7 @@ $userTable -> addWhereClause("WHERE isValidated = 'NO'");
 #i can disallow adding rows to the table
 #http://ajaxcrud.com/api/index.php?id=disallowAdd
 $userTable -> disallowAdd();
-echo '<h2 style="font-size: 14px;"><b>Users to be Validated:</b></h2>';
+echo '<h2 style="font-size: 14px;"><b>Users to be Validated:</b><a href="../Administration/userAdministration.php"><img style="padding-top: 3px; padding-right: 5px;" height="23px" align="right" src="../Images/edit3.png"></a></h2>';
 #actually show the table
 $userTable -> showTable();
 echo '</td>
@@ -257,7 +257,7 @@ $subTable -> addAjaxFilterBoxAllFields();
 #i can disallow adding rows to the table
 #http://ajaxcrud.com/api/index.php?id=disallowAdd
 $subTable -> disallowAdd();
-echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
+echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b><a href="../Administration/submissionAdministration.php"><img style="padding-top: 3px; padding-right: 5px;" height="23px" align="right" src="../Images/edit3.png"></a></h2>';
 #actually show the table
 $subTable -> showTable();
 echo '</td>
