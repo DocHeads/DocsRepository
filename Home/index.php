@@ -36,14 +36,14 @@ echo '<table width="800" align="center">
 echo "<table width='920' class='customTable' align='center'>
                         <tr>
                         <thead align='left'>
-                        <th height='20px'>Submission</th>
-                        <th height='20px'>Download</th>
+                        <th height='20px'>Submission Name</th>
                         <th height='20px'>Department</th>
                         <th height='20px'>Course</th>
                         <th height='20px'>Instructor Inst</th>
                         <th height='20px'>Student Inst</th>    
                         <th height='20px'>Rubric</th>                        
                         <th height='20px'><strong>Created On</strong></th>
+                        <th height='20px'>Download</th>
                         <th height='20px'><strong>Action</strong></th>
                         </thead>
                         </tr>";

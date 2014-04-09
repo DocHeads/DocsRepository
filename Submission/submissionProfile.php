@@ -379,7 +379,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <?php print '<input type="hidden" name="subID" value="' . $subID . '"/>'; ?>
 
 <?php 
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo '<label for="docName"><strong>Document Name *&nbsp;&nbsp;</strong> </label>';
 echo '<input type="hidden" id="volume" value="1" />';
 echo '<input type="text" name="docName" value="' . $docName . '"/>';
@@ -395,7 +395,7 @@ print $docName . '<input type="hidden" name="dept" value="' . $docName . '"/>';
 ?>
 <br /><br />
 <?php
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/>';
 }
 ?>
@@ -408,7 +408,7 @@ rows="5em" cols="80em" valign="top" align="left">' . $comments . '</textarea>';
 <label for="rubricFileName"><strong>Grading Rubric: </strong></label> &nbsp; <?php print $gradingFile; ?>
 <br /><br />
 <?php
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">';
 }
 ?>
@@ -417,7 +417,7 @@ echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="r
 
 <br /><br />
 <?php
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">';
 }
 ?>
@@ -426,14 +426,14 @@ echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" i
 
 <br /><br />
 <?php
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">';
 }
 ?>
-<br />
+<br /><br />
 
 <?php 
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo '<label for="willGrade"><strong>Will you grade assignments based on this document? &nbsp </strong></label>';
 
 if (($willYouGrade == 'YES') || ($willYouGrade == 'Yes'))
@@ -452,7 +452,7 @@ else
 <br />
 
 <?php 
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo '<label for="department"><strong>Department: </strong></label>&nbsp;';
 print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
 
@@ -490,7 +490,7 @@ else {
 
 
 <?php 
-if ($emailAddress == $row[1] || session::getLoggedInUserType()=='ADMIN'){
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
  echo '</p>
 <br />
 <div class="btn-holder">
