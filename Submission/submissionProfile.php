@@ -16,6 +16,8 @@ $updateGradingFile = null;
 $updateStudentFile = null;
 $updateInstFile = null;
 
+$emailAddress = $_SESSION['email'];
+
 // just do the get subID from the URL
 if(isset($_POST['subID'])? $subID = $_POST['subID'] : $subID = $_GET['subID']);
 // insert the submission record
@@ -23,6 +25,9 @@ $conn = new MySqlConnect();
 $result = array();
 
 $sql = "SELECT * FROM submissions WHERE subID='{$subID}'";
+
+
+
 $result = $conn -> executeQueryResult($sql);
 
 if (isset($result))
@@ -373,39 +378,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <form style="border:1px solid #c6bebb;" action="submissionProfile.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 <?php print '<input type="hidden" name="subID" value="' . $subID . '"/>'; ?>
 
-<label for="docName">Document Name *</label>
-<input type="hidden" id="volume" value="1" />
-<?php print '<input type="text" name="docName" value="' . $docName . '"/>'; ?>
+<?php 
+if ($emailAddress == $row[1]){
+echo '<label for="docName"><strong>Document Name *&nbsp;&nbsp;</strong> </label>';
+echo '<input type="hidden" id="volume" value="1" />';
+echo '<input type="text" name="docName" value="' . $docName . '"/>';
+}
+else {
+print '<label for="docName"><strong>Document Name:&nbsp;&nbsp;</strong> </label>';
+print $docName . '<input type="hidden" name="dept" value="' . $docName . '"/>';
+}
+ ?>
 <br /><br />
-<label for="submissionFile">Document File: </label>  <?php print '&nbsp;&nbsp;' . $submissionFile
+
+<label for="submissionFile"><strong>Document File:</strong> </label>  <?php print '&nbsp;&nbsp;' . $submissionFile
 ?>
 <br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/>
-<br/><br />
-
-<label for="comments">Document Description: </label>
+<?php
+if ($emailAddress == $row[1]){
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/>';
+}
+?>
+<br /><br />
+<label for="comments"><strong>Document Description:&nbsp;&nbsp;</strong></label>
 <?php print '<textarea id="comments" name="comments" wrap="virtual"
 rows="5em" cols="80em" valign="top" align="left">' . $comments . '</textarea>';
 ?>
 <br/><br />
-
-<label for="rubricFileName">Grading Rubric: </label> &nbsp; <?php print $gradingFile; ?>
+<label for="rubricFileName"><strong>Grading Rubric: </strong></label> &nbsp; <?php print $gradingFile; ?>
 <br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">
-<br /><br />
-
-<label for="instructionsToTheStudent">Instructions to the student: </label>  &nbsp; <?php print $studentInstFile; ?>
-<br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">
-<br /><br />
-
-<label for="instructionsToTheInstructor">Instructions to the instructor: </label>  &nbsp; <?php print $instructorInstFile; ?>
-<br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">
-<br /><br />
-
-<label for="willGrade">Will you grade assignments based on this document? &nbsp </label>
 <?php
+if ($emailAddress == $row[1]){
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">';
+}
+?>
+<br /><br />
+<label for="instructionsToTheStudent"><strong>Instructions to the student: </strong></label>  &nbsp; <?php print $studentInstFile; ?>
+
+<br /><br />
+<?php
+if ($emailAddress == $row[1]){
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">';
+}
+?>
+<br /><br />
+<label for="instructionsToTheInstructor"><strong>Instructions to the instructor: </strong></label>  &nbsp; <?php print $instructorInstFile; ?>
+
+<br /><br />
+<?php
+if ($emailAddress == $row[1]){
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">';
+}
+?>
+<br /><br />
+
+<?php 
+if ($emailAddress == $row[1]){
+echo '<label for="willGrade"><strong>Will you grade assignments based on this document? &nbsp </strong></label>';
+
 if (($willYouGrade == 'YES') || ($willYouGrade == 'Yes'))
 {
   print '<input type="radio" name="willYouGrade" id="willYouGrade" value="Yes" class="radio-box" checked >Yes &nbsp
@@ -416,18 +446,22 @@ else
   print '<input type="radio" name="willYouGrade" id="willYouGrade" value="Yes" class="radio-box">Yes &nbsp
 <input type="radio" name="willYouGrade" id="willYouGrade" value="No"  class="radio-box" checked>No';
 }
+}
 ?>
 <br />
-<br />
 <p>
-<label for="department">Department: </label>&nbsp;
-<?php print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
+
+<?php 
+if ($emailAddress == $row[1]){
+echo '<label for="department"><strong>Department: </strong></label>&nbsp;';
+print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
 
   echo '<br>';
   echo '<br>';
-  echo '<label for="course">Course: </label>';
+  echo '<label for="course"><strong>Course: </strong></label>';
 
-  $courseNm = Courses::getCourseList();
+
+$courseNm = Courses::getCourseList();
   echo '<select name="course">';
   foreach ($courseNm as $key => $value)
   {
@@ -441,8 +475,23 @@ else
     }
   }
   echo '</select>';
+}
+else {
+    echo '<label for="department"><strong>Department: </strong></label>&nbsp;';
+    print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
+
+    echo '<br>';
+    echo '<br>';
+    
+    echo '<label for="course"><strong>Course: </strong></label>&nbsp;';
+    print $course . '<input type="hidden" name="course" value="' . $course . '"/>';
+}
 ?>
-</p>
+
+
+<?php 
+if ($emailAddress == $row[1]){
+ echo '</p>
 <br />
 <div class="btn-holder">
 <button name="save" type="submit">
@@ -453,6 +502,10 @@ Delete
 </button>
 </div>
 </form>
+ ';
+}
+
+?>
 
 <?php
 include ('../templates/footer.html');
