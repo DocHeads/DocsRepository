@@ -36,6 +36,10 @@ echo "<table class='customTable' width='350' align='center'>
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
                         $sql = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC");
+                        
+                        if (empty($sql)) { 
+                            echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>'; 
+                        } else {
 
                         $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
 if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
@@ -82,8 +86,11 @@ if ($pn == 1) {
 $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
+}
 $sql2 = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC $limit");
-
+if (empty($sql2)) { 
+    echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>';  
+} else {
 
 $paginationDisplay = ""; // Initialize the pagination output variable
 // This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
@@ -120,7 +127,7 @@ while($row = mysql_fetch_array($sql2)){
                        </tr>';
                           
 }
-
+}
             
 ?>
             <?php print "$outputList"; ?>
