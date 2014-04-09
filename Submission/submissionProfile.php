@@ -17,12 +17,12 @@ $updateStudentFile = null;
 $updateInstFile = null;
 
 // just do the get subID from the URL
-$subID = $_GET['subID'];
+if(isset($_POST['subID'])? $subID = $_POST['subID'] : $subID = $_GET['subID']);
 // insert the submission record
 $conn = new MySqlConnect();
 $result = array();
 
-$sql = "SELECT * FROM submissions WHERE subID={$subID}";
+$sql = "SELECT * FROM submissions WHERE subID='{$subID}'";
 $result = $conn -> executeQueryResult($sql);
 
 if (isset($result))
@@ -78,11 +78,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     $conn = new MySqlConnect();
     $email = $_SESSION['email'];
-    $dept = $_POST['dept'];
-    $docName = $_POST['docName'];
-    $course = $_POST['course'];
-    $comments = $_POST['comments'];
-    $willYouGrade = $_POST['willYouGrade'];
+    if (isset($_POST['dept']))
+    {
+      $dept = $_POST['dept'];
+    }
+    if (isset($_POST['docName']))
+    {
+      $docName = $_POST['docName'];
+    }
+    if (isset($_POST['course']))
+    {
+      $course = $_POST['course'];
+    }
+    if (isset($_POST['comments']))
+    {
+      $comments = $_POST['comments'];
+    }
+    if (isset($_POST['willYouGrade']))
+    {
+      $willYouGrade = $_POST['willYouGrade'];
+    }
     $fileUploadBaseDir = ConfigProperties::$BaseUploadDirectory;
     $submissionFile = "{$_FILES['submissionfile']['name']}";
     $gradingFile = "{$_FILES['gradingFile']['name']}";
@@ -118,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$updateSubmissionFile}"))
         {
           $errMsg = "Submission: {$docName} File: {$updateSubmissionFile} upload success.";
-          $updateSubmissionFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}\">{$updateSubmissionFile}</a>";
+          $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}\">{$updateSubmissionFile}</a>";
         }
         else
         {
@@ -208,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\$updateStudentInstFile"))
         {
           $errMsgStud = 'Student Instruction File: ' . $updateStudentInstFile . ' upload success.';
-          $updateStudentInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateInstFile}\">{$updateStudentInstFile}</a>";
+          $studentInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateInstFile}\">{$updateStudentInstFile}</a>";
 
         }
         else
@@ -287,11 +302,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $conn = new MySqlConnect();
     $ts = $conn -> getCurrentTs();
     $docName = $conn -> sqlCleanup($docName);
-    $updateSubmissionFile = $conn -> sqlCleanup($updateSubmissionFile);
+    $submissionFile = $conn -> sqlCleanup($submissionFile);
     $email = $conn -> sqlCleanup($email);
-    $updateGradingFile = $conn -> sqlCleanup($updateGradingFile);
-    $updateInstFile = $conn -> sqlCleanup($updateInstFile);
-    $updateInstFile = $conn -> sqlCleanup($updateInstFile);
+    $gradingFile = $conn -> sqlCleanup($gradingFile);
+    $studentInstFile = $conn -> sqlCleanup($studentInstFile);
+    $instructorInstFile = $conn -> sqlCleanup($instructorInstFile);
     $comments = $conn -> sqlCleanup($comments);
     $result = array();
 
@@ -299,25 +314,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                        SET docName = '{$docName}',
                            courseName = '{$course}',
                            comments = '{$comments}',";
-    if ($updateSubmissionFile != null)
+    if ($submissionFile != null)
     {
-      $updateSql .= "submissionFile = '{$updateSubmissionFile}',";
-      $submissionFile = $updateSubmissionFile;
+      $updateSql .= "submissionFile = '{$submissionFile}',";
     }
-    if ($updateGradingFile != null)
+    if ($gradingFile != null)
     {
-      $updateSql .= "rubricFileName = '{$updateGradingFile}',";
-      $gradingFile = $updateGradingFile;
+      $updateSql .= "rubricFileName = '{$gradingFile}',";
     }
-    if ($updateInstFile != null)
+    if ($studentInstFile != null)
     {
-      $updateSql .= "studentInstruction = '{$updateInstFile}',";
-      $studentInstFile = $updateInstFile;
+      $updateSql .= "studentInstruction = '{$studentInstFile}',";
     }
-    if ($updateInstFile != null)
+    if ($instructorInstFile != null)
     {
-      $updateSql .= "instructorInstruction = '{$updateInstFile}',";
-      $instructorInstFile = $updateInstFile;
+      $updateSql .= "instructorInstruction = '{$instructorInstFile}',";
     }
     $updateSql .= "willYouGrade = '{$willYouGrade}'";
 
