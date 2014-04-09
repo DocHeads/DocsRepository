@@ -113,7 +113,7 @@ while($row = mysql_fetch_array($sql2)){
     $outputList .= '<tr>'
                     . '<td height="30px">' . $docName . '</td>
                        <td height="30px">' . $createDate . '</td>
-                       <td height="30px"><a href=\"../Submission/submissionProfile.php?subID=' . $subID . '\"
+                       <td height="30px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
                        <td height="30px"><img width="13px" src="../Images/edit.png"></td>
                        </tr>';
                           
