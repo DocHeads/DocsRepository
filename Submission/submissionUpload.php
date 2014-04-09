@@ -306,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <label for="docFile"><strong>Document <span style="color: red">*</span></strong></label> &nbsp
 <input type="file" name="submissionfile" size="200" required="required">
 <br>
-
+<br />
 <label for="comments"><strong>Document Description <span style="color: red">*</span></strong></label>
 <textarea	id="comments" name="comments" value="" wrap="virtual"
 rows="5em" cols="80em"
@@ -315,28 +315,28 @@ align="left"
 required="required">
 </textarea>
 <br>
-
+<br />
 <label for="rubricFileName"><strong>Grading Rubric (optional)</strong></label>
 <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">
 
-<br>
+<br><br />
 
 <label for="instructionsToTheStudent"><strong>Instructions to the student (optional)</strong></label>
 <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">
 
-<br>
+<br><br />
 
 <label for="instructionsToTheInstructor"><strong>Instructions to the instructor (optional)</strong></label>
 <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">
 
-<br>
+<br><br />
 
 <label for="willGrade"><strong>Will you grade assignments based on this document? &nbsp </strong></label>
 <input type="radio" name="willYouGrade" id="willYouGrade" value="Yes" class="radio-box" checked >
 Yes &nbsp
 <input type="radio" name="willYouGrade" id="willYouGrade" value="No"  class="radio-box">
 No
-<p>
+<p><br />
 <label for="department"><strong>Department <span style="color: red">*</span></strong></label>
 <?php
 $department = Departments::getDeptList();
@@ -348,7 +348,7 @@ foreach ($department as $key => $value)
 }
 echo '</select>';
 
-echo '<br>';
+echo '<br><br />';
 echo '<label for="course"><strong>Course <span style="color: red">*</span></strong></label>';
 
 $course = Courses::getCourseList();
@@ -360,6 +360,7 @@ foreach ($course as $key => $value)
 }
 echo '</select>';
 ?>
+<br /><br />
 <div class="btn-holder">
 <button type="submit">
 Submit
