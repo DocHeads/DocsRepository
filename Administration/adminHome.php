@@ -27,9 +27,9 @@ echo "<h2 style='font-size: 14px'><b>".Session::getLoggedInName()."'s Submission
 echo "<table class='customTable' width='350' align='center'>
                       <tr>
                          <thead align='left'>
-                            <th height='20px'>Submission</th>
-                            <th height='20px'><strong>Created On</strong></th>
-                            <th height='20px'><strong>Action</strong></th>
+                            <th height='16px'>Submission</th>
+                            <th height='16px'><strong>Created On</strong></th>
+                            <th height='16px'><strong>Action</strong></th>
                           </thead>
                       </tr>";
 
@@ -115,10 +115,10 @@ while($row = mysql_fetch_array($sql2)){
     $createDate = $row["createDate"];
 
     $outputList .= '<tr>'
-                    . '<td height="30px">' . $docName . '</td>
-                       <td height="30px">' . $createDate . '</td>
-                       <td height="30px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
-                       <td height="30px"><img width="13px" src="../Images/edit.png"></td>
+                    . '<td height="26px">' . $docName . '</td>
+                       <td height="26px">' . $createDate . '</td>
+                       <td height="26px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
+                       <td height="26px"><img width="13px" src="../Images/edit.png"></td>
                        </tr>';
                           
 }
@@ -126,6 +126,7 @@ while($row = mysql_fetch_array($sql2)){
             
 ?>
             <?php print "$outputList"; ?>
+            <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
             <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
             <tr><td bgcolor="#e7e2e0" colspan="3" align="center"><?php echo $paginationDisplay; ?></td></tr>
    
