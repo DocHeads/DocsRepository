@@ -1,4 +1,5 @@
 <?php
+include ('../Lib/ConfigProperties.php');
 	/* you SHOULD edit the database details below; fill in your database info */
 
 	#this is the info for your database connection

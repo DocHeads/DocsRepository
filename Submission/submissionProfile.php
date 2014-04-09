@@ -1,4 +1,5 @@
 <?php
+include_once ('../templates/preheader.php');
 include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
@@ -10,22 +11,44 @@ $errMsg = '';
 $errMsgGrade = '';
 $errMsgStud = '';
 $errMsgInst = '';
-$email = '';
-$dept = '';
-$course = '';
-$docName = '';
-$comments = '';
-$submissionFile = '';
-$instructorInstFile = '';
-$studentInstFile = '';
-$gradingFile = '';
-$willYouGrade = '';
-$createDate = '';
-$updateDate = '';
 $updateSubmissionFile = null;
 $updateGradingFile = null;
 $updateStudentFile = null;
 $updateInstFile = null;
+
+// just do the get subID from the URL
+$subID = $_GET['subID'];
+// insert the submission record
+$conn = new MySqlConnect();
+$result = array();
+
+$sql = "SELECT * FROM submissions WHERE subID={$subID}";
+$result = $conn -> executeQueryResult($sql);
+
+if (isset($result))
+{
+  // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
+  if ($row = mysql_fetch_array($result, MYSQL_NUM))
+  {
+    // access the password value in the db
+    //$userList = array_push($row['0']);
+
+    // Assign the values in this iteration to variables to use down in the form
+    // refer to the profile.php page to pre-populate fields
+    $email = $row[1];
+    $dept = $row[2];
+    $course = $row[3];
+    $docName = $row[4];
+    $comments = $row[5];
+    $submissionFile = $row[6];
+    $instructorInstFile = $row[7];
+    $studentInstFile = $row[8];
+    $gradingFile = $row[9];
+    $willYouGrade = $row[10];
+    $createDate = $row[11];
+    $updateDate = $row[12];
+  }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -312,42 +335,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     Users::emailOptInUsers($body);
   }
 }
-else
-{
-  // just do the get subID from the URL
-  $subID = $_GET['subID'];
-  // insert the submission record
-  $conn = new MySqlConnect();
-  $result = array();
-
-  $sql = "SELECT * FROM submissions WHERE subID={$subID}";
-  $result = $conn -> executeQueryResult($sql);
-
-  if (isset($result))
-  {
-    // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
-    if ($row = mysql_fetch_array($result, MYSQL_NUM))
-    {
-      // access the password value in the db
-      //$userList = array_push($row['0']);
-
-      // Assign the values in this iteration to variables to use down in the form
-      // refer to the profile.php page to pre-populate fields
-      $email = $row[1];
-      $dept = $row[2];
-      $course = $row[3];
-      $docName = $row[4];
-      $comments = $row[5];
-      $submissionFile = $row[6];
-      $instructorInstFile = $row[7];
-      $studentInstFile = $row[8];
-      $gradingFile = $row[9];
-      $willYouGrade = $row[10];
-      $createDate = $row[11];
-      $updateDate = $row[12];
-    }
-  }
-}
 ?>
 
 <h2>Edit Submission Profile (*=required field)</h2>
@@ -379,7 +366,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <input type="hidden" id="volume" value="1" />
 <?php print '<input type="text" name="docName" value="' . $docName . '"/>'; ?>
 <br /><br />
-<label for="submissionFile">Document File: </label>  <?php print '&nbsp;&nbsp;' . $submissionFile ?>
+<label for="submissionFile">Document File: </label>  <?php print '&nbsp;&nbsp;' . $submissionFile
+?>
 <br /><br />
 &nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/>
 <br/><br />

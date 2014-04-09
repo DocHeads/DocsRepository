@@ -1,4 +1,5 @@
 <?php
+include '../Lib/ConfigProperties.php';
 include '../Lib/Session.php';
 Session::validateSession();
 include ('../templates/header.php');

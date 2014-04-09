@@ -1,15 +1,12 @@
 <?php
-include ('../Lib/Session.php');
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
 include ('../ajaxCRUD.class.php');
 // <-- this include file MUST go first before any HTML/output
+include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
 include ('../Lib/Departments.php');
-ini_set('display_errors',1); 
-error_reporting(E_ALL);
-var_dump($_POST);
 ?>
 
 <h2>Welcome to the UC Faculty Document Managment System</h2>
@@ -190,6 +187,7 @@ $subTable -> displayAs("willYouGrade", "Grade?");
 $subTable -> displayAs("createDate", "Created On");
 $subTable -> displayAs("instructorInstruction", "Instructor Inst");
 $subTable -> displayAs("studentInstruction", "Student Inst");
+$subTable -> displayAs("edit", " ");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
 $subTable -> omitField("willYouGrade");
@@ -203,6 +201,7 @@ $subTable -> disallowEdit('courseName');
 $subTable -> disallowEdit('submissionFile');
 $subTable -> disallowEdit('instructorInstruction');
 $subTable -> disallowEdit('studentInstruction');
+$subTable -> disallowEdit('edit');
 #set the number of rows to display (per page)
 $subTable -> setLimit(10);
 #i can order my table by whatever i want

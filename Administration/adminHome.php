@@ -1,10 +1,12 @@
 <?php
-include ('../Lib/Session.php');
+
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
+include ('../ajaxCRUD.class.php');
+// <-- this include file MUST go first before any HTML/output
+include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
-include ('../ajaxCRUD.class.php');
 include ('../Lib/Departments.php');
 include ('../Lib/Courses.php');
 ?>
@@ -218,7 +220,7 @@ $subTable -> displayAs("createDate", "Created On");
 $subTable -> displayAs("submissionFile", "File Name");
 $subTable -> displayAs("instructorInstruction", "Instructor Inst");
 $subTable -> displayAs("studentInstruction", "Student Inst");
-$subTable -> displayAs("edit", "Edit");
+$subTable -> displayAs("edit", " ");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
 $subTable -> omitField("willYouGrade");

@@ -1,9 +1,10 @@
 <?php
-include ('../Lib/Session.php');
+
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
 include ('../ajaxCRUD.class.php');
 // <-- this include file MUST go first before any HTML/output
+include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
 include ('../Lib/Departments.php');

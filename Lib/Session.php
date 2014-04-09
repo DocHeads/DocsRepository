@@ -1,5 +1,4 @@
 <?php
-include ('../Lib/ConfigProperties.php');
 Class Session
 {
   protected $sessionUsername;
