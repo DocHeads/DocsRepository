@@ -22,20 +22,30 @@ $gradingFile = '';
 $willYouGrade = '';
 $createDate = '';
 $updateDate = '';
+$updateSubmissionFile = null;
+$updateGradingFile = null;
+$updateStudentFile = null;
+$updateInstFile = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   print '<br/>';
   var_dump($_POST);
   print '<br/>';
+
+  print '<br/>';
+  var_dump($_FILES);
+  print '<br/>';
+
   $subID = $_POST['subID'];
+
   if (isset($_POST['delete']))
   {
     $conn = new MySqlConnect();
-    $insertSql = "DELETE FROM submissions WHERE subID = '{$subID}'";
+    $deleteSql = "DELETE FROM submissions WHERE subID = '{$subID}'";
 
     // insert the submission record in the database
-    if ($conn -> executeQuery($insertSql))
+    if ($conn -> executeQuery($deleteSql))
     {
       $errMsg = 'Submission record delete success.';
     }
@@ -43,11 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
   else
   {
-
     $conn = new MySqlConnect();
     $email = $_SESSION['email'];
+    $dept = $_POST['dept'];
     $docName = $_POST['docName'];
-    $dept = $_POST['department'];
     $course = $_POST['course'];
     $comments = $_POST['comments'];
     $willYouGrade = $_POST['willYouGrade'];
@@ -59,221 +68,254 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $deptID = NULL;
     $body = '';
 
-    // validate the submission file upload
-    if (!file_exists("{$fileUploadBaseDir}/{$dept}/{$submissionFile}"))
+    if (!empty($submissionFile))
     {
-      if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$submissionFile}"))
+      $updateSubmissionFile = $submissionFile;
+    }
+    if (!empty($gradingFile))
+    {
+      $updateGradingFile = $gradingFile;
+    }
+    if (!empty($studentInstFile))
+    {
+      $updateStudentFile = $studentInstFile;
+    }
+    if (!empty($instructorInstFile))
+    {
+      $updateInstFile = $instructorInstFile;
+    }
+
+    print '<br/>';
+    var_dump("{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}");
+    // validate the submission file upload
+    if (!empty($updateSubmissionFile))
+    {
+      if (!file_exists("{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}"))
       {
-        $errMsg = "Submission: {$docName} File: {$submissionFile} upload success.";
-        $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$submissionFile}\">{$submissionFile}</a>";
-
-        // email the opt in users
-        $body .= "Submission Profile:\n";
-        $body .= "-----------------------\n\n";
-        $body .= "Submission Name: {$docName}\n\n";
-        $body .= "File Name: {$submissionFile}\n\n";
-        $body .= "Dept: {$dept}\n\n";
-        $body .= "Course: {$course}\n\n";
-        $body .= "Comments: {$comments}\n\n";
-        $body .= "Grading Rubric File: {$gradingFile}\n\n";
-        $body .= "Student Inst File: {$studentInstFile}\n\n";
-        $body .= "Instructor Inst File: {$instructorInstFile}\n\n";
-
-        Users::emailOptInUsers($body);
-
-        if (!empty($gradingFile))
+        if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$updateSubmissionFile}"))
         {
-          if (file_exists("{$fileUploadBaseDir}/{$dept}/{$gradingFile}"))
+          $errMsg = "Submission: {$docName} File: {$updateSubmissionFile} upload success.";
+          $updateSubmissionFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}\">{$updateSubmissionFile}</a>";
+        }
+        else
+        {
+          // Problem! Set $errMsg value based upon the error:
+          switch ($_FILES['submissionfile']['error'])
           {
-            $errMsgGrade = 'Duplicate file name error: Duplicate Grading file name ' . $gradingFile . ' failed to upload.';
-            $gradingFile = null;
-          }
-          else
-          {
-            if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$gradingFile}"))
-            {
-              $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
-              $gradingFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$gradingFile}\">{$gradingFile}</a>";
-            }
-            else
-            {
-              $gradingFile = null;
-              // Problem! Set $errMsg value based upon the error:
-              switch ($_FILES['gradingFile']['error'])
-              {
-                case 1 :
-                  $errMsg = 'Grading file exceeds the upload_max_filesize setting in php.ini';
-                  break;
-                case 2 :
-                  $errMsg = 'Grading file exceeds the MAX_FILE_SIZE setting in the HTML form';
-                  break;
-                case 3 :
-                  $errMsg = 'Grading file was only partially uploaded';
-                  break;
-                case 4 :
-                  $errMsg = 'Grading file was uploaded';
-                  break;
-                case 6 :
-                  $errMsg = 'Grading temporary folder does not exist.';
-                  break;
-                default :
-                  $errMsg = 'Error uploading Grading file.';
-                  break;
-              }
-            }
+            case 1 :
+              $errMsg = 'Submission file exceeds the upload_max_filesize setting in php.ini';
+              break;
+            case 2 :
+              $errMsg = 'Submission file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              break;
+            case 3 :
+              $errMsg = 'Submission file was only partially uploaded';
+              break;
+            case 4 :
+              $errMsg = 'Submission file was uploaded';
+              break;
+            case 6 :
+              $errMsg = 'Submission temporary folder does not exist.';
+              break;
+            default :
+              $errMsg = 'Error uploading Submission file.';
+              break;
           }
         }
-
-        if (!empty($studentInstFile))
-        {
-          // student instruction upload file check and process
-          if (file_exists("{$fileUploadBaseDir}/{$dept}/{$studentInstFile}"))
-          {
-            $errMsgStud = 'Duplicate file name error: Instruction file name: ' . $studentInstFile . ' failed to upload.';
-            $studentInstFile = null;
-          }
-          else
-          {
-            if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\$studentInstFile"))
-            {
-              $errMsgStud = 'Student Instruction File: ' . $studentInstFile . ' upload success.';
-              $studentInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$studentInstFile}\">{$studentInstFile}</a>";
-
-            }
-            else
-            {
-              $studentInstFile = null;
-              // Problem! Set $errMsg value based upon the error:
-              switch ($_FILES['studentInstFile']['error'])
-              {
-                case 1 :
-                  $errMsg = 'Student Instruction file exceeds the upload_max_filesize setting in php.ini';
-                  break;
-                case 2 :
-                  $errMsg = 'Student Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
-                  break;
-                case 3 :
-                  $errMsg = 'Student Instruction file was only partially uploaded';
-                  break;
-                case 4 :
-                  $errMsg = 'Student Instruction file was uploaded';
-                  break;
-                case 6 :
-                  $errMsg = 'Student Instruction temporary folder does not exist.';
-                  break;
-                default :
-                  $errMsg = 'Error uploading Student Instruction file.';
-                  break;
-              }
-            }
-          }
-        }
-
-        if (!empty($instructorInstFile))
-        {
-          if (file_exists("{$fileUploadBaseDir}/{$dept}/{$instructorInstFile}"))
-          {
-            $errMsgInst = 'Duplicate file name error: Instructor Instruction File: ' . $instructorInstFile . ' failed to upload.';
-            $instructorInstFile = null;
-          }
-          else
-          {
-            if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$instructorInstFile}"))
-            {
-              $errMsgInst = 'Instructor Instruction File: ' . $instructorInstFile . ' upload success.';
-              $instructorInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$instructorInstFile}\">{$instructorInstFile}</a>";
-            }
-            else
-            {
-              $instructorInstFile = null;
-              // Problem! Set $errMsg value based upon the error:
-              switch ($_FILES['instructorInstFile']['error'])
-              {
-                case 1 :
-                  $errMsg = 'Instructor Instruction file exceeds the upload_max_filesize setting in php.ini';
-                  break;
-                case 2 :
-                  $errMsg = 'Instructor Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
-                  break;
-                case 3 :
-                  $errMsg = 'Instructor Instruction file was only partially uploaded';
-                  break;
-                case 4 :
-                  $errMsg = 'Instructor Instruction file was uploaded';
-                  break;
-                case 6 :
-                  $errMsg = 'Instructor Instruction temporary folder does not exist.';
-                  break;
-                default :
-                  $errMsg = 'Error uploading Instructor Instruction file.';
-                  break;
-              }
-            }
-          }
-        }
-
-        // insert the submission record
-        $conn = new MySqlConnect();
-        $ts = $conn -> getCurrentTs();
-        $docName = $conn -> sqlCleanup($docName);
-        $submissionFile = $conn -> sqlCleanup($submissionFile);
-        $email = $conn -> sqlCleanup($email);
-        $gradingFile = $conn -> sqlCleanup($gradingFile);
-        $studentInstFile = $conn -> sqlCleanup($studentInstFile);
-        $instructorInstFile = $conn -> sqlCleanup($instructorInstFile);
-        $comments = $conn -> sqlCleanup($comments);
-        $result = array();
-
-        $insertSql = "UPDATE submissions
-                       SET docName = '{$docName}',
-                           submissionFile = '{$submissionFile}', 
-                           courseName = '{$course}', 
-                           rubricFileName = '{$gradingFile}', 
-                           studentInstruction = '{$studentInstFile}', 
-                           instructorInstruction = '{$instructorInstFile}', 
-                           comments = '{$comments}', 
-                           willYouGrade = '{$willYouGrade}'";
-
-        // insert the submission record in the database
-        $isCommit = $conn -> executeQuery($insertSql);
       }
       else
       {
-        // Problem! Set $errMsg value based upon the error:
-        switch ($_FILES['submissionfile']['error'])
+        $errMsg = "Submission file name: " . $updateSubmissionFile . " already exists. Please rename before submitting to repository.";
+      }
+    }
+
+    if (!empty($updateGradingFile))
+    {
+      if (file_exists("{$fileUploadBaseDir}/{$dept}/{$updateGradingFile}"))
+      {
+        $errMsgGrade = 'Duplicate file name error: Duplicate Grading file name ' . $updateGradingFile . ' failed to upload.';
+        $updateGradingFile = null;
+      }
+      else
+      {
+        if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$updateGradingFile}"))
         {
-          case 1 :
-            $errMsg = 'Submission file exceeds the upload_max_filesize setting in php.ini';
-            break;
-          case 2 :
-            $errMsg = 'Submission file exceeds the MAX_FILE_SIZE setting in the HTML form';
-            break;
-          case 3 :
-            $errMsg = 'Submission file was only partially uploaded';
-            break;
-          case 4 :
-            $errMsg = 'Submission file was uploaded';
-            break;
-          case 6 :
-            $errMsg = 'Submission temporary folder does not exist.';
-            break;
-          default :
-            $errMsg = 'Error uploading Submission file.';
-            break;
+          $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
+          $gradingFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateGradingFile}\">{$updateGradingFile}</a>";
+        }
+        else
+        {
+          $updateGradingFile = null;
+          // Problem! Set $errMsg value based upon the error:
+          switch ($_FILES['gradingFile']['error'])
+          {
+            case 1 :
+              $errMsg = 'Grading file exceeds the upload_max_filesize setting in php.ini';
+              break;
+            case 2 :
+              $errMsg = 'Grading file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              break;
+            case 3 :
+              $errMsg = 'Grading file was only partially uploaded';
+              break;
+            case 4 :
+              $errMsg = 'Grading file was uploaded';
+              break;
+            case 6 :
+              $errMsg = 'Grading temporary folder does not exist.';
+              break;
+            default :
+              $errMsg = 'Error uploading Grading file.';
+              break;
+          }
         }
       }
     }
-    else
+
+    if (!empty($updateStudentInstFile))
     {
-      $errMsg = "Submission file name: " . $submissionFile . " already exists. Please rename before submitting to repository.";
+      // student instruction upload file check and process
+      if (file_exists("{$fileUploadBaseDir}/{$dept}/{$updateStudentInstFile}"))
+      {
+        $errMsgStud = 'Duplicate file name error: Instruction file name: ' . $updateStudentInstFile . ' failed to upload.';
+        $updateStudentInstFile = null;
+      }
+      else
+      {
+        if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\$updateStudentInstFile"))
+        {
+          $errMsgStud = 'Student Instruction File: ' . $updateStudentInstFile . ' upload success.';
+          $updateStudentInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateInstFile}\">{$updateStudentInstFile}</a>";
+
+        }
+        else
+        {
+          $updateStudentInstFile = null;
+          // Problem! Set $errMsg value based upon the error:
+          switch ($_FILES['studentInstFile']['error'])
+          {
+            case 1 :
+              $errMsg = 'Student Instruction file exceeds the upload_max_filesize setting in php.ini';
+              break;
+            case 2 :
+              $errMsg = 'Student Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              break;
+            case 3 :
+              $errMsg = 'Student Instruction file was only partially uploaded';
+              break;
+            case 4 :
+              $errMsg = 'Student Instruction file was uploaded';
+              break;
+            case 6 :
+              $errMsg = 'Student Instruction temporary folder does not exist.';
+              break;
+            default :
+              $errMsg = 'Error uploading Student Instruction file.';
+              break;
+          }
+        }
+      }
     }
+
+    if (!empty($updateInstFile))
+    {
+      if (file_exists("{$fileUploadBaseDir}/{$dept}/{$updateInstFile}"))
+      {
+        $errMsgInst = 'Duplicate file name error: Instructor Instruction File: ' . $updateInstFile . ' failed to upload.';
+        $updateInstFile = null;
+      }
+      else
+      {
+        if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$updateInstFile}"))
+        {
+          $errMsgInst = 'Instructor Instruction File: ' . $updateInstFile . ' upload success.';
+          $instructorInstFile = "<a href=\"{$fileUploadBaseDir}/{$dept}/{$updateInstFile}\">{$updateInstFile}</a>";
+        }
+        else
+        {
+          $updateInstFile = null;
+          // Problem! Set $errMsg value based upon the error:
+          switch ($_FILES['instructorInstFile']['error'])
+          {
+            case 1 :
+              $errMsg = 'Instructor Instruction file exceeds the upload_max_filesize setting in php.ini';
+              break;
+            case 2 :
+              $errMsg = 'Instructor Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              break;
+            case 3 :
+              $errMsg = 'Instructor Instruction file was only partially uploaded';
+              break;
+            case 4 :
+              $errMsg = 'Instructor Instruction file was uploaded';
+              break;
+            case 6 :
+              $errMsg = 'Instructor Instruction temporary folder does not exist.';
+              break;
+            default :
+              $errMsg = 'Error uploading Instructor Instruction file.';
+              break;
+          }
+        }
+      }
+    }
+
+    // insert the submission record
+    $conn = new MySqlConnect();
+    $ts = $conn -> getCurrentTs();
+    $docName = $conn -> sqlCleanup($docName);
+    $updateSubmissionFile = $conn -> sqlCleanup($updateSubmissionFile);
+    $email = $conn -> sqlCleanup($email);
+    $updateGradingFile = $conn -> sqlCleanup($updateGradingFile);
+    $updateInstFile = $conn -> sqlCleanup($updateInstFile);
+    $updateInstFile = $conn -> sqlCleanup($updateInstFile);
+    $comments = $conn -> sqlCleanup($comments);
+    $result = array();
+
+    $updateSql = "UPDATE submissions
+                       SET docName = '{$docName}',
+                           courseName = '{$course}',
+                           comments = '{$comments}',";
+    if ($updateSubmissionFile != null)
+    {
+      $updateSql .= "submissionFile = '{$updateSubmissionFile}',";
+      $submissionFile = $updateSubmissionFile;
+    }
+    if ($updateGradingFile != null)
+    {
+      $updateSql .= "rubricFileName = '{$updateGradingFile}',";
+      $gradingFile = $updateGradingFile;
+    }
+    if ($updateInstFile != null)
+    {
+      $updateSql .= "studentInstruction = '{$updateInstFile}',";
+      $studentInstFile = $updateInstFile;
+    }
+    if ($updateInstFile != null)
+    {
+      $updateSql .= "instructorInstruction = '{$updateInstFile}',";
+      $instructorInstFile = $updateInstFile;
+    }
+    $updateSql .= "willYouGrade = '{$willYouGrade}'";
+
+    // insert the submission record in the database
+    $isCommit = $conn -> executeQuery($updateSql);
+
+    // email the opt in users
+    $body .= "Submission Profile Update:\n";
+    $body .= "----------------------------\n\n";
+    $body .= "Submission Name: {$docName}\n\n";
+    $body .= "Dept: {$dept}\n\n";
+    $body .= "Course: {$course}\n\n";
+    $body .= "Comments: {$comments}\n\n";
+
+    Users::emailOptInUsers($body);
   }
 }
 else
 {
   // just do the get subID from the URL
   $subID = $_GET['subID'];
-  var_dump($subID);
   // insert the submission record
   $conn = new MySqlConnect();
   $result = array();
@@ -331,15 +373,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 ?>
 <br />
 <form style="border:1px solid #c6bebb;" action="submissionProfile.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-<?php print '<input type="hidden" name="subID" value="' . $subID . '"'; ?>
+<?php print '<input type="hidden" name="subID" value="' . $subID . '"/>'; ?>
 
 <label for="docName">Document Name *</label>
 <input type="hidden" id="volume" value="1" />
-<?php print '<input type="text" name="docName" value="' . $docName . '">'; ?>
+<?php print '<input type="text" name="docName" value="' . $docName . '"/>'; ?>
 <br /><br />
-<label for="docFile">Document: </label> &nbsp <?php print $submissionFile; ?><
-br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200">
+<label for="submissionFile">Document File: </label>  <?php print '&nbsp;&nbsp;' . $submissionFile ?>
+<br /><br />
+&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/>
 <br/><br />
 
 <label for="comments">Document Description: </label>
@@ -348,27 +390,24 @@ rows="5em" cols="80em" valign="top" align="left">' . $comments . '</textarea>';
 ?>
 <br/><br />
 
-<label for="rubricFileName">Grading Rubric: </label> &nbsp; <?php print $gradingFile; ?><
-br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile"><br />
+<label for="rubricFileName">Grading Rubric: </label> &nbsp; <?php print $gradingFile; ?>
+<br /><br />
+&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">
+<br /><br />
 
-<br>
+<label for="instructionsToTheStudent">Instructions to the student: </label>  &nbsp; <?php print $studentInstFile; ?>
+<br /><br />
+&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">
+<br /><br />
 
-<label for="instructionsToTheStudent">Instructions to the student: </label>  &nbsp; <?php print $studentInstFile; ?><
-br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile"><br />
-
-<br>
-
-<label for="instructionsToTheInstructor">Instructions to the instructor: </label>  &nbsp; <?php print $instructorInstFile; ?><
-br /><br />
-&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile"><br />
-
-<br>
+<label for="instructionsToTheInstructor">Instructions to the instructor: </label>  &nbsp; <?php print $instructorInstFile; ?>
+<br /><br />
+&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">
+<br /><br />
 
 <label for="willGrade">Will you grade assignments based on this document? &nbsp </label>
 <?php
-if ($willYouGrade == 'YES')
+if (($willYouGrade == 'YES') || ($willYouGrade == 'Yes'))
 {
   print '<input type="radio" name="willYouGrade" id="willYouGrade" value="Yes" class="radio-box" checked >Yes &nbsp
 <input type="radio" name="willYouGrade" id="willYouGrade" value="No"  class="radio-box">No';
@@ -383,7 +422,7 @@ else
 <br />
 <p>
 <label for="department">Department: </label>&nbsp;
-<?php print $dept;
+<?php print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
 
   echo '<br>';
   echo '<br>';
