@@ -35,10 +35,10 @@ echo "<table class='customTable' width='350' align='center'>
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
-                        $sql = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC");
+                        $sql = mysql_query("SELECT subID, docName, createDate FROM submissions WHERE emailAddress= " . $emailAddress . " ORDER BY subID ASC");
                         
                         if (empty($sql)) { 
-                            echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>'; 
+                            //echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>'; 
                         } else {
 
                         $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
@@ -87,7 +87,7 @@ $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
 }
-$sql2 = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC $limit");
+$sql2 = mysql_query("SELECT subID, docName, createDate FROM submissions WHERE emailAddress= " . $emailAddress . " ORDER BY subID ASC $limit");
 if (empty($sql2)) { 
     echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>';  
 } else {

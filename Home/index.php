@@ -53,7 +53,9 @@ echo "<table width='920' class='customTable' align='center'>
 
                         $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
                         
-                        
+if (empty($sql)) { 
+    echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>';  
+} else {
                         
                         $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
 if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
@@ -100,9 +102,12 @@ if ($pn == 1) {
 $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
+}
+$sql2 = mysql_query("SELECT subID, submissionFile, deptName, rubricFileName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions WHERE emailAddress= " . $emailAddress . " ORDER BY createDate DESC");
 
-$sql2 = mysql_query("SELECT subID, submissionFile, deptName, rubricFileName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
-
+if (empty($sql2)) { 
+    echo '<h5 style="color: red" align="center">Sorry, you do not have any submissions!</h5>';  
+} else {
 
 $paginationDisplay = ""; // Initialize the pagination output variable
 // This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
@@ -151,7 +156,7 @@ while($row = mysql_fetch_array($sql2)){
                        <td height="30px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
                        <td height="30px"><img width="13px" src="../Images/edit.png"></td>
                        </tr>';
-
+                       }
 }
             
 ?>
