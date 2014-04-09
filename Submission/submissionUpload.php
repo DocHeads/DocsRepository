@@ -298,16 +298,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 ?>
 <br />
 <form style="border:1px solid #c6bebb;" action="submissionUpload.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-<label for="docName">Document Name *</label>
+<label for="docName"><strong>Document Name <span style="color: red">*</span</strong></label>
 <input type="hidden" id="volume" value="1" />
 <input type="text" name="docName">
 <br />
 <br />
-<label for="docFile">Document *</label> &nbsp
+<label for="docFile"><strong>Document <span style="color: red">*</span></strong></label> &nbsp
 <input type="file" name="submissionfile" size="200" required="required">
 <br>
 
-<label for="comments">Document Description *</label>
+<label for="comments"><strong>Document Description <span style="color: red">*</span></strong></label>
 <textarea	id="comments" name="comments" value="" wrap="virtual"
 rows="5em" cols="80em"
 valign="top"
@@ -316,28 +316,28 @@ required="required">
 </textarea>
 <br>
 
-<label for="rubricFileName">Grading Rubric (optional)</label>
+<label for="rubricFileName"><strong>Grading Rubric (optional)</strong></label>
 <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">
 
 <br>
 
-<label for="instructionsToTheStudent">Instructions to the student (optional)</label>
+<label for="instructionsToTheStudent"><strong>Instructions to the student (optional)</strong></label>
 <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">
 
 <br>
 
-<label for="instructionsToTheInstructor">Instructions to the instructor (optional)</label>
+<label for="instructionsToTheInstructor"><strong>Instructions to the instructor (optional)</strong></label>
 <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">
 
 <br>
 
-<label for="willGrade">Will you grade assignments based on this document? &nbsp </label>
+<label for="willGrade"><strong>Will you grade assignments based on this document? &nbsp </strong></label>
 <input type="radio" name="willYouGrade" id="willYouGrade" value="Yes" class="radio-box" checked >
 Yes &nbsp
 <input type="radio" name="willYouGrade" id="willYouGrade" value="No"  class="radio-box">
 No
 <p>
-<label for="department">Department *</label>
+<label for="department"><strong>Department <span style="color: red">*</span></strong></label>
 <?php
 $department = Departments::getDeptList();
 echo '<select name="department">';
@@ -349,7 +349,7 @@ foreach ($department as $key => $value)
 echo '</select>';
 
 echo '<br>';
-echo '<label for="course">Course *</label>';
+echo '<label for="course"><strong>Course <span style="color: red">*</span></strong></label>';
 
 $course = Courses::getCourseList();
 echo '<select name="course">';

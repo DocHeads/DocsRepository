@@ -380,48 +380,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <?php 
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
-echo '<label for="docName"><strong>Document Name *&nbsp;&nbsp;</strong> </label>';
+echo '<label for="docName"><strong>Document Name: <span style="color: red">*</span>&nbsp;&nbsp;</strong> </label>';
 echo '<input type="hidden" id="volume" value="1" />';
 echo '<input type="text" name="docName" value="' . $docName . '"/>';
 }
 else {
 print '<label for="docName"><strong>Document Name:&nbsp;&nbsp;</strong> </label>';
-print $docName . '<input type="hidden" name="dept" value="' . $docName . '"/>';
+print $docName . '<input type="hidden" name="dept" value="' . $docName . '"/><br />';
 }
  ?>
 <br /><br />
 
 <label for="submissionFile"><strong>Document File:</strong> </label>  <?php print '&nbsp;&nbsp;' . $submissionFile
 ?>
-<br /><br />
-<?php
-if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
-echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/>';
+
+<?php 
+if (!($emailAddress == $email || session::getLoggedInUserType()=='ADMIN')){
+echo '<br /><br /><br />';
 }
 ?>
-<br /><br />
-<label for="comments"><strong>Document Description:&nbsp;&nbsp;</strong></label>
-<?php print '<textarea id="comments" name="comments" wrap="virtual"
-rows="5em" cols="80em" valign="top" align="left">' . $comments . '</textarea>';
+
+<?php
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
+echo'<br /><br />&nbsp;&nbsp;&bull; Change File: <input type="file" name="submissionfile" size="200"/><br /><br />';
+}
 ?>
+
+<?php
+if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
+echo '<label for="comments"><strong>Document Description: <span style="color: red">*</span>&nbsp;&nbsp;</strong></label>';
+print '<textarea id="comments" name="comments" wrap="virtual" rows="5em" cols="80em" valign="top" align="left">' . $comments . '</textarea>';
+}
+else {
+    echo '<label for="comments"><strong>Document Description: </strong></label>&nbsp;';
+    print $comments . '<input type="hidden" name="dept" value="' . $comments . '"/><br />';
+}
+?>
+
 <br/><br />
 <label for="rubricFileName"><strong>Grading Rubric: </strong></label> &nbsp; <?php print $gradingFile; ?>
 <br /><br />
 <?php
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
-echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile">';
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="gradingFile" id="rubricFileName" class="clsFile"><br />';
 }
 ?>
-<br /><br />
+<br />
 <label for="instructionsToTheStudent"><strong>Instructions to the student: </strong></label>  &nbsp; <?php print $studentInstFile; ?>
 
 <br /><br />
 <?php
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
-echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile">';
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" id="instructionsToTheStudent" class="clsFile"><br />';
 }
 ?>
-<br /><br />
+<br />
 <label for="instructionsToTheInstructor"><strong>Instructions to the instructor: </strong></label>  &nbsp; <?php print $instructorInstFile; ?>
 
 <br /><br />
@@ -475,7 +488,7 @@ $courseNm = Courses::getCourseList();
 }
 else {
     echo '<label for="department"><strong>Department: </strong></label>&nbsp;';
-    print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
+    print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/><br />';
 
     echo '<br>';
     echo '<br>';
