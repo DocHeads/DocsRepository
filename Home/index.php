@@ -7,6 +7,7 @@ include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
 include ('../Lib/Departments.php');
+include ('../Lib/Courses.php');
 ?>
 
 <h2>Welcome to the UC Faculty Document Managment System</h2>
@@ -187,12 +188,12 @@ $subTable -> displayAs("willYouGrade", "Grade?");
 $subTable -> displayAs("createDate", "Created On");
 $subTable -> displayAs("instructorInstruction", "Instructor Inst");
 $subTable -> displayAs("studentInstruction", "Student Inst");
-$subTable -> displayAs("edit", " ");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
 $subTable -> omitField("willYouGrade");
 $subTable -> omitField("updateDate");
 $subTable -> omitField("comments");
+$subTable->omitField("edit");
 #i could disable fields from being editable
 $subTable -> disallowEdit('emailAddress');
 $subTable -> disallowEdit('createDate');
@@ -201,7 +202,13 @@ $subTable -> disallowEdit('courseName');
 $subTable -> disallowEdit('submissionFile');
 $subTable -> disallowEdit('instructorInstruction');
 $subTable -> disallowEdit('studentInstruction');
-$subTable -> disallowEdit('edit');
+$subTable->addButtonToRow('View', '../Submission/submissionProfile.php', 'subID');
+
+$allowableUserTypeIDValues = Departments::getDeptList();
+$subTable -> defineAllowableValues("deptName", $allowableUserTypeIDValues);
+$allowableUserTypeIDValues = Courses::getCourseList();
+$subTable -> defineAllowableValues("courseName", $allowableUserTypeIDValues);
+
 #set the number of rows to display (per page)
 $subTable -> setLimit(10);
 #i can order my table by whatever i want

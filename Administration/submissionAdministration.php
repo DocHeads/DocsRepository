@@ -36,8 +36,8 @@
     $subTable->displayAs("comments", "Comments");
     $subTable->displayAs("rubricFileName", "Rubric");
     $subTable->displayAs("willYouGrade", "Will You Grade?");
-    $subTable->displayAs("createDate", "Created On");                                
-    $subTable->displayAs("submissionFile", "File Name"); 
+    $subTable->displayAs("createDate", "Created On");
+    $subTable->displayAs("submissionFile", "File Name");
     $subTable->displayAs("instructorInstruction", "Instructor Inst");
     $subTable->displayAs("studentInstruction", "Student Inst");
 
@@ -46,12 +46,15 @@
     $subTable->omitField("updateDate");
     $subTable->omitField("willYouGrade");
     $subTable->omitField("comments");
-
+    $subTable->omitField("edit");
+    
     $allowableUserTypeIDValues = Departments::getDeptList();
     $subTable->defineAllowableValues("deptName", $allowableUserTypeIDValues);
 
     $allowableUserTypeIDValues = Courses::getCourseList();
     $subTable->defineAllowableValues("courseName", $allowableUserTypeIDValues);
+    
+    $subTable->addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
     
     #i could disable fields from being editable
     $subTable->disallowEdit('emailAddress');
@@ -61,8 +64,6 @@
     $subTable->disallowEdit('instructorInstruction');
     $subTable->disallowEdit('docName');
     $subTable->disallowEdit('deptName');
-    
-    
     
     #set the number of rows to display (per page)
     $subTable->setLimit(5);

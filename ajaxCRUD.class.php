@@ -1305,7 +1305,7 @@ class ajaxCRUD{
 
         if (count($this->ajaxFilter_fields) > 0){
             $top_html .= "<form id=\"" . $this->db_table . "_filter_form\">\n";
-            $top_html .= "<table cellspacing='5' align='center'><tr><thead>";
+            $top_html .= "<table align='center'><tr><thead>";
 
             foreach ($this->ajaxFilter_fields as $filter_field){
                 $display_field = $filter_field;
@@ -1324,7 +1324,8 @@ class ajaxCRUD{
                     $filter_value = utf8_encode($_REQUEST[$filter_field]);
                 }
 
-                $top_html .= "<th><b>$display_field</b>:";
+                
+                $top_html .= "<th id='$display_field'><b>$display_field</b>:";
 
                 //check for valid values (set by defineAllowableValues)
                 if (isset($this->allowed_values[$filter_field]) && is_array($this->allowed_values[$filter_field])){
@@ -1382,7 +1383,7 @@ class ajaxCRUD{
 
                     $top_html .= "<input type=\"text\" class=\"$custom_class\" size=\"$textbox_size\" name=\"$filter_field\" value=\"$filter_value\" onKeyUp=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
                 }
-                $top_html .= "&nbsp;&nbsp;</th>";
+                $top_html .= "</th>";
             }
             $top_html .= "</tr></thead></table>\n";
             $top_html .= "</form>\n";
@@ -1460,7 +1461,7 @@ class ajaxCRUD{
                 $table_html .= "<thead><tr>\n";
                 //for an (optional) checkbox
                 if ($this->showCheckbox){
-                    $table_html .= "<th>&nbsp;</th>";
+                    $table_html .= "<th></th>";
                 }
 
                 foreach ($this->display_fields as $field){
@@ -1849,7 +1850,7 @@ class ajaxCRUD{
 
                     $note = "";
                     if (isset($this->fieldNote[$field]) && $this->fieldNote[$field] != ""){
-                        $note = "&nbsp;&nbsp;<i>" . $this->fieldNote[$field] . "</i>";
+                        $note = "<i>" . $this->fieldNote[$field] . "</i>";
                     }
 
                     if (isset($this->placeholderText[$field]) && $this->placeholderText[$field] != ""){
@@ -2107,7 +2108,7 @@ class ajaxCRUD{
         if ( (strip_tags($cell_data) == "") && $field_value == "") $field_text = "--";
 
         //for getting rid of the html space, replace with actual no text
-        if ($field_value == "&nbsp;&nbsp;") $field_value = "";
+        if ($field_value == "") $field_value = "";
 
         $field_value = stripslashes(htmlspecialchars($field_value));
 
@@ -2198,9 +2199,9 @@ class ajaxCRUD{
         }
 
         $no_text = false;
-        if ($selected_dropdown_text == '' || $selected_dropdown_text == '&nbsp;&nbsp;'){
+        if ($selected_dropdown_text == '' || $selected_dropdown_text == ''){
             $no_text = true;
-            $selected_dropdown_text = "&nbsp;--&nbsp;";
+            $selected_dropdown_text = "";
         }
 
         $postEditForm = false; //default action is for form NOT to be submitted but processed through ajax

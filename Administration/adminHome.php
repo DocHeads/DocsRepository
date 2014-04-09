@@ -214,18 +214,20 @@ $subTable -> displayAs("docName", "Submission");
 $subTable -> displayAs("deptName", "Department");
 $subTable -> displayAs("courseName", "Course");
 $subTable -> displayAs("comments", "Comments");
-$subTable -> displayAs("rubricFileName", "Grading Rubric");
+$subTable -> displayAs("rubricFileName", "Rubric");
 $subTable -> displayAs("willYouGrade", "Grade?");
 $subTable -> displayAs("createDate", "Created On");
 $subTable -> displayAs("submissionFile", "File Name");
 $subTable -> displayAs("instructorInstruction", "Instructor Inst");
 $subTable -> displayAs("studentInstruction", "Student Inst");
-$subTable -> displayAs("edit", " ");
+//$subTable -> displayAs("edit", "Edit");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
 $subTable -> omitField("willYouGrade");
 $subTable -> omitField("updateDate");
 $subTable -> omitField("comments");
+$subTable -> omitField("edit");
+
 $subTable -> disallowEdit('submissionFile');
 $subTable -> disallowEdit('instructorInstruction');
 $subTable -> disallowEdit('studentInstruction');
@@ -239,11 +241,11 @@ $subTable -> disallowEdit('emailAddress');
 $subTable -> disallowEdit('createDate');
 $subTable -> disallowEdit('submissionFile');
 $subTable -> disallowEdit('deptName');
-$subTable -> disallowEdit('edit');
 #set the number of rows to display (per page)
 $subTable -> setLimit(10);
 #implement a callback function after updating/editing a field
 $subTable -> onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
+$subTable->addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
 #i can order my table by whatever i want
 $subTable -> addOrderBy("ORDER BY emailAddress ASC");
 #if really desired, a filter box can be used for all fields
