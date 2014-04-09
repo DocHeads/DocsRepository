@@ -4,10 +4,10 @@
 	#this is the info for your database connection
     ####################################################################################
     ##
-	$MYSQL_HOST = "localhost";
-	$MYSQL_LOGIN = "root";
-	$MYSQL_PASS = "";
-	$MYSQL_DB = "docdatabase";
+	$MYSQL_HOST = ConfigProperties::$DatabaseServerName;
+	$MYSQL_LOGIN = ConfigProperties::$DatabaseUsername;
+	$MYSQL_PASS = ConfigProperties::$DatabasePassword;
+	$MYSQL_DB = ConfigProperties::$DatabaseName;
     ##
     ####################################################################################
 

@@ -124,7 +124,7 @@ class Users
     // hash the submitted password to to verify against the value in the db
     $hash = Users::encodePassword($password);
 
-    $email = $conn -> sqlCleanup($email);
+    //$email = $conn -> sqlCleanup($email);
     // query the db for the value comparison
     $result = $conn -> executeQueryResult("SELECT userId, password, fName, lName, userType FROM users WHERE emailAddress = '{$email}'");
 

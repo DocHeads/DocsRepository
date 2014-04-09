@@ -4,8 +4,8 @@
 // queries)
 // This script is in tutorial form and is accompanied by the following video:
 // http://www.youtube.com/watch?v=K8xYGnEOXYc
-mysql_connect("localhost", "root", "") or die(mysql_error());
-mysql_select_db("docdatabase") or die(mysql_error());
+mysql_connect(ConfigProperties::$DatabaseServerName, ConfigProperties::$DatabaseUsername, ConfigProperties::$DatabasePassword) or die(mysql_error());
+mysql_select_db(ConfigProperties::$DatabaseName) or die(mysql_error());
 
 //////////////  QUERY THE MEMBER DATA INITIALLY LIKE YOU NORMALLY WOULD
 $sql = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC");

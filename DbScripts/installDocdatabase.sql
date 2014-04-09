@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`userID`, `userType`, `password`, `fname`, `lname`, `emailAddress`, `emailOptIn`, `isValidated`, `tempPassKey`, `createDate`, `updateDate`) VALUES
 (1, 'ADMIN', '0d09e70c09a34be3114f40716eafd6b690195830d19b3aba4adb8f0cddf3634350bfe48d617d7003bd07d9b5c2039e553c5545bafc825f65d402e4caa5fbc2e3', 'Brian', 'Dunavent', 'dunavebc@mail.uc.edu', 'YES', 'YES', NULL, '2014-04-04 04:48:15', '2014-04-04 04:13:35'),
-(2, 'ADMIN', 'b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86', 'Test', 'User', 'test@test.com', 'YES', 'YES', NULL, '2014-04-04 01:33:52', '2014-04-04 04:13:46');
+(2, 'STANDARD', 'b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86', 'Test', 'User', 'test@test.com', 'YES', 'YES', NULL, '2014-04-04 01:33:52', '2014-04-04 04:13:46');
 
 --
 -- Triggers `users`

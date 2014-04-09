@@ -30,14 +30,17 @@ Update the php.ini file upload size:
 - post_max_size = 40M            // Must be greater than or equal to upload_max_filesize
 
 To Do:
-- XML Configuration file and parsing - possibly just make a config class
-- Admin Home page
-- Standard Home page
-- Submission records need a link to download file or link to profile to download file
+- Submission Profile testing
+- Submission Profile delete needs to delete the saved file as well as the record
 - Creating new dept needs to make the corresponding uploads directory
+- Deleting a submission needs to delete the submission file
+- Hide edit search field in the submissions record tables
+- Email a user upon validation
+- Configuration: Max upload file size
+- Configuration: SSL email
+- Error logging
 
 
 Testing:
 - text areas have spaces in the input already before even typing
-- Invalid users panel - > only Validated? column should be editable
 - Should an email go to the ADMIN users to remind them of a new user validation? 

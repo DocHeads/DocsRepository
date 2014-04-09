@@ -1,11 +1,10 @@
 <?php
+include ('../Lib/Session.php');
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
-include ('../ajaxCRUD.class.php');
-// <-- this include file MUST go first before any HTML/output
-include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
+include ('../ajaxCRUD.class.php');
 include ('../Lib/Departments.php');
 include ('../Lib/Courses.php');
 ?>
@@ -31,8 +30,8 @@ echo "<table class='customTable' width='350' align='center'>
                           </thead>
                       </tr>";
 
-                        mysql_connect("localhost","root","") or die (mysql_error());
-                        mysql_select_db("docdatabase") or die (mysql_error());
+                        mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
+                        mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
                         $sql = mysql_query("SELECT subID, docName, createDate FROM submissions ORDER BY subID ASC");
 
@@ -128,130 +127,150 @@ while($row = mysql_fetch_array($sql2)){
    
 
 <?php
-	echo "</table>";
-	echo '</td>
+echo "</table>";
+echo '</td>
                        </tr>
                    </tbody>        
                </table>';
-	echo '<table style="margin-bottom: 20px;" width="396" align="right">
+echo '<table style="margin-bottom: 20px;" width="396" align="right">
                 <tbody style="display: block; height: 300px;">
                      <tr height="300">
                        <td width="420" style="vertical-align:top;">';
-	$userTable=new ajaxCRUD("Item","users","userID","../");
-	$userTable->omitPrimaryKey();
-	#the table fields have prefixes; i want to give the heading titles something more meaningful
-	$userTable->displayAs("emailAddress","User Name");
-	$userTable->displayAs("fname","First Name");
-	$userTable->displayAs("lname","Last Name");
-	$userTable->displayAs("userType","User Type");
-	$userTable->displayAs("isValidated","Validated?");
-	$userTable->displayAs("emailOptIn","Email Opt-In");
-	#i could omit a field if I wanted
-	#http://ajaxcrud.com/api/index.php?id=omitField
-	$userTable->omitField("emailOptIn");
-	$userTable->omitField("userType");
-	$userTable->omitField("password");
-	$userTable->omitField("tempPassKey");
-	$userTable->omitField("updateDate");
-	$userTable->omitField("createDate");
-	#i can set certain fields to only allow certain values
-	#http://ajaxcrud.com/api/index.php?id=defineAllowableValues
-	$allowableUserTypeIDValues=array("STANDARD","ADMIN");
-	$userTable->defineAllowableValues("userType",$allowableUserTypeIDValues);
-	$allowableisValidatedValues=array("YES","NO");
-	$userTable->defineAllowableValues("isValidated",$allowableisValidatedValues);
-	$allowableemailOptInValues=array("YES","NO");
-	$userTable->defineAllowableValues("emailOptIn",$allowableemailOptInValues);
-	#i could disable fields from being editable
-	$userTable->disallowEdit('emailAddress');
-	$userTable->disallowEdit('fname');
-	$userTable->disallowEdit('lname');
-	#set the number of rows to display (per page)
-	$userTable->setLimit(5);
-	#implement a callback function after updating/editing a field
-	$userTable->onUpdateExecuteCallBackFunction("fname","myCallBackFunctionForEdit");
-	$userTable->onUpdateExecuteCallBackFunction("lname","myCallBackFunctionForEdit");
-	$userTable->onUpdateExecuteCallBackFunction("isValidated","myCallBackFunctionForEdit");
-	$userTable->onUpdateExecuteCallBackFunction("emailOptIn","myCallBackFunctionForEdit");
-	#i can order my table by whatever i want
-	$userTable->addOrderBy("ORDER BY emailAddress ASC");
-	#i can use a where field to better-filter my table
-	$userTable->addWhereClause("WHERE isValidated = 'NO'");
-	#i can disallow adding rows to the table
-	#http://ajaxcrud.com/api/index.php?id=disallowAdd
-	$userTable->disallowAdd();
-	echo '<h2 style="font-size: 14px;"><b>Users to be Validated:</b></h2>';
-	#actually show the table
-	$userTable->showTable();
-	echo '</td>
+$userTable = new ajaxCRUD("Item", "users", "userID", "../");
+$userTable -> omitPrimaryKey();
+#the table fields have prefixes; i want to give the heading titles something more
+# meaningful
+$userTable -> displayAs("emailAddress", "User Name");
+$userTable -> displayAs("fname", "First Name");
+$userTable -> displayAs("lname", "Last Name");
+$userTable -> displayAs("userType", "User Type");
+$userTable -> displayAs("isValidated", "Validated?");
+$userTable -> displayAs("emailOptIn", "Email Opt-In");
+#i could omit a field if I wanted
+#http://ajaxcrud.com/api/index.php?id=omitField
+$userTable -> omitField("emailOptIn");
+$userTable -> omitField("userType");
+$userTable -> omitField("password");
+$userTable -> omitField("tempPassKey");
+$userTable -> omitField("updateDate");
+$userTable -> omitField("createDate");
+#i can set certain fields to only allow certain values
+#http://ajaxcrud.com/api/index.php?id=defineAllowableValues
+$allowableUserTypeIDValues = array(
+  "STANDARD",
+  "ADMIN"
+);
+$userTable -> defineAllowableValues("userType", $allowableUserTypeIDValues);
+$allowableisValidatedValues = array(
+  "YES",
+  "NO"
+);
+$userTable -> defineAllowableValues("isValidated", $allowableisValidatedValues);
+$allowableemailOptInValues = array(
+  "YES",
+  "NO"
+);
+$userTable -> defineAllowableValues("emailOptIn", $allowableemailOptInValues);
+#i could disable fields from being editable
+$userTable -> disallowEdit('emailAddress');
+$userTable -> disallowEdit('fname');
+$userTable -> disallowEdit('lname');
+
+
+#set the number of rows to display (per page)
+$userTable -> setLimit(5);
+#implement a callback function after updating/editing a field
+$userTable -> onUpdateExecuteCallBackFunction("fname", "myCallBackFunctionForEdit");
+$userTable -> onUpdateExecuteCallBackFunction("lname", "myCallBackFunctionForEdit");
+$userTable -> onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
+$userTable -> onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
+#i can order my table by whatever i want
+$userTable -> addOrderBy("ORDER BY emailAddress ASC");
+#i can use a where field to better-filter my table
+$userTable -> addWhereClause("WHERE isValidated = 'NO'");
+#i can disallow adding rows to the table
+#http://ajaxcrud.com/api/index.php?id=disallowAdd
+$userTable -> disallowAdd();
+echo '<h2 style="font-size: 14px;"><b>Users to be Validated:</b></h2>';
+#actually show the table
+$userTable -> showTable();
+echo '</td>
                        </tr>
                    </tbody>        
                </table>';
-	echo '</div>';
-	echo '<table style="top-margin: 20px;" align="center">
+echo '</div>';
+echo '<table style="top-margin: 20px;" align="center">
                   <tbody>
                        <tr>
                          <td>';
-	$subTable=new ajaxCRUD("Item","submissions","subID","../");
-	$subTable->omitPrimaryKey();
-	#the table fields have prefixes; i want to give the heading titles something more meaningful
-	$subTable->displayAs("emailAddress","User Name");
-	$subTable->displayAs("docName","Submission");
-	$subTable->displayAs("deptName","Department");
-	$subTable->displayAs("courseName","Course");
-	$subTable->displayAs("comments","Comments");
-	$subTable->displayAs("rubricFileName","Grading Rubric");
-	$subTable->displayAs("willYouGrade","Grade?");
-	$subTable->displayAs("createDate","Created On");
-	$subTable->displayAs("submissionFile","File Name");
-	$subTable->displayAs("instructorInstruction","Instructor Inst");
-	$subTable->displayAs("studentInstruction","Student Inst");
-	$subTable->displayAs("edit","Edit");
-	#i could omit a field if I wanted
-	#http://ajaxcrud.com/api/index.php?id=omitField
-	$subTable->omitField("willYouGrade");
-	$subTable->omitField("updateDate");
-	$subTable->omitField("comments");
-	$allowableUserTypeIDValues=Departments::getDeptList();
-	$subTable->defineAllowableValues("deptName",$allowableUserTypeIDValues);
-	$allowableUserTypeIDValues=Courses::getCourseList();
-	$subTable->defineAllowableValues("courseName",$allowableUserTypeIDValues);
-	#i could disable fields from being editable
-	$subTable->disallowEdit('emailAddress');
-	$subTable->disallowEdit('createDate');
-	$subTable->disallowEdit('submissionFile');
-	$subTable->disallowEdit('deptName');
-	$subTable->disallowEdit('edit');
-	#set the number of rows to display (per page)
-	$subTable->setLimit(10);
-	#implement a callback function after updating/editing a field
-	$subTable->onUpdateExecuteCallBackFunction("docName","myCallBackFunctionForEdit");
-	#i can order my table by whatever i want
-	$subTable->addOrderBy("ORDER BY emailAddress ASC");
-	#if really desired, a filter box can be used for all fields
-	$subTable->addAjaxFilterBoxAllFields();
-	#i can disallow adding rows to the table
-	#http://ajaxcrud.com/api/index.php?id=disallowAdd
-	$subTable->disallowAdd();
-	echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
-	#actually show the table
-	$subTable->showTable();
-	echo '</td>
+$subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
+$subTable -> omitPrimaryKey();
+#the table fields have prefixes; i want to give the heading titles something more
+# meaningful
+$subTable -> displayAs("emailAddress", "User Name");
+$subTable -> displayAs("docName", "Submission");
+$subTable -> displayAs("deptName", "Department");
+$subTable -> displayAs("courseName", "Course");
+$subTable -> displayAs("comments", "Comments");
+$subTable -> displayAs("rubricFileName", "Grading Rubric");
+$subTable -> displayAs("willYouGrade", "Grade?");
+$subTable -> displayAs("createDate", "Created On");
+$subTable -> displayAs("submissionFile", "File Name");
+$subTable -> displayAs("instructorInstruction", "Instructor Inst");
+$subTable -> displayAs("studentInstruction", "Student Inst");
+$subTable -> displayAs("edit", "Edit");
+#i could omit a field if I wanted
+#http://ajaxcrud.com/api/index.php?id=omitField
+$subTable -> omitField("willYouGrade");
+$subTable -> omitField("updateDate");
+$subTable -> omitField("comments");
+$subTable -> disallowEdit('submissionFile');
+$subTable -> disallowEdit('instructorInstruction');
+$subTable -> disallowEdit('studentInstruction');
+$subTable -> disallowEdit('rubricFileName');
+$allowableUserTypeIDValues = Departments::getDeptList();
+$subTable -> defineAllowableValues("deptName", $allowableUserTypeIDValues);
+$allowableUserTypeIDValues = Courses::getCourseList();
+$subTable -> defineAllowableValues("courseName", $allowableUserTypeIDValues);
+#i could disable fields from being editable
+$subTable -> disallowEdit('emailAddress');
+$subTable -> disallowEdit('createDate');
+$subTable -> disallowEdit('submissionFile');
+$subTable -> disallowEdit('deptName');
+$subTable -> disallowEdit('edit');
+#set the number of rows to display (per page)
+$subTable -> setLimit(10);
+#implement a callback function after updating/editing a field
+$subTable -> onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
+#i can order my table by whatever i want
+$subTable -> addOrderBy("ORDER BY emailAddress ASC");
+#if really desired, a filter box can be used for all fields
+$subTable -> addAjaxFilterBoxAllFields();
+#i can disallow adding rows to the table
+#http://ajaxcrud.com/api/index.php?id=disallowAdd
+$subTable -> disallowAdd();
+echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
+#actually show the table
+$subTable -> showTable();
+echo '</td>
                       </tr>
                   </tbody>        
                </table><br style="clear:both;" />';
-	} else {
-	$errMsg='Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
-	print '<br /><p><span style="color: #b11117"><b>'.$errMsg.'</b></span></p>';
-	print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
-	header("refresh:5;url=../Authentication/login.php");
-	}
+} else {
+$errMsg='Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
+print '<br /><p><span style="color: #b11117"><b>'.$errMsg.'</b></span></p>';
+print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+header("refresh:5;url=../Authentication/login.php");
+}
 ?>
 
 <?php
-function myCallBackFunctionForAdd($array) {
+function myCallBackFunctionForAdd($array)
+{
 }
-function myCallBackFunctionForEdit($array) {
+
+function myCallBackFunctionForEdit($array)
+{
 }
 ?>
 

@@ -40,19 +40,11 @@ class Submission
    */
   public static function getUserSubmissions($userId)
   {
-    $conn = new mysqli('localhost', 'root', '', 'docdatabase');
+    $conn = new mysqli(ConfigProperties::$DatabaseServerName, ConfigProperties::$DatabaseUsername, ConfigProperties::$DatabasePassword, ConfigProperties::$DatabaseName);
     $query = "SELECT subID, docName, GetDeptName(deptID) deptName, GetCourseName(courseID) courseName, createDate, updateDate FROM submissions WHERE userID = {$userId} ORDER BY updateDate DESC";
     $result = $conn -> query($query);
     $conn -> close();
 
-    // $conn = new MySqlConnect();
-    // $userId = $conn -> sqlCleanup($userId);
-    // $query = "SELECT subID, docName, GetDeptName(deptID) deptName,
-    // GetCourseName(courseID) courseName, createDate, updateDate FROM
-    // submissions WHERE userID = {$userId} ORDER BY updateDate DESC";
-    // $result = $conn -> executeQueryResult($query);
-    //
-    //$conn -> freeConnection();
     return $result;
   }
 

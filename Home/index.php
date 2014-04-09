@@ -1,12 +1,15 @@
 <?php
+include ('../Lib/Session.php');
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
 include ('../ajaxCRUD.class.php');
 // <-- this include file MUST go first before any HTML/output
-include ('../Lib/Session.php');
 Session::validateSession();
 include ('../templates/header.php');
 include ('../Lib/Departments.php');
+ini_set('display_errors',1); 
+error_reporting(E_ALL);
+var_dump($_POST);
 ?>
 
 <h2>Welcome to the UC Faculty Document Managment System</h2>
@@ -47,8 +50,8 @@ echo "<table width='920' class='customTable' align='center'>
                         </thead>
                         </tr>";
                         
-                        mysql_connect("localhost","root","") or die (mysql_error());
-                        mysql_select_db("docdatabase") or die (mysql_error());
+                        mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
+                        mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
                         $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
                         
@@ -172,49 +175,49 @@ echo '<table width="860" align="center">
                 <tbody>
                     <tr>
                         <td>';
-$subTable=new ajaxCRUD("Item","submissions","subID","../");
-$subTable->omitPrimaryKey();
+$subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
+$subTable -> omitPrimaryKey();
 #the table fields have prefixes; i want to give the heading titles something more
 # meaningful
-$subTable->displayAs("emailAddress","User Name");
-$subTable->displayAs("docName","Submission");
-$subTable->displayAs("submissionFile","Download");
-$subTable->displayAs("deptName","Department");
-$subTable->displayAs("courseName","Course");
-$subTable->displayAs("comments","Comments");
-$subTable->displayAs("rubricFileName","Grading Rubric");
-$subTable->displayAs("willYouGrade","Grade?");
-$subTable->displayAs("createDate","Created On");
-$subTable->displayAs("instructorInstruction","Instructor Inst");
-$subTable->displayAs("studentInstruction","Student Inst");
+$subTable -> displayAs("emailAddress", "User Name");
+$subTable -> displayAs("docName", "Submission");
+$subTable -> displayAs("submissionFile", "Download");
+$subTable -> displayAs("deptName", "Department");
+$subTable -> displayAs("courseName", "Course");
+$subTable -> displayAs("comments", "Comments");
+$subTable -> displayAs("rubricFileName", "Grading Rubric");
+$subTable -> displayAs("willYouGrade", "Grade?");
+$subTable -> displayAs("createDate", "Created On");
+$subTable -> displayAs("instructorInstruction", "Instructor Inst");
+$subTable -> displayAs("studentInstruction", "Student Inst");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
-$subTable->omitField("willYouGrade");
-$subTable->omitField("updateDate");
-$subTable->omitField("comments");
+$subTable -> omitField("willYouGrade");
+$subTable -> omitField("updateDate");
+$subTable -> omitField("comments");
 #i could disable fields from being editable
-$subTable->disallowEdit('emailAddress');
-$subTable->disallowEdit('createDate');
-$subTable->disallowEdit('deptName');
-$subTable->disallowEdit('courseName');
-$subTable->disallowEdit('submissionFile');
-$subTable->disallowEdit('instructorInstruction');
-$subTable->disallowEdit('studentInstruction');
+$subTable -> disallowEdit('emailAddress');
+$subTable -> disallowEdit('createDate');
+$subTable -> disallowEdit('deptName');
+$subTable -> disallowEdit('courseName');
+$subTable -> disallowEdit('submissionFile');
+$subTable -> disallowEdit('instructorInstruction');
+$subTable -> disallowEdit('studentInstruction');
 #set the number of rows to display (per page)
-$subTable->setLimit(10);
+$subTable -> setLimit(10);
 #i can order my table by whatever i want
-$subTable->addOrderBy("ORDER BY emailAddress ASC");
+$subTable -> addOrderBy("ORDER BY emailAddress ASC");
 #if really desired, a filter box can be used for all fields
-$subTable->addAjaxFilterBoxAllFields();
+$subTable -> addAjaxFilterBoxAllFields();
 #i can disallow deleting of rows from the table
 #http://ajaxcrud.com/api/index.php?id=disallowDelete
-$subTable->disallowDelete();
+$subTable -> disallowDelete();
 #i can disallow adding rows to the table
 #http://ajaxcrud.com/api/index.php?id=disallowAdd
-$subTable->disallowAdd();
+$subTable -> disallowAdd();
 echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
 #actually show the table
-$subTable->showTable();
+$subTable -> showTable();
 echo '</td>
                     </tr>
                 </tbody>        
