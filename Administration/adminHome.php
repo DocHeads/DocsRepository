@@ -22,7 +22,7 @@ echo '<table width="375" align="left">
                     <tr height="320">
 
                         <td width="375" style="vertical-align:top;">';
-echo "<h2 style='font-size: 14px'><b>".Session::getLoggedInName()."'s Submissions:</b></h2>";
+echo "<h2 style='font-size: 14px'><b>".Session::getLoggedInName()."'s Submissions:</b><a href='../Submission/submissionUpload.php'><img style='padding-top: 3px; padding-right: 5px;' height='23px' align='right' src='../Images/greenPlus.png'></a></h2>";
 
 echo "<table class='customTable' width='350' align='center'>
                       <tr>
