@@ -427,11 +427,10 @@ echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="studentInstFile" i
 <br /><br />
 <?php
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
-echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile">';
+echo'&nbsp;&nbsp;&bull; Change File: <input type="file" name="instructorInstFile" id="instructionsToTheInstructor" class="clsFile"><br /><br />';
 }
 ?>
-<br /><br />
-
+<br />
 <?php 
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
 echo '<label for="willGrade"><strong>Will you grade assignments based on this document? &nbsp </strong></label>';
@@ -448,12 +447,10 @@ else
 }
 }
 ?>
-<p>
-<br />
 
 <?php 
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
-echo '<label for="department"><strong>Department: </strong></label>&nbsp;';
+echo '<br /><br /><label for="department"><strong>Department: </strong></label>&nbsp;';
 print $dept . '<input type="hidden" name="dept" value="' . $dept . '"/>';
 
   echo '<br>';
@@ -491,8 +488,8 @@ else {
 
 <?php 
 if ($emailAddress == $email || session::getLoggedInUserType()=='ADMIN'){
- echo '</p>
-<br />
+echo '
+<br /><br />
 <div class="btn-holder">
 <button name="save" type="submit">
 Submit

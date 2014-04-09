@@ -248,6 +248,7 @@ $subTable -> disallowEdit('deptName');
 $subTable -> setLimit(10);
 #implement a callback function after updating/editing a field
 $subTable -> onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
+$subTable -> onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
 $subTable->addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
 #i can order my table by whatever i want
 $subTable -> addOrderBy("ORDER BY emailAddress ASC");
