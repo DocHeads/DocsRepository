@@ -31,7 +31,11 @@ echo '<table width="800" align="center">
                     <tr height="300">
                         <td style="vertical-align:top;">';
 
+<<<<<<< HEAD
                         echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b><a href='../Submission/submissionUpload.php'><img style='padding-top: 6px; padding-right: 7px;' height='16px' width='16px' align='right' src='../Images/greenPlus.png'></a></h2>";
+=======
+                        echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b><a title='Create New Submission Upload' href='../Submission/submissionUpload.php'><img style='padding-top: 6px; padding-right: 7px;' height='16px' width='16px' align='right' src='../Images/greenPlus.png'></a></h2>";
+>>>>>>> 1c519b0c860ff1f78a13e043fd9094e8b9c18c8e
                                                 
 echo "<table width='920' class='customTable' align='center'>
                         <tr>
