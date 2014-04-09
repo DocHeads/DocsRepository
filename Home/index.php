@@ -51,7 +51,7 @@ echo "<table width='920' class='customTable' align='center'>
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
-                        $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions WHERE emailAddress=' . $emailAddress . ' ORDER BY createDate DESC");
+                        $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions ORDER BY createDate DESC");
                         
                         
                         
@@ -101,9 +101,7 @@ $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
 
-$sql2 = mysql_query("SELECT subID, submissionFile, deptName, rubricFileName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions WHERE emailAddress=' . $emailAddress . ' ORDER BY createDate DESC");
-
-
+$sql2 = mysql_query("SELECT subID, submissionFile, deptName, rubricFileName, courseName, instructorInstruction, studentInstruction, docName, createDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY subID ASC $limit");
 
 $paginationDisplay = ""; // Initialize the pagination output variable
 // This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
