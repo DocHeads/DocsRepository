@@ -45,8 +45,6 @@
 
     #i can order my table by whatever i want
     $deptTable->addOrderBy("ORDER BY createDate DESC");
-    
-    $deptTable->callFunction("deptName", "makeDir");
 
     #if really desired, a filter box can be used for all fields
     $deptTable->addAjaxFilterBoxAllFields();
@@ -91,11 +89,4 @@
             // echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
             // print_r($array);
         }
-        
-        #create folder for added department
-        function makeDir($val){
-            if (!file_exists('../uploads/'. $val)) {
-                mkdir('../uploads/'. $val, 0777, true);
-            }
-        }  
 ?>

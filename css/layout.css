@@ -380,9 +380,8 @@
 	font-size: 11px;
 	font-weight:normal;
 	text-align:center;
-	/* text-align: center; */
 	vertical-align: middle;
-	max-width: 20px;
+	max-width: 100px;
     overflow: hidden;
 	}
 	/* provide some minimal visual accomodation for IE8 and below */
