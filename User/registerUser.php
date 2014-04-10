@@ -38,16 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
               // validate the opt-in check box
               if (isset($_POST['optIn']))
               {
-                if ($_POST['optIn'] == 'on')
-                {
                   $emailOptIn = 'YES';
-                }
-                else
-                if ($_POST['optIn'] == 'off')
-                {
-                  $emailOptIn = 'NO';
-                }
               }
+              else {
+                  $emailOptIn = 'NO';
+              }
+              
               // check to see if user exists before inserting record
               if (Users::exists(trim($email)))
               {
