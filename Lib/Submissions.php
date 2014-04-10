@@ -57,11 +57,13 @@ class Submission
   public static function makeDir($val)
   {
     $isMade = FALSE;
-    if (!file_exists('../uploads/' . $val))
+    if (!file_exists(ConfigProperties::$BaseUploadDirectory ."/" . $val))
     {
-      mkdir('../uploads/' . $val, 0777, true);
-      $isMade = TRUE;
+      print'<br />';
+      print 'File no exist dude';
+      $isMade = mkdir('../uploads/' . $val, 0777, true);
     }
+    return $isMade;
   }
 
 }

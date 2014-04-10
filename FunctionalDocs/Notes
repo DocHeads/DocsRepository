@@ -35,6 +35,7 @@ Major Revisions:
 - Submission Profile delete needs to delete the saved file as well as the record
 - Submission Profile delete need to redirect to the landing page???
 - Deleting a submission needs to delete the submission file
+- When sending an email on validating a user, may want to do an additional check to make sure the user is selecting 'YES' 
 
 Minor Revisions:
 - Configuration: Max upload file size
