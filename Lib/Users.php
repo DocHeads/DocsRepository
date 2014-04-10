@@ -243,7 +243,7 @@ class Users
         // send the hash key to the user's email to confirm and follow back to
         // the
         // site
-        $from = "UC Document Repository <docheadsuc@gmail.com>";
+        $from = ConfigProperties::$AppSourceEmail;
         $subject = 'UC Document Repository: Confirm Password Reset';
         $body = "Dear {$name},\n\nPlease follow the URL to confirm your password reset request at the UC Document Repository.\n\n";
         $body .= "https://localhost/DocsRepository/Authentication/resetPassword.php?email={$email}&tempKey={$hash}";
@@ -666,7 +666,7 @@ class Users
     $conn = new MySqlConnect();
     $emailUsers = array();
     $from = ConfigProperties::$AppSourceEmail;
-    $subject = "ATTN UC Document Repository Admins: New User Registered";
+    $subject = "ATTN: UC Document Repository Admins: New User Registered";
 
     $sql = "SELECT emailAddress FROM users WHERE userType = 'ADMIN' AND emailOptIn = 'YES' AND isValidated = 'YES'";
 

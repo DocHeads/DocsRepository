@@ -48,5 +48,21 @@ class Submission
     return $result;
   }
 
+  /**
+   * Makes a file directory in the 'uploads' directory of the passed in parameter
+   *
+   * @param $val - string value of the directory name to be made
+   * @return TRUE if directory was made in uploads
+   */
+  public static function makeDir($val)
+  {
+    $isMade = FALSE;
+    if (!file_exists('../uploads/' . $val))
+    {
+      mkdir('../uploads/' . $val, 0777, true);
+      $isMade = TRUE;
+    }
+  }
+
 }
 ?>
