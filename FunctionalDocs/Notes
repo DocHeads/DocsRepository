@@ -40,8 +40,10 @@ Major Revisions:
 - Email a user upon validation
 - Email admins upon new user registration
 - show updateDate instead of createDate - My recent submissions panel
+- Users::registerUser, make the email "from" variable configurable
 
 Minor Revisions:
+- 
 - Configuration: Max upload file size
 - Configuration: SSL email
 - Error logging

@@ -368,14 +368,14 @@ class Users
     $to = "{$name} <{$email}>";
     // send the hash key to the user's email to confirm and follow back to the
     // site
-    $from = "UC Document Repository <docheadsuc@gmail.com>";
-    $subject = 'UC Document Repository: Confirm Password Reset';
+    $from = ConfigProperties::$AppSourceEmail;
+    $subject = 'UC Document Repository: Confirm User Registration';
     $body = "Dear {$name},\n\n";
     $body .= "Thank you for registering with the UC Document Repository.\n";
     $body .= "Please allow 24-48 hours for validation and account setup.\n\n";
     $body .= "Thank you for your patience.\n\n";
     $body .= "- UC Document Repository Team\n";
-    $body .= "  contactEmail@mail.uc.edu";
+    $body .= ConfigProperties::$AppSourceEmail;
 
     // send it from the logged in user
     $to = $name . " <" . $email . ">";
@@ -384,7 +384,14 @@ class Users
     {
       $isCommit = TRUE;
     }
-
+    $adminBody = "New UC Docs Repo user registration for: {$to}.\n\n";
+    $adminBody .="Please login and validate new user.";
+    // look up the ADMINS in the system
+    if(Users::emailAdminUsers($email, $adminBody))
+    {
+      $isCommit = TRUE;
+    }
+    
     return $isCommit;
   }
 
@@ -583,10 +590,38 @@ class Users
     $isComplete = FALSE;
     $conn = new MySqlConnect();
     $emailUsers = array();
-    $from = "UC Docs Repository <docheadsuc@gmail.com>";
+    $from = ConfigProperties::$AppSourceEmail;
     $subject = "Document Submission Update";
 
     $sql = "SELECT emailAddress FROM users WHERE emailOptIn = 'YES' AND isValidated = 'YES'";
+
+    // update existing submission record in the database
+    $result = $conn -> executeQueryResult($sql);
+    while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
+    {
+      // assign the primary key value to the name
+      //array_push($emailUsers, $row);
+      sendMail($row['emailAddress'], $from, $subject, $body);
+    }
+
+    $conn -> freeConnection();
+    return $isComplete;
+  }
+  /**
+   * Method used to email ONLY application users.
+   * 
+   * @param $email - string email/username of the new registered user
+   * @param $body - string body of the email message 
+   */
+  public static function emailAdminUsers($email, $body)
+  {
+    $isComplete = FALSE;
+    $conn = new MySqlConnect();
+    $emailUsers = array();
+    $from = ConfigProperties::$AppSourceEmail;
+    $subject = "ATTN UC Document Repository Admins: New User Registered";
+
+    $sql = "SELECT emailAddress FROM users WHERE userType = 'ADMIN' AND emailOptIn = 'YES' AND isValidated = 'YES'";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);

@@ -86,5 +86,10 @@
    */
   public static $ContactUsFormRecipient = "b.dunavent@gmail.com";
   
+  /**
+   * Email address to appear in the 'From' field of the email coming from the application
+   */
+  public static $AppSourceEmail = "UC Document Repository <docheadsuc@gmail.com>";
+  
 }
 ?>
