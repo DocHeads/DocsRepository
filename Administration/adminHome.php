@@ -42,7 +42,7 @@ echo "<table class='customTable' width='350' align='center'>
                       <tr>
                          <thead align='left'>
                             <th height='16px'>Submission</th>
-                            <th height='16px'><strong>Created On</strong></th>
+                            <th height='16px'><strong>Updated On</strong></th>
                             <th height='16px'><strong>Action</strong></th>
                           </thead>
                       </tr>";
@@ -50,7 +50,7 @@ echo "<table class='customTable' width='350' align='center'>
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
-                        $sql = mysql_query("SELECT subID, docName, createDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY subID ASC");
+                        $sql = mysql_query("SELECT subID, docName, updateDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY updateDate DESC");
 
                         $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
 if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
@@ -98,7 +98,7 @@ $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 // Now we are going to run the same query as above but this time add $limit onto the end of the SQL syntax
 // $sql2 is what we will use to fuel our while loop statement below
 
-$sql2 = mysql_query("SELECT subID, docName, createDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY subID ASC $limit");
+$sql2 = mysql_query("SELECT subID, docName, updateDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY updateDate DESC $limit");
 
 
 $paginationDisplay = ""; // Initialize the pagination output variable
@@ -126,11 +126,11 @@ while($row = mysql_fetch_array($sql2)){
 
     $subID = $row["subID"];
     $docName = $row["docName"];
-    $createDate = $row["createDate"];
+    $updateDate = $row["updateDate"];
 
     $outputList .= '<tr>'
                     . '<td height="26px">' . $docName . '</td>
-                       <td height="26px">' . $createDate . '</td>
+                       <td height="26px">' . $updateDate . '</td>
                        <td height="26px"><a href="../Submission/submissionProfile.php?subID=' . $subID . '"
                        <td height="26px"><img width="13px" src="../Images/edit.png"></td>
                        </tr>';
@@ -195,6 +195,7 @@ $userTable -> disallowEdit('emailAddress');
 $userTable -> disallowEdit('fname');
 $userTable -> disallowEdit('lname');
 
+
 #set the number of rows to display (per page)
 $userTable -> setLimit(5);
 #implement a callback function after updating/editing a field
@@ -225,7 +226,7 @@ $subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
 $subTable -> omitPrimaryKey();
 #the table fields have prefixes; i want to give the heading titles something more
 # meaningful
-$subTable -> displayAs("emailAddress", "User Name");
+$subTable -> displayAs("emailAddress", "User");
 $subTable -> displayAs("docName", "Submission");
 $subTable -> displayAs("deptName", "Department");
 $subTable -> displayAs("courseName", "Course");
@@ -262,9 +263,9 @@ $subTable -> setLimit(10);
 #implement a callback function after updating/editing a field
 $subTable -> onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
 $subTable -> onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
-$subTable -> addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
+$subTable->addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
 #i can order my table by whatever i want
-$subTable -> addOrderBy("ORDER BY emailAddress ASC");
+$subTable -> addOrderBy("ORDER BY createDate DESC");
 #if really desired, a filter box can be used for all fields
 $subTable -> addAjaxFilterBoxAllFields();
 #i can disallow adding rows to the table

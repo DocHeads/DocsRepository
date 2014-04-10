@@ -29,7 +29,7 @@
     $subTable->omitPrimaryKey();
     
     #the table fields have prefixes; i want to give the heading titles something more meaningful
-    $subTable->displayAs("emailAddress", "User Name");
+    $subTable->displayAs("emailAddress", "User");
     $subTable->displayAs("docName", "Submission");
     $subTable->displayAs("deptName", "Department");
     $subTable->displayAs("courseName", "Course");
@@ -66,7 +66,7 @@
     $subTable->disallowEdit('deptName');
     
     #set the number of rows to display (per page)
-    $subTable->setLimit(5);
+    $subTable->setLimit(10);
 
     #if really desired, a filter box can be used for all fields
     $subTable->addAjaxFilterBoxAllFields();
@@ -76,7 +76,7 @@
     $subTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
     
     #i can order my table by whatever i want
-    $subTable->addOrderBy("ORDER BY emailAddress ASC");
+    $subTable->addOrderBy("ORDER BY createDate DESC");
     
     #i can disallow adding rows to the table
     #http://ajaxcrud.com/api/index.php?id=disallowAdd

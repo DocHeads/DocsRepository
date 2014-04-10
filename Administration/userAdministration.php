@@ -42,7 +42,7 @@ include ('../Lib/Departments.php');
     $userTable->omitPrimaryKey();
     
     #the table fields have prefixes; i want to give the heading titles something more meaningful
-    $userTable->displayAs("emailAddress", "User Name");
+    $userTable->displayAs("emailAddress", "User");
     $userTable->displayAs("fname", "First Name");
     $userTable->displayAs("lname", "Last Name");
     $userTable->displayAs("userType", "User Type");
@@ -85,7 +85,7 @@ include ('../Lib/Departments.php');
     $userTable->onUpdateExecuteCallBackFunction("userType", "myCallBackFunctionForEdit");
     
     #i can order my table by whatever i want
-    $userTable->addOrderBy("ORDER BY emailAddress ASC");
+    $userTable->addOrderBy("ORDER BY createDate DESC");
     
     #i can disallow adding rows to the table
     #http://ajaxcrud.com/api/index.php?id=disallowAdd

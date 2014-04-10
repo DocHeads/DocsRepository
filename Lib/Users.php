@@ -301,8 +301,10 @@ class Users
     $from = ConfigProperties::$AppSourceEmail;
     $subject = 'UC Document Repository: User Confirmation';
     $body = "Dear {$fullName},\n\n";
-    $body .= "Welcome to the UC Document Repository!.\n\n";
-    $body .= "If you have any questions please contact the administrator!\n\n";
+    $body .= "Welcome to the UC Document Repository!  Your account is now validated.\n\n";
+    $body .= "If you need help getting started visit our help pages or contact the administrator!\n\n";
+    $body .= "Have a great day!\n\n";
+    $body .= "- UC Document Repository Admin\n\n";
     $body .= ConfigProperties::$AppSourceEmail;
 
     $conn -> freeConnection();

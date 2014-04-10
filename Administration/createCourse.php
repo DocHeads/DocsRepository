@@ -36,11 +36,13 @@ $errMsg = '';
 
     #the table fields have prefixes; i want to give the heading titles something more meaningful
     $courseTable->displayAs("courseName", "Course Name");
+    $courseTable->displayAs("createDate", "Date Created");
+    
 
     #i could omit a field if I wanted
     #http://ajaxcrud.com/api/index.php?id=omitField
     $courseTable->omitField("updateDate");
-    $courseTable->omitField("createDate");
+
 
     #i could omit a field from being on the add form if I wanted
     $courseTable->omitAddField("updateDate");
@@ -48,13 +50,12 @@ $errMsg = '';
     
     #i could disable fields from being editable
     $courseTable->disallowEdit('createDate');
-    $courseTable->disallowEdit('courseName');
 
     #set the number of rows to display (per page)
     $courseTable->setLimit(10);
 
     #i can order my table by whatever i want
-    $courseTable->addOrderBy("ORDER BY courseName ASC");
+    $courseTable->addOrderBy("ORDER BY createDate DESC");
     
     #if really desired, a filter box can be used for all fields
     $courseTable->addAjaxFilterBoxAllFields();
