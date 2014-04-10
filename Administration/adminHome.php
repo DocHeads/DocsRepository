@@ -273,8 +273,8 @@ $subTable -> addOrderBy("ORDER BY createDate DESC");
 #if really desired, a filter box can be used for all fields
 $subTable -> addAjaxFilterBoxAllFields();
 #i can disallow adding rows to the table
-#http://ajaxcrud.com/api/index.php?id=disallowAdd
 $subTable -> disallowAdd();
+$subTable -> disallowDelete();
 echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b><a href="../Administration/submissionAdministration.php"><img style="padding-top: 3px; padding-right: 5px;" height="23px" align="right" src="../Images/edit3.png"></a></h2>';
 #actually show the table
 $subTable -> showTable();

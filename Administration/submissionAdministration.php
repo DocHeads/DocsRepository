@@ -81,6 +81,7 @@
     #i can disallow adding rows to the table
     #http://ajaxcrud.com/api/index.php?id=disallowAdd
     $subTable->disallowAdd();
+    $subTable -> disallowDelete();
     
     echo '<h2>Submission Administration</h2>
             <div style="float: left">
