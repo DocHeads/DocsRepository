@@ -11,16 +11,19 @@ include ('../Lib/Departments.php');
 ?>
 
 <?php
-    $errMsg = '';
+ $errMsg = '';
+ // email users upon becoming a valid user by the admin
     $id = ($_POST['id']);
-    
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-        if ($_POST['action'] == 'update')
+      if(isset($_POST['action']))
+      {
+        $update = "{$_POST['action']}";
+        if ($update == "update")
         {
          Users::emailValidatedUsers($id);
-         echo $id;
         }
+      }
     }
     
     if(Session::getLoggedInUserType()== "ADMIN") {
@@ -97,21 +100,21 @@ include ('../Lib/Departments.php');
              
              <?php
 
-              echo '</b></p>
+            echo '</b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
         <div style="clear:both;"></div>';
 
-              }
-              else {
+            }
+            else {
 
-              $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
-              print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
-              print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
-              header( "refresh:5;url=../Authentication/login.php" );
-              }
-            ?>
+            $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
+            print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
+            print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+            header( "refresh:5;url=../Authentication/login.php" );
+            }
+          ?>
 
 <?php
 #actually show the table

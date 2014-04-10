@@ -14,6 +14,20 @@ include ('../Lib/Courses.php');
 <?php 
 $emailAddress=$_SESSION['email'];
 $errMsg='';
+// email users upon becoming a valid user by the admin
+$id = ($_POST['id']);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+      if(isset($_POST['action']))
+      {
+        $update = "{$_POST['action']}";
+        if ($update == "update")
+        {
+         Users::emailValidatedUsers($id);
+        }
+      }
+    }
+
 if(Session::getLoggedInUserType()=="ADMIN") {
 print '<h2>Administration</h2>';
 echo '<div style="padding: 0px 50px 0px 50px">';
@@ -181,7 +195,6 @@ $userTable -> disallowEdit('emailAddress');
 $userTable -> disallowEdit('fname');
 $userTable -> disallowEdit('lname');
 
-
 #set the number of rows to display (per page)
 $userTable -> setLimit(5);
 #implement a callback function after updating/editing a field
@@ -249,7 +262,7 @@ $subTable -> setLimit(10);
 #implement a callback function after updating/editing a field
 $subTable -> onUpdateExecuteCallBackFunction("docName", "myCallBackFunctionForEdit");
 $subTable -> onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
-$subTable->addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
+$subTable -> addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID');
 #i can order my table by whatever i want
 $subTable -> addOrderBy("ORDER BY emailAddress ASC");
 #if really desired, a filter box can be used for all fields

@@ -9,8 +9,8 @@
  */
 include ('../Lib/MySqlConnect.php');
 include ('../Lib/DocsMailer.php');
-// ini_set('display_errors',1); 
- // error_reporting(E_ALL);
+// ini_set('display_errors',1);
+// error_reporting(E_ALL);
 class Users
 {
   protected $username;
@@ -267,17 +267,17 @@ class Users
   }
 
   /**
-   * Method used to email a newly validated user. Recieves ID and queries the database based
+   * Method used to email a newly validated user. Recieves ID and queries the
+   * database based
    * on passed in ID compared to ID in the database.
    * @param $id - int ID passed in from user registraion pages
    */
-public static function emailValidatedUsers($id)
+  public static function emailValidatedUsers($id)
   {
     $conn = new MySqlConnect();
-    $id = $conn -> sqlCleanup($id);
     $firstName = "";
     $lastName = "";
-    $fullName = ""; 
+    $fullName = "";
     $dbEmail = null;
     $dbUserID = null;
 
@@ -290,27 +290,23 @@ public static function emailValidatedUsers($id)
         // get the email in the db for the user with the corresponding
         // tempPassKey set
         $dbEmail = $row['emailAddress'];
-        $lastName = $row ['lName'];
-        $firstName = $row ['fName'];
+        $lastName = $row['lName'];
+        $firstName = $row['fName'];
       }
-    }   
-    $name = "{$firstName} {$lastName}";
-    $to = "{$name} <{$dbEmail}>";
+    }
+    $fullName = "{$firstName} {$lastName}";
+    $to = "{$fullName} <{$dbEmail}>";
     // send the hash key to the user's email to confirm and follow back to the
     // site
-    $from = "UC Document Repository <docheadsuc@gmail.com>";
+    $from = ConfigProperties::$AppSourceEmail;
     $subject = 'UC Document Repository: User Confirmation';
-    $body = "Dear {$name},\n\n";
-    $body .= "Welcome to the UC Document Repository!.\n";
-    $body .= "  If you have any questions please contact the administrator!";
-    $body .= "  contactEmail@mail.uc.edu";
-
-    // send it from the logged in user
-    $to = $name . " <" . $email . ">";
+    $body = "Dear {$fullName},\n\n";
+    $body .= "Welcome to the UC Document Repository!.\n\n";
+    $body .= "If you have any questions please contact the administrator!\n\n";
+    $body .= ConfigProperties::$AppSourceEmail;
 
     $conn -> freeConnection();
-
-    return (sendMail($to, $from, $subject, $body));
+    return sendMail($to, $from, $subject, $body);
 
   }
 
@@ -433,13 +429,13 @@ public static function emailValidatedUsers($id)
       $isCommit = TRUE;
     }
     $adminBody = "New UC Docs Repo user registration for: {$to}.\n\n";
-    $adminBody .="Please login and validate new user.";
+    $adminBody .= "Please login and validate new user.";
     // look up the ADMINS in the system
-    if(Users::emailAdminUsers($email, $adminBody))
+    if (Users::emailAdminUsers($email, $adminBody))
     {
       $isCommit = TRUE;
     }
-    
+
     return $isCommit;
   }
 
@@ -655,11 +651,12 @@ public static function emailValidatedUsers($id)
     $conn -> freeConnection();
     return $isComplete;
   }
+
   /**
    * Method used to email ONLY application users.
-   * 
+   *
    * @param $email - string email/username of the new registered user
-   * @param $body - string body of the email message 
+   * @param $body - string body of the email message
    */
   public static function emailAdminUsers($email, $body)
   {
