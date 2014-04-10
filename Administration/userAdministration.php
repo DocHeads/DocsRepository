@@ -12,6 +12,17 @@ include ('../Lib/Departments.php');
 
 <?php
     $errMsg = '';
+    $id = ($_POST['id']);
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        if ($_POST['action'] == 'update')
+        {
+         Users::emailValidatedUsers($id);
+         echo $id;
+        }
+    }
+    
     if(Session::getLoggedInUserType()== "ADMIN") {
     #the code for the class
     
@@ -58,7 +69,7 @@ include ('../Lib/Departments.php');
     $userTable->disallowEdit('createDate');
     
     #set the number of rows to display (per page)
-    $userTable->setLimit(5);
+    $userTable->setLimit(10);
 
     #if really desired, a filter box can be used for all fields
     $userTable->addAjaxFilterBoxAllFields();
@@ -69,7 +80,6 @@ include ('../Lib/Departments.php');
     $userTable->onUpdateExecuteCallBackFunction("isValidated", "myCallBackFunctionForEdit");
     $userTable->onUpdateExecuteCallBackFunction("emailOptIn", "myCallBackFunctionForEdit");
     $userTable->onUpdateExecuteCallBackFunction("userType", "myCallBackFunctionForEdit");
-    
     
     #i can order my table by whatever i want
     $userTable->addOrderBy("ORDER BY emailAddress ASC");

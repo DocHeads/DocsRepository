@@ -33,13 +33,13 @@ To Do:
 Major Revisions:
 - Submission Profile testing
 - Submission Profile delete needs to delete the saved file as well as the record
-- Submission Profile delete need to redirect to the landing page???
+- Submission Profile delete need to redirect to the landing page??? 
 - Creating new dept needs to make the corresponding uploads directory
 - Deleting a submission needs to delete the submission file
-- Hide edit search field in the submissions record tables
 - Email a user upon validation
 - Email admins upon new user registration
 - show updateDate instead of createDate - My recent submissions panel
+- add tool tip to manage buttons and 
 
 Minor Revisions:
 - Configuration: Max upload file size
