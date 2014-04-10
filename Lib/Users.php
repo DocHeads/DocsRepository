@@ -267,6 +267,54 @@ class Users
   }
 
   /**
+   * Method used to email a newly validated user. Recieves ID and queries the database based
+   * on passed in ID compared to ID in the database.
+   * @param $id - int ID passed in from user registraion pages
+   */
+public static function emailValidatedUsers($id)
+  {
+    $conn = new MySqlConnect();
+    $id = $conn -> sqlCleanup($id);
+    $firstName = "";
+    $lastName = "";
+    $fullName = ""; 
+    $dbEmail = null;
+    $dbUserID = null;
+
+    $result = $conn -> executeQueryResult("SELECT fName, lName, emailAddress FROM users WHERE userID = '{$id}'");
+    if (isset($result))
+    {
+      // use mysql_fetch_array($result, MYSQL_ASSOC) to access the result object
+      if ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+      {
+        // get the email in the db for the user with the corresponding
+        // tempPassKey set
+        $dbEmail = $row['emailAddress'];
+        $lastName = $row ['lName'];
+        $firstName = $row ['fName'];
+      }
+    }   
+    $name = "{$firstName} {$lastName}";
+    $to = "{$name} <{$dbEmail}>";
+    // send the hash key to the user's email to confirm and follow back to the
+    // site
+    $from = "UC Document Repository <docheadsuc@gmail.com>";
+    $subject = 'UC Document Repository: User Confirmation';
+    $body = "Dear {$name},\n\n";
+    $body .= "Welcome to the UC Document Repository!.\n";
+    $body .= "  If you have any questions please contact the administrator!";
+    $body .= "  contactEmail@mail.uc.edu";
+
+    // send it from the logged in user
+    $to = $name . " <" . $email . ">";
+
+    $conn -> freeConnection();
+
+    return (sendMail($to, $from, $subject, $body));
+
+  }
+
+  /**
    * Method used to confirm that the password request is legitimate by passing in
    * an email and temp pass key generated in an email to the user. These values
    * are returned in the URL for validation before a password reset can occur.
