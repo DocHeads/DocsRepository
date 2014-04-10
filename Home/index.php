@@ -32,29 +32,14 @@ echo '<table width="800" align="center">
                         <td style="vertical-align:top;">';
 
                         echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b><a title='Create New Submission Upload' href='../Submission/submissionUpload.php'><img style='padding-top: 6px; padding-right: 7px;' height='16px' width='16px' align='right' src='../Images/greenPlus.png'></a></h2>";
-                                                
-echo "<table width='920' class='customTable' align='center'>
-                        <tr>
-                        <thead align='left'>
-                        <th height='20px'>Submission</th>
-                        <th height='20px'>File Name</th>
-                        <th height='20px'>Department</th>
-                        <th height='20px'>Course</th>
-                        <th height='20px'>Instructor Inst</th>
-                        <th height='20px'>Student Inst</th>    
-                        <th height='20px'>Rubric</th>                        
-                        <th height='20px'>Updated On</th>
-                        <th height='20px'>Action</th>
-                        </thead>
-                        </tr>";
-                        
+
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
                         $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, updateDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY updateDate ASC");
-                        
-                        
-                        
+            
+             echo "<table width='920' class='customTable' align='center'>";           
+
                         $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
 if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
     $pn = preg_replace('#[^0-9]#i', '', $_GET['pn']); // filter everything but numbers for security(new)
@@ -103,6 +88,13 @@ $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 
 $sql2 = mysql_query("SELECT subID, submissionFile, deptName, rubricFileName, courseName, instructorInstruction, studentInstruction, docName, updateDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY updateDate DESC $limit");
 
+$result = mysql_query($sql2);
+if (!$result) {
+    echo '<span align="center"><font color=red>Sorry, you do not have any submissions.<br><br><a href=../Submissions/uploadSubmission.php>Click Here</a> to Upload a Submission!</font></span>';
+    echo "</table>";
+    echo '</td>';
+} else {
+
 $paginationDisplay = ""; // Initialize the pagination output variable
 // This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
 if ($lastPage != "1"){
@@ -122,6 +114,20 @@ if ($lastPage != "1"){
     }
 }
 
+                        echo"<tr>
+                        <thead align='left'>
+                        <th height='20px'>Submission</th>
+                        <th height='20px'>File Name</th>
+                        <th height='20px'>Department</th>
+                        <th height='20px'>Course</th>
+                        <th height='20px'>Instructor Inst</th>
+                        <th height='20px'>Student Inst</th>    
+                        <th height='20px'>Rubric</th>                        
+                        <th height='20px'>Updated On</th>
+                        <th height='20px'>Action</th>
+                        </thead>
+                        </tr>";
+                        
 $outputList = '';
 
 while($row = mysql_fetch_array($sql2)){
@@ -152,7 +158,7 @@ while($row = mysql_fetch_array($sql2)){
                        </tr>';
 
 }
-            
+}        
 ?>
          <?php print "$outputList"; ?>
          <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>

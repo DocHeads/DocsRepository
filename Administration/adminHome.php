@@ -38,15 +38,6 @@ echo '<table width="375" align="left">
                         <td width="375" style="vertical-align:top;">';
 echo "<h2 style='font-size: 14px'><b>".Session::getLoggedInName()."'s Submissions:</b><a title='Create New Submission Upload' href='../Submission/submissionUpload.php'><img style='padding-top: 6px; padding-right: 7px;' height='16px' width='16px' align='right' src='../Images/greenPlus.png'></a></h2>";
 
-echo "<table class='customTable' width='350' align='center'>
-                      <tr>
-                         <thead align='left'>
-                            <th height='16px'>Submission</th>
-                            <th height='16px'><strong>Updated On</strong></th>
-                            <th height='16px'><strong>Action</strong></th>
-                          </thead>
-                      </tr>";
-
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
@@ -100,7 +91,13 @@ $limit = 'LIMIT ' .($pn - 1) * $itemsPerPage .',' .$itemsPerPage;
 
 $sql2 = mysql_query("SELECT subID, docName, updateDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY updateDate DESC $limit");
 
-
+$result = mysql_query($sql2);
+if (!$result) {
+    echo '<span align="center"><font color=red>Sorry, you do not have any submissions.<br><br><a href=../Submissions/uploadSubmission.php>Click Here</a> to Upload a Submission!</font></span>';
+    echo "</table>";
+    echo '</td>';
+} else {
+      
 $paginationDisplay = ""; // Initialize the pagination output variable
 // This code runs only if the last page variable is ot equal to 1, if it is only 1 page we require no paginated links to display
 if ($lastPage != "1"){
@@ -120,6 +117,14 @@ if ($lastPage != "1"){
     }
 }
 
+echo "<table class='customTable' width='350' align='center'>
+                      <tr>
+                         <thead align='left'>
+                            <th height='16px'>Submission</th>
+                            <th height='16px'><strong>Updated On</strong></th>
+                            <th height='16px'><strong>Action</strong></th>
+                          </thead>
+                      </tr>";
 $outputList = '';
 
 while($row = mysql_fetch_array($sql2)){
@@ -136,8 +141,7 @@ while($row = mysql_fetch_array($sql2)){
                        </tr>';
                           
 }
-
-            
+}     
 ?>
             <?php print "$outputList"; ?>
             <tr><td bgcolor="#e7e2e0">&nbsp;</td></tr>
