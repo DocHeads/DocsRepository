@@ -57,14 +57,6 @@ if (isset($result))
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  print '<br/>';
-  var_dump($_POST);
-  print '<br/>';
-
-  print '<br/>';
-  var_dump($_FILES);
-  print '<br/>';
-
   $subID = $_POST['subID'];
 
   if (isset($_POST['delete']))

@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       else
       {
         // Problem! Set $errMsg value based upon the error:
-        switch ($_FILES['submissionfile']['error'])
+        switch ($_FILES['submissionFile']['error'])
         {
           case 1 :
             $errMsg = 'Submission file exceeds the upload_max_filesize setting in php.ini';
