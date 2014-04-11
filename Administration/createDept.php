@@ -39,7 +39,8 @@
     #http://ajaxcrud.com/api/index.php?id=disallowDelete
     // $deptTable->disallowDelete();
     
-
+    $deptTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
+    
     #set the number of rows to display (per page)
     $deptTable->setLimit(10);
 
