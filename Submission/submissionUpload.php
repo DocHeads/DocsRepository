@@ -14,13 +14,6 @@ $errMsgInst = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  error_reporting(E_ALL);
-  var_dump($_POST);
-  print '<br />';
-  print '<br />';
-  var_dump($_FILES);
-  print '<br />';
-  print '<br />';
   $conn = new MySqlConnect();
   $email = $_SESSION['email'];
   $docName = $_POST['docName'];
@@ -63,15 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     if (Submission::makeDir($subID))
     {
-      print '<br />';
-      print 'Directory Made';
-      print '<br />';
 
       if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$submissionFile}"))
       {
         $errMsg = "Submission: {$docName} File: {$submissionFile} upload success.";
         $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$submissionFile}\">{$submissionFile}</a>";
-        var_dump($submissionFile);
 
         // email the opt in users
         $body .= "Submission Profile:\n";
@@ -82,16 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $body .= "Comments: {$comments}\n\n";
 
         Users::emailOptInUsers($body);
-        var_dump($gradingFile);
+        
         if (!empty($gradingFile))
         {
-          print '<br/> Grading file not empty';
 
           if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$gradingFile}"))
           {
             $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
             $gradingFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$gradingFile}\">{$gradingFile}</a>";
-            var_dump($gradingFile);
           }
           else
           {
@@ -127,7 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           {
             $errMsgStud = 'Student Instruction File: ' . $studentInstFile . ' upload success.';
             $studentInstFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$studentInstFile}\">{$studentInstFile}</a>";
-            var_dump($studentInstFile);
           }
           else
           {
@@ -163,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           {
             $errMsgInst = 'Instructor Instruction File: ' . $instructorInstFile . ' upload success.';
             $instructorInstFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$instructorInstFile}\">{$instructorInstFile}</a>";
-            var_dump($instructorInstFile);
           }
           else
           {

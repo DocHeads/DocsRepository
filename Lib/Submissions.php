@@ -59,8 +59,6 @@ class Submission
     $isMade = FALSE;
     if (!file_exists(ConfigProperties::$BaseUploadDirectory ."/" . $val))
     {
-      print'<br />';
-      print 'File no exist dude';
       $isMade = mkdir('../uploads/' . $val, 0777, true);
     }
     return $isMade;
