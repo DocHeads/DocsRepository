@@ -1448,11 +1448,6 @@ class ajaxCRUD{
             $report_msg[] = $this->emptyTableMessage;
         }
 
-        #this is an optional function which will allow you to display errors or report messages as desired. comment it out if desired
-        //only show the message box if it hasn't been displayed already
-        if ($warning_msg_displayed == 0 || $warning_msg_displayed == ''){
-            echo_msg_box();
-        }
 
         $top_html .= "<div id='$this->db_table'>\n";
 
@@ -2504,59 +2499,6 @@ class paging{
 
 }
 
-/* Random functions which may or may not be used */
-if (!function_exists('echo_msg_box')){
-    function echo_msg_box(){
-
-        global $error_msg;
-        global $report_msg;
-
-        if (is_string($error_msg)){
-            $error_msg = array();
-        }
-        if (is_string($report_msg)){
-            $report_msg = array();
-        }
-
-        //for passing errors/reports over get variables
-        if (isset($_REQUEST['err_msg']) && $_REQUEST['err_msg'] != ''){
-            $error_msg[] = $_REQUEST['err_msg'];
-        }
-        if (isset($_REQUEST['rep_msg']) && $_REQUEST['rep_msg'] != ''){
-            $report_msg[] = $_REQUEST['rep_msg'];
-        }
-
-        if(is_array($report_msg)){
-            $first = true;
-                foreach ($report_msg as $e){
-                    if($first){
-                        $reports.= "&nbsp;&nbsp; $e";
-                        $first = false;
-                    }
-                    else
-                        $reports.= "<br /> $e";
-                }
-        }
-        if(isset($reports) && $reports != ''){
-            echo "<div class='report'>$reports</div>";
-        }
-
-        if(is_array($error_msg)){
-            $first = true;
-                foreach ($error_msg as $e){
-                    if($first){
-                        $errors.= "&nbsp;&nbsp; $e";
-                        $first = false;
-                    }
-                    else
-                        $errors.= "<br />$e";
-                }
-        }
-        if(isset($errors) && $errors != ''){
-            echo "<div class='error'>$errors</div>";
-        }
-    }
-}
 
 if (!function_exists('make_filename_safe')) {
 
