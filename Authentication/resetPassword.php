@@ -1,5 +1,6 @@
 <?php
-include '../Lib/Session.php';
+include ('../Lib/ConfigProperties.php');
+include ('../Lib/Session.php');
 include ('../templates/header.php');
 $errMsg = '';
 $newPass = '';

@@ -26,7 +26,7 @@
   /**
    * URL domain name for the application
    */
-  public static $DomainName = "localhost";
+  public static $DomainName = "http://homepages.uc.edu/~dunavebc/DocsRepository";
   
   /**
    * Base upload directory for file submissions;

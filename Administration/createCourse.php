@@ -1,10 +1,13 @@
 <?php
-    
-    include_once('../templates/preheader.php'); // <-- this include file MUST go first before any HTML/output
-    include ('../ajaxCRUD.class.php'); // <-- this include file MUST go first before any HTML/output
-    include ('../Lib/Session.php');
-    Session::validateSession();
-    include ('../templates/header.php');   
+ini_set('display_errors', true);
+error_reporting(E_ALL);
+include_once ('../templates/preheader.php');
+// <-- this include file MUST go first before any HTML/output
+include ('../ajaxCRUD.class.php');
+// <-- this include file MUST go first before any HTML/output
+include ('../Lib/Session.php');
+Session::validateSession();
+include ('../templates/header.php');
 ?>
 
 <?php
@@ -65,27 +68,26 @@ $errMsg = '';
                 <p style="font-size: 12px;">Total Returned Rows: <b>'; 
              
              ?>
-                <?=$courseTable->insertRowsReturned();?>
+                <?=$courseTable -> insertRowsReturned(); ?>
              
-             <?php 
-             
-                echo '</b></p>
+             <?php
+
+              echo '</b></p>
             <h5 style="font-size: 12px; color:red;">Use the dropdowns or text fields below to search the database!  <a href="../Videos/UserAdminScreenRecord.avi">View Tutorial</a></h5>
         </div>
 
         <div style="clear:both;"></div>';
-    }
-    else {
-            
-        $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
-        print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
-        print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
-        header( "refresh:5;url=../Authentication/login.php" );          
-    }
+              }
+              else {
 
-?>
+              $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
+              print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
+              print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+              header( "refresh:5;url=../Authentication/login.php" );
+              }
+            ?>
 
-<?php 
-     #Show the table
-     $courseTable->showTable();
+<?php
+#Show the table
+$courseTable -> showTable();
 ?>

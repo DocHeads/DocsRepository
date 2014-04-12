@@ -1,41 +1,30 @@
 <?php
- require_once "Mail.php";
- 
- /**
-  * Method used to send email programmatically from the system
-  * 
-  * @param $to - string value for the email recipient
-  * @param $from - string value the email is sent from
-  * @param $subject - string value of the email subject line
-  * @param $body - string value of the email body
-  * @return TRUE if the email is sent  
-  */
- function sendMail($to, $from, $subject, $body)
- {
- error_reporting(E_ALL ^ E_STRICT);
- $isSent = FALSE;
- 
- $host = ConfigProperties::$EmailServer;
- $username = ConfigProperties::$EmailServerUsername;
- $password = ConfigProperties::$EmailServerPassword;
- 
- $headers = array ('From' => $from,
-   'To' => $to,
-   'Subject' => $subject);
- $smtp = Mail::factory('smtp',
-   array ('host' => $host,
-     'auth' => true,
-     'username' => $username,
-     'password' => $password));
- 
- $mail = $smtp->send($to, $headers, $body);
- 
- if (PEAR::isError($mail)) {
-   $isSent = $mail->getMessage();
-  } else {
-   $isSent = TRUE;
+require_once ('../Lib/PHPMailer/PHPMailerAutoload.php');
+
+/**
+ * Class used to send email programmatically from the system
+ */
+class DocsMailer extends PHPMailer
+{
+  var $to_name;
+  var $to_email;
+  var $fromEmail;
+  var $fromName;
+  var $sender;
+
+  function DocsMailer()
+  {
+    $this -> Host = ConfigProperties::$EmailServer;
+    $this -> SMTPAuth = true;
+    $this -> Username = ConfigProperties::$EmailServerUsername;
+    $this -> Password = ConfigProperties::$EmailServerPassword;
+    $this -> Mailer = 'smtp';
+
+    $this -> From = ConfigProperties::$EmailServerUsername;
+    $this -> FromName = 'UC Document Repository';
+    $this -> Sender = ConfigProperties::$EmailServerUsername;
+    $this -> Priority = 3;
   }
-  
-  return $isSent;
- }
- ?>
+
+}
+?>

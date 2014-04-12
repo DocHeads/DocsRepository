@@ -7,6 +7,8 @@
  * - Registering users
  * - Validating users
  */
+ini_set('display_errors', true);
+error_reporting(E_ALL);
 include ('../Lib/MySqlConnect.php');
 include ('../Lib/DocsMailer.php');
 // ini_set('display_errors',1);
@@ -194,7 +196,6 @@ class Users
     $conn = new MySqlConnect();
     $isFound = FALSE;
 
-    $email = $conn -> sqlCleanup($email);
     // query the db for the value comparison
     $result = $conn -> executeQueryResult("SELECT userId FROM users WHERE emailAddress = '{$email}'");
 
@@ -220,7 +221,6 @@ class Users
   {
     $isReq = FALSE;
     $conn = new MySqlConnect();
-    $email = $conn -> sqlCleanup($email);
     $ts = $conn -> getCurrentTs();
     $name = '';
 
@@ -246,15 +246,23 @@ class Users
         $from = ConfigProperties::$AppSourceEmail;
         $subject = 'UC Document Repository: Confirm Password Reset';
         $body = "Dear {$name},\n\nPlease follow the URL to confirm your password reset request at the UC Document Repository.\n\n";
-        $body .= "https://localhost/DocsRepository/Authentication/resetPassword.php?email={$email}&tempKey={$hash}";
+        $body .= ConfigProperties::$DomainName . "/Authentication/resetPassword.php?email={$email}&tempKey={$hash}";
 
         // send it from the logged in user
         $to = $name . " <" . $email . ">";
 
-        if (sendMail($to, $from, $subject, $body))
+        $mailer = new DocsMailer();
+        $mailer -> Subject = $subject;
+        $mailer -> Body = $body;
+        $mailer -> addAddress($email, $name);
+        $mailer -> From = $from;
+
+        if ($mailer -> send())
         {
-          $isReq = TRUE;
+          $errMsg = 'Password reset email sent to ' . $email . '<br />';
         }
+        $mailer -> clearAddresses();
+        $mailer -> clearAttachments();
       }
     }
     else
@@ -274,6 +282,7 @@ class Users
    */
   public static function emailValidatedUsers($id)
   {
+    
     $conn = new MySqlConnect();
     $firstName = "";
     $lastName = "";
@@ -307,9 +316,17 @@ class Users
     $body .= "- UC Document Repository Admin\n\n";
     $body .= ConfigProperties::$AppSourceEmail;
 
-    $conn -> freeConnection();
-    return sendMail($to, $from, $subject, $body);
+    $mailer = new DocsMailer();
+    $mailer -> Subject = $subject;
+    $mailer -> Body = $body;
+    $mailer -> addAddress($dbEmail, $fullName);
+    $mailer -> From = $from;
 
+    $mailer -> send();
+    $mailer -> clearAddresses();
+    $mailer -> clearAttachments();
+
+    $conn -> freeConnection();
   }
 
   /**
@@ -328,8 +345,6 @@ class Users
   {
     $isConfirmed = FALSE;
     $conn = new MySqlConnect();
-    $email = $conn -> sqlCleanup($email);
-    $tempKey = $conn -> sqlCleanup($tempKey);
     $dbEmail = null;
     $dbUserID = null;
 
@@ -373,7 +388,6 @@ class Users
     $conn = new MySqlConnect();
     $isCommit = FALSE;
 
-    $email = $conn -> sqlCleanup($email);
     $hash = Users::encodePassword($password);
     $ts = $conn -> getCurrentTs();
 
@@ -394,11 +408,6 @@ class Users
     $conn = new MySqlConnect();
     $ts = $conn -> getCurrentTs();
 
-    $password = $conn -> sqlCleanup($password);
-    $firstName = $conn -> sqlCleanup($firstName);
-    $lastName = $conn -> sqlCleanup($lastName);
-    $email = $conn -> sqlCleanup($email);
-    $emailOptIn = $conn -> sqlCleanup($emailOptIn);
     $userType = 'STANDARD';
 
     // hash the password
@@ -407,37 +416,48 @@ class Users
     $sqlQuery .= "VALUES ('{$hash}', '{$firstName}', '{$lastName}', '{$email}', '{$userType}', '{$emailOptIn}', 'NO', '{$ts}', '{$ts}')";
 
     $isCommit = $conn -> executeQuery($sqlQuery);
-    $conn -> freeConnection();
 
-    // email user registration confirmation
-    $name = "{$firstName} {$lastName}";
-    $to = "{$name} <{$email}>";
-    // send the hash key to the user's email to confirm and follow back to the
-    // site
-    $from = ConfigProperties::$AppSourceEmail;
-    $subject = 'UC Document Repository: Confirm User Registration';
-    $body = "Dear {$name},\n\n";
-    $body .= "Thank you for registering with the UC Document Repository.\n";
-    $body .= "Please allow 24-48 hours for validation and account setup.\n\n";
-    $body .= "Thank you for your patience.\n\n";
-    $body .= "- UC Document Repository Team\n";
-    $body .= ConfigProperties::$AppSourceEmail;
-
-    // send it from the logged in user
-    $to = $name . " <" . $email . ">";
-
-    if (sendMail($to, $from, $subject, $body))
+    if ($isCommit)
     {
-      $isCommit = TRUE;
-    }
-    $adminBody = "New UC Docs Repo user registration for: {$to}.\n\n";
-    $adminBody .= "Please login and validate new user.";
-    // look up the ADMINS in the system
-    if (Users::emailAdminUsers($email, $adminBody))
-    {
-      $isCommit = TRUE;
-    }
+      // email user registration confirmation
+      $name = "{$firstName} {$lastName}";
+      $to = "{$name} <{$email}>";
+      // send the hash key to the user's email to confirm and follow back to the
+      // site
+      $from = ConfigProperties::$AppSourceEmail;
+      $subject = 'UC Document Repository: Confirm User Registration';
+      $body = "Dear {$name},\n\n";
+      $body .= "Thank you for registering with the UC Document Repository.\n";
+      $body .= "Please allow 24-48 hours for validation and account setup.\n\n";
+      $body .= "Thank you for your patience.\n\n";
+      $body .= "- UC Document Repository Team\n";
+      $body .= ConfigProperties::$AppSourceEmail;
 
+      // send it from the logged in user
+      $to = $name . " <" . $email . ">";
+
+      $mailer = new DocsMailer();
+      $mailer -> Subject = $subject;
+      $mailer -> Body = $body;
+      $mailer -> addAddress($email, $name);
+      $mailer -> From = $from;
+
+      if ($mailer -> send())
+      {
+        $isCommit = TRUE;
+      }
+      $mailer -> clearAddresses();
+      $mailer -> clearAttachments();
+
+      $conn -> freeConnection();
+      $adminBody = "New UC Docs Repo user registration for: {$to}.\n\n";
+      $adminBody .= "Please login and validate new user.";
+      // look up the ADMINS in the system
+      if (Users::emailAdminUsers($email, $adminBody))
+      {
+        $isCommit = TRUE;
+      }
+    }
     return $isCommit;
   }
 
@@ -617,7 +637,7 @@ class Users
 
     $conn = new MySqlConnect();
 
-    $sql = "SELECT userTypeName FROM userTypes";
+    $sql = "SELECT userTypeName FROM usertypes";
 
     // update existing submission record in the database
     $result = $conn -> executeQueryResult($sql);
@@ -645,9 +665,15 @@ class Users
     $result = $conn -> executeQueryResult($sql);
     while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
     {
-      // assign the primary key value to the name
-      //array_push($emailUsers, $row);
-      sendMail($row['emailAddress'], $from, $subject, $body);
+      $mailer = new DocsMailer();
+      $mailer -> Subject = $subject;
+      $mailer -> Body = $body;
+      $mailer -> From = $from;
+
+      $mailer -> addAddress($row['emailAddress'], '');
+      $mailer -> send();
+      $mailer -> clearAddresses();
+      $mailer -> clearAttachments();
     }
 
     $conn -> freeConnection();
@@ -674,9 +700,15 @@ class Users
     $result = $conn -> executeQueryResult($sql);
     while ($row = mysql_fetch_array($result, MYSQLI_ASSOC))
     {
-      // assign the primary key value to the name
-      //array_push($emailUsers, $row);
-      sendMail($row['emailAddress'], $from, $subject, $body);
+      $mailer = new DocsMailer();
+      $mailer -> Subject = $subject;
+      $mailer -> Body = $body;
+      $mailer -> From = $from;
+
+      $mailer -> addAddress($row['emailAddress'], '');
+      $mailer -> send();
+      $mailer -> clearAddresses();
+      $mailer -> clearAttachments();
     }
 
     $conn -> freeConnection();

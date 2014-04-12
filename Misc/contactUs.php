@@ -11,19 +11,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   $to = ConfigProperties::$ContactUsFormRecipient;
   $name = trim($_SESSION['name']);
   $email = trim($_SESSION['email']);
-  $subject = trim($_POST['subject']);
-  $body = trim($_POST['body']);
-  
+
   // send it from the logged in user
-  $from = $name . " <". $email .">";
-  
-  if (sendMail($to, 
-               $from, 
-               $subject, 
-               $body))
+  $from = $name . " <" . $email . ">";
+
+  // email the invitee
+  $mailer = new DocsMailer();
+  $mailer -> Subject = trim($_POST['subject']);
+  $mailer -> Body = trim($_POST['body']);
+  $mailer -> addAddress($to, "UC Docs Repository Webmaster");
+  $mailer ->From = $email;
+
+  if ($mailer -> send())
   {
-    $errMsg = 'Email sent successfully';
+    $errMsg = 'Email sent successfully to the UC Document Repository Team.<br />';
   }
+  $mailer -> clearAddresses();
+  $mailer -> clearAttachments();
 }
 ?>
 
@@ -51,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                         valign="top"
                         align="left">
                     </textarea></td>
-      </tr> 
+      </tr>
     </table>
   </fieldset>
   <p>
