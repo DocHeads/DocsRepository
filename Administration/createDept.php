@@ -44,6 +44,8 @@ include ('../templates/header.php');
     
     $deptTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
     
+    $deptTable->onAddExecuteCallBackFunction("myCallBackFunctionForAdd"); //uncomment this to try out an ADD ROW callback function
+    
     #set the number of rows to display (per page)
     $deptTable->setLimit(10);
 

@@ -60,6 +60,12 @@ $errMsg = '';
     #i can order my table by whatever i want
     $courseTable->addOrderBy("ORDER BY createDate DESC");
     
+    $courseTable->onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
+    
+    $courseTable->onAddExecuteCallBackFunction("myCallBackFunctionForAdd"); //uncomment this to try out an ADD ROW callback function
+    
+    
+    
     #if really desired, a filter box can be used for all fields
     $courseTable->addAjaxFilterBoxAllFields();
     
@@ -90,4 +96,16 @@ $errMsg = '';
 <?php
 #Show the table
 $courseTable -> showTable();
+
+function myCallBackFunctionForAdd($array)
+{
+  echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
+  print_r($array);
+}
+
+function myCallBackFunctionForEdit($array)
+{
+  echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
+  print_r($array);
+}
 ?>
