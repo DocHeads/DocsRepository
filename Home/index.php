@@ -1,5 +1,4 @@
-<?php
-ini_set('display_errors', true);
+<?php ini_set('display_errors',true);
 error_reporting(E_ALL);
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
@@ -35,27 +34,13 @@ echo '<table width="800" align="center">
 
                         echo "<h2 style='font-size: 14px'><b>". Session::getLoggedInName() . "'s Submissions:</b><a title='Create New Submission Upload' href='../Submission/submissionUpload.php'><img style='padding-top: 6px; padding-right: 7px;' height='16px' width='16px' align='right' src='../Images/greenPlus.png'></a></h2>";
                                                 
-echo "<table width='920' class='customTable' align='center'>
-                        <tr>
-                        <thead align='left'>
-                        <th height='20px'>Submission</th>
-                        <th height='20px'>File Name</th>
-                        <th height='20px'>Department</th>
-                        <th height='20px'>Course</th>
-                        <th height='20px'>Instructor Inst</th>
-                        <th height='20px'>Student Inst</th>    
-                        <th height='20px'>Rubric</th>                        
-                        <th height='20px'>Updated On</th>
-                        <th height='20px'>Action</th>
-                        </thead>
-                        </tr>";
+echo "<table width='920' class='customTable' align='center'>";
+
                         
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
 
                         $sql = mysql_query("SELECT subID, submissionFile, rubricFileName, deptName, courseName, instructorInstruction, studentInstruction, docName, updateDate FROM submissions WHERE emailAddress='$emailAddress' ORDER BY updateDate ASC");
-                        
-                        
                         
                         $nr = mysql_num_rows($sql); // Get total of Num rows from the database query
 if (isset($_GET['pn'])) { // Get pn from URL vars if it is present
@@ -126,6 +111,24 @@ if ($lastPage != "1"){
 
 $outputList = '';
 
+
+if($sql2 === FALSE) {
+    echo 'You have No Submissions';
+} else {
+         
+ echo"          <tr>
+                        <thead align='left'>
+                        <th height='20px'>Submission</th>
+                        <th height='20px'>File Name</th>
+                        <th height='20px'>Department</th>
+                        <th height='20px'>Course</th>
+                        <th height='20px'>Instructor Inst</th>
+                        <th height='20px'>Student Inst</th>    
+                        <th height='20px'>Rubric</th>                        
+                        <th height='20px'>Updated On</th>
+                        <th height='20px'>Action</th>
+                        </thead>
+                        </tr>";             
 while($row = mysql_fetch_array($sql2)){
 
     $subID = $row["subID"];
@@ -163,72 +166,71 @@ while($row = mysql_fetch_array($sql2)){
          
    
 <?php
+}
 echo "</table>";
 echo '</td>
-                    </tr>
-                </tbody>        
-            </table>';
+</tr>
+</tbody>
+</table>';
 echo '</div>';
 echo '<div style="padding: 0px 10px 0px 10px">';
 echo '<table width="860" align="center">
-                <tbody>
-                    <tr>
-                        <td>';
-$subTable = new ajaxCRUD("Item", "submissions", "subID", "../");
-$subTable -> omitPrimaryKey();
+<tbody>
+<tr>
+<td>';
+$subTable=new ajaxCRUD("Item","submissions","subID","../");
+$subTable->omitPrimaryKey();
 #the table fields have prefixes; i want to give the heading titles something more
 # meaningful
-$subTable -> displayAs("emailAddress", "User");
-$subTable -> displayAs("docName", "Submission");
-$subTable -> displayAs("submissionFile", "File Name");
-$subTable -> displayAs("deptName", "Department");
-$subTable -> displayAs("courseName", "Course");
-$subTable -> displayAs("comments", "Comments");
-$subTable -> displayAs("rubricFileName", "Rubric");
-$subTable -> displayAs("willYouGrade", "Grade?");
-$subTable -> displayAs("createDate", "Created On");
-$subTable -> displayAs("instructorInstruction", "Instructor Inst");
-$subTable -> displayAs("studentInstruction", "Student Inst");
+$subTable->displayAs("emailAddress","User");
+$subTable->displayAs("docName","Submission");
+$subTable->displayAs("submissionFile","File Name");
+$subTable->displayAs("deptName","Department");
+$subTable->displayAs("courseName","Course");
+$subTable->displayAs("comments","Comments");
+$subTable->displayAs("rubricFileName","Rubric");
+$subTable->displayAs("willYouGrade","Grade?");
+$subTable->displayAs("createDate","Created On");
+$subTable->displayAs("instructorInstruction","Instructor Inst");
+$subTable->displayAs("studentInstruction","Student Inst");
 #i could omit a field if I wanted
 #http://ajaxcrud.com/api/index.php?id=omitField
-$subTable -> omitField("willYouGrade");
-$subTable -> omitField("updateDate");
-$subTable -> omitField("comments");
+$subTable->omitField("willYouGrade");
+$subTable->omitField("updateDate");
+$subTable->omitField("comments");
 $subTable->omitField("edit");
 #i could disable fields from being editable
-$subTable -> disallowEdit('emailAddress');
-$subTable -> disallowEdit('createDate');
-$subTable -> disallowEdit('deptName');
-$subTable -> disallowEdit('courseName');
-$subTable -> disallowEdit('submissionFile');
-$subTable -> disallowEdit('instructorInstruction');
-$subTable -> disallowEdit('studentInstruction');
-$subTable->addButtonToRow('View', '../Submission/submissionProfile.php', 'subID');
-
-$allowableUserTypeIDValues = Departments::getDeptList();
-$subTable -> defineAllowableValues("deptName", $allowableUserTypeIDValues);
-$allowableUserTypeIDValues = Courses::getCourseList();
-$subTable -> defineAllowableValues("courseName", $allowableUserTypeIDValues);
-
+$subTable->disallowEdit('emailAddress');
+$subTable->disallowEdit('createDate');
+$subTable->disallowEdit('deptName');
+$subTable->disallowEdit('courseName');
+$subTable->disallowEdit('submissionFile');
+$subTable->disallowEdit('instructorInstruction');
+$subTable->disallowEdit('studentInstruction');
+$subTable->addButtonToRow('View','../Submission/submissionProfile.php','subID');
+$allowableUserTypeIDValues=Departments::getDeptList();
+$subTable->defineAllowableValues("deptName",$allowableUserTypeIDValues);
+$allowableUserTypeIDValues=Courses::getCourseList();
+$subTable->defineAllowableValues("courseName",$allowableUserTypeIDValues);
 #set the number of rows to display (per page)
-$subTable -> setLimit(10);
+$subTable->setLimit(10);
 #i can order my table by whatever i want
-$subTable -> addOrderBy("ORDER BY createDate DESC");
+$subTable->addOrderBy("ORDER BY createDate DESC");
 #if really desired, a filter box can be used for all fields
-$subTable -> addAjaxFilterBoxAllFields();
+$subTable->addAjaxFilterBoxAllFields();
 #i can disallow deleting of rows from the table
 #http://ajaxcrud.com/api/index.php?id=disallowDelete
-$subTable -> disallowDelete();
+$subTable->disallowDelete();
 #i can disallow adding rows to the table
 #http://ajaxcrud.com/api/index.php?id=disallowAdd
-$subTable -> disallowAdd();
+$subTable->disallowAdd();
 echo '<h2 style="font-size: 14px;"><b>All User Submissions:</b></h2>';
 #actually show the table
-$subTable -> showTable();
+$subTable->showTable();
 echo '</td>
-                    </tr>
-                </tbody>        
-            </table></div><br style="clear:both;" />';
+</tr>
+</tbody>
+</table></div><br style="clear:both;" />';
 }
 }
 else

@@ -38,13 +38,15 @@ include ('../templates/header.php');
     
     $deptTable->disallowEdit('createDate');
     
-    #i can disallow deleting of rows from the table
-    #http://ajaxcrud.com/api/index.php?id=disallowDelete
-    // $deptTable->disallowDelete();
+    $dt = new DateTime();
+    $date = $dt->format('Y-m-d H:i:s');
+    
+    $deptTable->addValueOnInsert("createDate", "$date");
+    $deptTable->addValueOnInsert("updateDate", "$date");
     
     $deptTable->onUpdateExecuteCallBackFunction("deptName", "myCallBackFunctionForEdit");
     
-    $deptTable->onAddExecuteCallBackFunction("myCallBackFunctionForAdd"); //uncomment this to try out an ADD ROW callback function
+    //$deptTable->onAddExecuteCallBackFunction("myCallBackFunctionForAdd"); //uncomment this to try out an ADD ROW callback function
     
     #set the number of rows to display (per page)
     $deptTable->setLimit(10);

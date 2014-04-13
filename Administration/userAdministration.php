@@ -13,7 +13,7 @@ include ('../Lib/Departments.php');
 <?php
  $errMsg = '';
  // email users upon becoming a valid user by the admin
-    $id = ($_POST['id']);
+    $id = (isset($_POST['id']));
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
       if(isset($_POST['action']))

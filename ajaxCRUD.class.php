@@ -1230,6 +1230,7 @@ class ajaxCRUD{
         //print_r($this->exactSearchField);
         foreach ($this->fields as $field){
             //this if condition is so MULTIPLE ajaxCRUD tables can be used on the same page.
+            if (isset($_REQUEST['table'])){
             if ($_REQUEST['table'] == $this->db_table){
 
                 if (isset($_REQUEST[$field]) && $_REQUEST[$field] != '' && ($action != 'add' && $action != 'delete' && $action != 'update' && $action != 'upload' && $action != 'delete_file')){
@@ -1248,6 +1249,7 @@ class ajaxCRUD{
                     $this->filtered_table = true;
                     $count_filtered++;
                 }
+            }
             }
         }
         if ($count_filtered > 0){

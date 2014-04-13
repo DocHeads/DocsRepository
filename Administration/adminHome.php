@@ -16,7 +16,7 @@ include ('../Lib/Courses.php');
 $emailAddress=$_SESSION['email'];
 $errMsg='';
 // email users upon becoming a valid user by the admin
-$id = ($_POST['id']);
+$id = (isset($_POST['id']));
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
       if(isset($_POST['action']))
@@ -39,14 +39,8 @@ echo '<table width="375" align="left">
                         <td width="375" style="vertical-align:top;">';
 echo "<h2 style='font-size: 14px'><b>".Session::getLoggedInName()."'s Submissions:</b><a title='Create New Submission Upload' href='../Submission/submissionUpload.php'><img style='padding-top: 6px; padding-right: 7px;' height='16px' width='16px' align='right' src='../Images/greenPlus.png'></a></h2>";
 
-echo "<table class='customTable' width='350' align='center'>
-                      <tr>
-                         <thead align='left'>
-                            <th height='16px'>Submission</th>
-                            <th height='16px'><strong>Updated On</strong></th>
-                            <th height='16px'><strong>Action</strong></th>
-                          </thead>
-                      </tr>";
+echo "<table class='customTable' width='350' align='center'>";
+
 
                         mysql_connect(ConfigProperties::$DatabaseServerName,ConfigProperties::$DatabaseUsername,ConfigProperties::$DatabasePassword) or die (mysql_error());
                         mysql_select_db(ConfigProperties::$DatabaseName) or die (mysql_error());
@@ -123,6 +117,18 @@ if ($lastPage != "1"){
 
 $outputList = '';
 
+if($sql2 === FALSE) {
+    echo 'You have No Submissions';
+} else {
+
+                     echo "<tr>
+                         <thead align='left'>
+                            <th height='16px'>Submission</th>
+                            <th height='16px'><strong>Updated On</strong></th>
+                            <th height='16px'><strong>Action</strong></th>
+                          </thead>
+                      </tr>";
+
 while($row = mysql_fetch_array($sql2)){
 
     $subID = $row["subID"];
@@ -147,6 +153,7 @@ while($row = mysql_fetch_array($sql2)){
    
 
 <?php
+}
 echo "</table>";
 echo '</td>
                        </tr>
@@ -268,7 +275,16 @@ $subTable->addButtonToRow('Edit', '../Submission/submissionProfile.php', 'subID'
 #i can order my table by whatever i want
 $subTable -> addOrderBy("ORDER BY createDate DESC");
 #if really desired, a filter box can be used for all fields
-$subTable -> addAjaxFilterBoxAllFields();
+//$subTable -> addAjaxFilterBoxAllFields();
+$subTable->addAjaxFilterBox('emailAddress');
+$subTable->addAjaxFilterBox('docName');
+$subTable->addAjaxFilterBox('deptName');
+$subTable->addAjaxFilterBox('courseName');
+$subTable->addAjaxFilterBox('submissionFile');
+$subTable->addAjaxFilterBox('instructorInstruction');
+$subTable->addAjaxFilterBox('studentInstruction');
+$subTable->addAjaxFilterBox('rubricFileName');
+$subTable->setAjaxFilterBoxSize('rubricFileName', 5);
 #i can disallow adding rows to the table
 $subTable -> disallowAdd();
 $subTable -> disallowDelete();

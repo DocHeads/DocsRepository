@@ -1,6 +1,4 @@
 <?php
-ini_set('display_errors', true);
-error_reporting(E_ALL);
 include_once ('../templates/preheader.php');
 // <-- this include file MUST go first before any HTML/output
 include ('../ajaxCRUD.class.php');
@@ -51,6 +49,13 @@ $errMsg = '';
     $courseTable->omitAddField("updateDate");
     $courseTable->omitAddField("createDate");
     
+    $dt = new DateTime();
+    $date = $dt->format('Y-m-d H:i:s');
+    
+    $courseTable->addValueOnInsert("createDate", "$date");
+    $courseTable->addValueOnInsert("updateDate", "$date");
+    
+    
     #i could disable fields from being editable
     $courseTable->disallowEdit('createDate');
 
@@ -59,12 +64,6 @@ $errMsg = '';
 
     #i can order my table by whatever i want
     $courseTable->addOrderBy("ORDER BY createDate DESC");
-    
-    $courseTable->onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
-    
-    $courseTable->onAddExecuteCallBackFunction("myCallBackFunctionForAdd"); //uncomment this to try out an ADD ROW callback function
-    
-    
     
     #if really desired, a filter box can be used for all fields
     $courseTable->addAjaxFilterBoxAllFields();
@@ -96,16 +95,4 @@ $errMsg = '';
 <?php
 #Show the table
 $courseTable -> showTable();
-
-function myCallBackFunctionForAdd($array)
-{
-  echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
-  print_r($array);
-}
-
-function myCallBackFunctionForEdit($array)
-{
-  echo "THE EDIT ROW CALLBACK FUNCTION WAS implemented";
-  print_r($array);
-}
 ?>

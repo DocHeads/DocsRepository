@@ -67,9 +67,17 @@
     
     #set the number of rows to display (per page)
     $subTable->setLimit(10);
+$subTable->addAjaxFilterBox('emailAddress');
+$subTable->addAjaxFilterBox('docName');
+$subTable->addAjaxFilterBox('deptName');
+$subTable->addAjaxFilterBox('courseName');
+$subTable->addAjaxFilterBox('submissionFile');
+$subTable->addAjaxFilterBox('instructorInstruction');
+$subTable->addAjaxFilterBox('studentInstruction');
+$subTable->addAjaxFilterBox('rubricFileName');
 
-    #if really desired, a filter box can be used for all fields
-    $subTable->addAjaxFilterBoxAllFields();
+#i can set the size of the filter box
+$subTable->setAjaxFilterBoxSize('rubricFileName', 5);
 
     #implement a callback function after updating/editing a field
     $subTable->onUpdateExecuteCallBackFunction("courseName", "myCallBackFunctionForEdit");
