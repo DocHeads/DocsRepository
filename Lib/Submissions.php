@@ -57,11 +57,26 @@ class Submission
   public static function makeDir($val)
   {
     $isMade = FALSE;
-    if (!file_exists(ConfigProperties::$BaseUploadDirectory ."/" . $val))
+    if (!file_exists(ConfigProperties::$BaseUploadDirectory . "/" . $val))
     {
       $isMade = mkdir('../uploads/' . $val, 0777, true);
     }
     return $isMade;
+  }
+
+  /**
+   * Method that recursively remove a directory and all files within
+   */
+  public static function deleteSubDir($dir)
+  {
+    $fileDir = ConfigProperties::$BaseUploadDirectory .'/'.$dir;
+    print $fileDir;
+    foreach (glob($fileDir . '/*') as $file)
+    {
+        unlink($file);
+    }
+    
+    rmdir($fileDir);
   }
 
 }
