@@ -84,8 +84,8 @@ $deptTable -> showTable();
 
 function myCallBackFunctionForAdd($array)
 {
-  // echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
-  // print_r($array);
+  echo "THE ADD ROW CALLBACK FUNCTION WAS implemented";
+  print_r($array);
 }
 
 function myCallBackFunctionForEdit($array)
