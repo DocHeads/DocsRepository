@@ -361,11 +361,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <?php
 if ($emailAddress == $email || Session::getLoggedInUserType() == 'ADMIN')
 {
-  echo '<h2>Edit Submission Profile (*=required field)</h2>';
+  echo '<h2>Edit Submission Profile for ' . $docName . ' (*=required field)</h2>';
 }
 else
 {
-  echo '<h2>Submission Profile</h2>';
+  echo '<h2>Submission Profile for ' . $docName .'</h2>';
 }
 ?>
 
