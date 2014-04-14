@@ -42,9 +42,9 @@ if (isset($result))
     // Assign the values in this iteration to variables to use down in the form
     // refer to the profile.php page to pre-populate fields
     $email = $row[1];
-    $dept = $row[2];
-    $course = $row[3];
-    $docName = $row[4];
+    $docName = $row[2];
+    $dept = $row[3];
+    $course = $row[4];
     $comments = $row[5];
     $submissionFile = $row[6];
     $instructorInstFile = $row[7];
@@ -361,7 +361,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <?php
 if ($emailAddress == $email || Session::getLoggedInUserType() == 'ADMIN')
 {
-  echo '<h2>Edit Submission Profile for ' . $docName . ' (*=required field)</h2>';
+  echo '<h2>Submission Profile for ' . $docName . ' (*=required field)</h2>';
 }
 else
 {
@@ -389,7 +389,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
 }
 ?>
-<br />
 <form style="border:1px solid #c6bebb;" action="submissionProfile.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 
 <?php
@@ -491,7 +490,7 @@ if ($emailAddress == $email || Session::getLoggedInUserType() == 'ADMIN')
 {
   echo '<br>';
   echo '<br>';
-  echo '<label for="course"><strong>Department: </strong></label>';
+  echo '<label for="department"><strong>Department: </strong></label>';
 
   $deptNm = Departments::getDeptList();
   echo '<select name="dept">';
