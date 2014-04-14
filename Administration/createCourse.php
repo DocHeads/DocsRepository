@@ -87,7 +87,7 @@ $errMsg = '';
 
               $errMsg = 'Redirecting to the login page in <span id="countdown">5</span>.<br /><br />';
               print '<br /><p><span style="color: #b11117"><b>' . $errMsg . '</b></span></p>';
-              print '<div align="center"><img width="350" src="../Images/bearcat.jpg"></div>';
+              print '<div align="center"><img width="350" src="../Images/bearcat.png"></div>';
               header( "refresh:5;url=../Authentication/login.php" );
               }
             ?>
