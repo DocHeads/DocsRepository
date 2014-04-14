@@ -39,6 +39,5 @@ Minor Revisions:
 - Configuration: SSL email
 - Error logging
 
-
 Testing:
 - text areas have spaces in the input already before even typing
