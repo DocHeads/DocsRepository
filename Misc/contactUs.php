@@ -50,11 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       </tr>
       <tr>
         <td style="vertical-align: top; padding-top: 10px;"> Message:</td>
-        <td>        <textarea   id="body" name="body" value="" wrap="virtual" 
-                        rows="5em" cols="30em"
-                        valign="top"
-                        align="left">
-                    </textarea></td>
+        <td><textarea id="body" name="body" value="" wrap="virtual" rows="5em" cols="30em" valign="top" align="left"></textarea></td>
       </tr>
     </table>
   </fieldset>

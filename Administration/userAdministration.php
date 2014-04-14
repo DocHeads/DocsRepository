@@ -16,16 +16,22 @@ include ('../Lib/Departments.php');
     $id = (isset($_POST['id']));
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-      if(isset($_POST['action']))
-      {
-        $update = "{$_POST['action']}";
-        if ($update == "update")
+        $id = "{$_POST['id']}";
+        
+        $value = ($_POST['dropdown_usersisValidated' . $id]);
         {
-         Users::emailValidatedUsers($id);
+            if ($value == "YES"){
+            if(isset($_POST['action']))
+            {
+                $update = "{$_POST['action']}";
+                if ($update == "update")
+                {
+                    Users::emailValidatedUsers($id);
+                }
+            }
         }
-      }
+        }
     }
-    
     if(Session::getLoggedInUserType()== "ADMIN") {
     #the code for the class
     

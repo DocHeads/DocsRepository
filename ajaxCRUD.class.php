@@ -12,7 +12,7 @@
     /* the Free Software Foundation; either version 2 of the License.       */
     /************************************************************************/
     # thanks to the following for help on v6.0:
-    # Mariano Montaï¿½ez Ureta, from Argentina; twitter: @nanomo
+    # Mariano MontaÃ¯Â¿Â½ez Ureta, from Argentina; twitter: @nanomo
     # Jing Ling, New Hampshire
 
     #thanks to Francisco Campos of WebLemurs.com for helping with other misc core updates for v7.2
@@ -281,7 +281,7 @@ class ajaxCRUD{
     var $loading_image_html;
 
     /* these default to english words (e.g. "Add", "Delete" below); but can be
-       changed by setting them via $obj->addText = "Añadir"
+       changed by setting them via $obj->addText = "AÃ±adir"
     */
     var $emptyTableMessage;
     var $addText, $deleteText, $cancelText; //text values for buttons
@@ -639,6 +639,7 @@ class ajaxCRUD{
         $count = q1("SELECT COUNT(*) FROM " . $this->db_table);
         return $count;
     }
+
 
     function omitField($field_name){
         $key = array_search($field_name, $this->display_fields);
@@ -1400,7 +1401,7 @@ class ajaxCRUD{
                         $custom_class = $this->display_field_with_class_style[$filter_field];
                     }
 
-                    $top_html .= "<input type=\"text\" class=\"$custom_class\" size=\"$textbox_size\" name=\"$filter_field\" value=\"$filter_value\" onKeyUp=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
+                    $top_html .= "<input type=\"text\" class=\"$custom_class\" size=\"$textbox_size\" name=\"$filter_field\" value=\"$filter_value\" onblur=\"this.value = toTitleCase(this.value)\" onKeyUp=\"filterTable(this, '" . $this->db_table . "', '$filter_field', '$extra_query_params');\">";
                 }
                 $top_html .= "&nbsp;&nbsp;</th>";
             }
@@ -1654,6 +1655,7 @@ class ajaxCRUD{
                                     else{
                                         //updated logic in 7.1 to enable a textarea to be 'forced' if desired [thanks to dpruitt for code revision]
                                         $field_length = strlen($row[$field]);
+                                        if(isset($this->textarea_height[$field])){
                                         if(isset($this->textarea_height[$field]) && $this->textarea_height[$field] != '' || $field_length > 51){
                                             $textarea_height = '';
                                             if ($this->textarea_height[$field] != '') $textarea_height = $this->textarea_height[$field];
@@ -1666,6 +1668,7 @@ class ajaxCRUD{
                                             }
 
                                             $table_html .= $this->makeAjaxEditor($id, $field, $cell_value, 'text', $field_length, $cell_data, $field_onKeyPress);
+                                        }
                                         }
                                     }
                                 }
@@ -1974,7 +1977,7 @@ class ajaxCRUD{
                                             if (isset($this->display_field_with_class_style[$field]) && $this->display_field_with_class_style[$field] != '') {
                                                 $custom_class = $this->display_field_with_class_style[$field];
                                             }
-                                            $add_html .= "<th>$display_field</th><td><input onKeyPress=\"$field_onKeyPress\" class=\"editingSize $custom_class\" type=\"text\" id=\"$field\" name=\"$field\" size=\"$field_size\" maxlength=\"150\" value=\"$field_value\" placeholder=\"$placeholder\" >$note</td></tr>\n";
+                                            $add_html .= "<th>$display_field</th><td><input onblur=\"this.value = toTitleCase(this.value)\" onKeyPress=\"$field_onKeyPress\" class=\"editingSize $custom_class\" type=\"text\" id=\"$field\" name=\"$field\" size=\"$field_size\" maxlength=\"150\" value=\"$field_value\" placeholder=\"$placeholder\" >$note</td></tr>\n";
                                             $placeholder = "";
                                         }
                                     }//else not enum field
@@ -2015,7 +2018,7 @@ class ajaxCRUD{
             if (!$this->ajax_add){
                 $postForm = "true";
             }
-            $add_html .= "<input class=\"editingSize\" type=\"button\" onClick=\"validateAddForm('$this->db_table', $postForm);\" value=\"Save $item\">";
+            $add_html .= "<input class=\"editingSize\" type=\"button\"  onClick=\"validateAddForm('$this->db_table', $postForm);\" value=\"Save $item\">";
 
 
             $add_html .= "</td><td><input style='float: right;' class=\"btn editingSize\" type=\"button\" onClick=\"this.form.reset();$('#add_form_$this->db_table').slideUp('slow');\" value=\"" . $this->cancelText . "\"></td></tr>\n</table>\n";
@@ -2184,15 +2187,15 @@ class ajaxCRUD{
                 if ($field_size == "") $field_size = 15;
                 if (isset($this->display_field_with_class_style[$field_name]) && $this->display_field_with_class_style[$field_name] != '') {
                     $custom_class = $this->display_field_with_class_style[$field_name];
-                    $return_html .= "<input ONKEYPRESS=\"$onKeyPress_function\" id=\"$input_name\" name=\"$input_name\" type=\"text\" class=\"editingSize editMode $custom_class\" size=\"$field_size\" value=\"$field_value\"/>\n";
+                    $return_html .= "<input ONKEYPRESS=\"$onKeyPress_function\" id=\"$input_name\" name=\"$input_name\" onblur=\"this.value = toTitleCase(this.value)\" type=\"text\" class=\"editingSize editMode $custom_class\" size=\"$field_size\" value=\"$field_value\"/>\n";
                 }
                 else {
-                    $return_html .= "<input ONKEYPRESS=\"$onKeyPress_function\" id=\"$input_name\" name=\"$input_name\" type=\"text\" class=\"editingSize editMode\" size=\"$field_size\" value=\"$field_value\"/>\n";
+                    $return_html .= "<input ONKEYPRESS=\"$onKeyPress_function\" id=\"$input_name\" name=\"$input_name\" type=\"text\" onblur=\"this.value = toTitleCase(this.value)\" class=\"editingSize editMode\" size=\"$field_size\" value=\"$field_value\"/>\n";
                 }
             }
             else{
                 if ($field_size == "") $field_size = 80;
-                $return_html .= "<textarea ONKEYPRESS=\"$onKeyPress_function\" id=\"$input_name\" name=\"textarea_$prefield\" class=\"editingSize editMode\" style=\"width: 100%; height: " . $field_size . "px;\">$field_value</textarea>\n";
+                $return_html .= "<textarea ONKEYPRESS=\"$onKeyPress_function\" id=\"$input_name\" onblur=\"this.value = toTitleCase(this.value)\" name=\"textarea_$prefield\" class=\"editingSize editMode\" style=\"width: 100%; height: " . $field_size . "px;\">$field_value</textarea>\n";
                 $return_html .= "<br /><input type=\"submit\" class=\"editingSize\" value=\"Ok\">\n";
             }
 
@@ -2504,73 +2507,73 @@ if (!function_exists('make_filename_safe')) {
 
    function make_filename_safe($filename) {
       $normalizeChars = array(
-         'ï¿½' => 'S',
-         'ï¿½' => 's',
-         'ï¿½' => 'Dj',
-         'ï¿½' => 'Z',
-         'ï¿½' => 'z',
-         'ï¿½' => 'A',
-         'ï¿½' => 'A',
-         'ï¿½' => 'A',
-         'ï¿½' => 'A',
-         'ï¿½' => 'A',
-         'ï¿½' => 'A',
-         'ï¿½' => 'A',
-         'ï¿½' => 'C',
-         'ï¿½' => 'E',
-         'ï¿½' => 'E',
-         'ï¿½' => 'E',
-         'ï¿½' => 'E',
-         'ï¿½' => 'I',
-         'ï¿½' => 'I',
-         'ï¿½' => 'I',
-         'ï¿½' => 'I',
-         'ï¿½' => 'N',
-         'ï¿½' => 'O',
-         'ï¿½' => 'O',
-         'ï¿½' => 'O',
-         'ï¿½' => 'O',
-         'ï¿½' => 'O',
-         'ï¿½' => 'O',
-         'ï¿½' => 'U',
-         'ï¿½' => 'U',
-         'ï¿½' => 'U',
-         'ï¿½' => 'U',
-         'ï¿½' => 'Y',
-         'ï¿½' => 'B',
-         'ï¿½' => 'Ss',
-         'ï¿½' => 'a',
-         'ï¿½' => 'a',
-         'ï¿½' => 'a',
-         'ï¿½' => 'a',
-         'ï¿½' => 'a',
-         'ï¿½' => 'a',
-         'ï¿½' => 'a',
-         'ï¿½' => 'c',
-         'ï¿½' => 'e',
-         'ï¿½' => 'e',
-         'ï¿½' => 'e',
-         'ï¿½' => 'e',
-         'ï¿½' => 'i',
-         'ï¿½' => 'i',
-         'ï¿½' => 'i',
-         'ï¿½' => 'i',
-         'ï¿½' => 'o',
-         'ï¿½' => 'n',
-         'ï¿½' => 'o',
-         'ï¿½' => 'o',
-         'ï¿½' => 'o',
-         'ï¿½' => 'o',
-         'ï¿½' => 'o',
-         'ï¿½' => 'o',
-         'ï¿½' => 'u',
-         'ï¿½' => 'u',
-         'ï¿½' => 'u',
-         'ï¿½' => 'y',
-         'ï¿½' => 'y',
-         'ï¿½' => 'b',
-         'ï¿½' => 'y',
-         'ï¿½' => 'f');
+         'Ã¯Â¿Â½' => 'S',
+         'Ã¯Â¿Â½' => 's',
+         'Ã¯Â¿Â½' => 'Dj',
+         'Ã¯Â¿Â½' => 'Z',
+         'Ã¯Â¿Â½' => 'z',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'A',
+         'Ã¯Â¿Â½' => 'C',
+         'Ã¯Â¿Â½' => 'E',
+         'Ã¯Â¿Â½' => 'E',
+         'Ã¯Â¿Â½' => 'E',
+         'Ã¯Â¿Â½' => 'E',
+         'Ã¯Â¿Â½' => 'I',
+         'Ã¯Â¿Â½' => 'I',
+         'Ã¯Â¿Â½' => 'I',
+         'Ã¯Â¿Â½' => 'I',
+         'Ã¯Â¿Â½' => 'N',
+         'Ã¯Â¿Â½' => 'O',
+         'Ã¯Â¿Â½' => 'O',
+         'Ã¯Â¿Â½' => 'O',
+         'Ã¯Â¿Â½' => 'O',
+         'Ã¯Â¿Â½' => 'O',
+         'Ã¯Â¿Â½' => 'O',
+         'Ã¯Â¿Â½' => 'U',
+         'Ã¯Â¿Â½' => 'U',
+         'Ã¯Â¿Â½' => 'U',
+         'Ã¯Â¿Â½' => 'U',
+         'Ã¯Â¿Â½' => 'Y',
+         'Ã¯Â¿Â½' => 'B',
+         'Ã¯Â¿Â½' => 'Ss',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'a',
+         'Ã¯Â¿Â½' => 'c',
+         'Ã¯Â¿Â½' => 'e',
+         'Ã¯Â¿Â½' => 'e',
+         'Ã¯Â¿Â½' => 'e',
+         'Ã¯Â¿Â½' => 'e',
+         'Ã¯Â¿Â½' => 'i',
+         'Ã¯Â¿Â½' => 'i',
+         'Ã¯Â¿Â½' => 'i',
+         'Ã¯Â¿Â½' => 'i',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'n',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'o',
+         'Ã¯Â¿Â½' => 'u',
+         'Ã¯Â¿Â½' => 'u',
+         'Ã¯Â¿Â½' => 'u',
+         'Ã¯Â¿Â½' => 'y',
+         'Ã¯Â¿Â½' => 'y',
+         'Ã¯Â¿Â½' => 'b',
+         'Ã¯Â¿Â½' => 'y',
+         'Ã¯Â¿Â½' => 'f');
 
       $strip = array(
          "~",
@@ -2603,8 +2606,8 @@ if (!function_exists('make_filename_safe')) {
          "&#8221;",
          "&#8211;",
          "&#8212;",
-         "â€”",
-         "â€“",
+         "Ã¢â‚¬â€",
+         "Ã¢â‚¬â€œ",
          ",",
          "<",
          ">",

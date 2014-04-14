@@ -16,19 +16,25 @@ include ('../Lib/Courses.php');
 $emailAddress=$_SESSION['email'];
 $errMsg='';
 // email users upon becoming a valid user by the admin
-$id = (isset($_POST['id']));
+    $id = (isset($_POST['id']));
     if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-      if(isset($_POST['action']))
-      {
-        $update = "{$_POST['action']}";
-        if ($update == "update")
+        $id = "{$_POST['id']}";
+        
+        $value = ($_POST['dropdown_usersisValidated' . $id]);
         {
-         Users::emailValidatedUsers($id);
+            if ($value == "YES"){
+            if(isset($_POST['action']))
+            {
+                $update = "{$_POST['action']}";
+                if ($update == "update")
+                {
+                    Users::emailValidatedUsers($id);
+                }
+            }
         }
-      }
+        }
     }
-
 if(Session::getLoggedInUserType()=="ADMIN") {
 print '<h2>Administration</h2>';
 echo '<div style="padding: 0px 50px 0px 50px">';

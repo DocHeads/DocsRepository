@@ -217,7 +217,17 @@ $subTable->setLimit(10);
 #i can order my table by whatever i want
 $subTable->addOrderBy("ORDER BY createDate DESC");
 #if really desired, a filter box can be used for all fields
-$subTable->addAjaxFilterBoxAllFields();
+$subTable->addAjaxFilterBox('emailAddress');
+$subTable->addAjaxFilterBox('docName');
+$subTable->addAjaxFilterBox('deptName');
+$subTable->addAjaxFilterBox('courseName');
+$subTable->addAjaxFilterBox('submissionFile');
+$subTable->addAjaxFilterBox('instructorInstruction');
+$subTable->addAjaxFilterBox('studentInstruction');
+$subTable->addAjaxFilterBox('rubricFileName');
+
+#i can set the size of the filter box
+$subTable->setAjaxFilterBoxSize('rubricFileName', 5);
 #i can disallow deleting of rows from the table
 #http://ajaxcrud.com/api/index.php?id=disallowDelete
 $subTable->disallowDelete();
