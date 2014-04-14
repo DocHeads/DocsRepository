@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     if (Submission::makeDir($subID))
     {
-
+      // if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$submissionFile}"))
       if (move_uploaded_file($_FILES['submissionfile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$submissionFile}"))
       {
         $errMsg = "Submission: {$docName} File: {$submissionFile} upload success.";
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         
         if (!empty($gradingFile))
         {
-
+          //if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$gradingFile}"))
           if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$gradingFile}"))
           {
             $errMsgGrade = 'Grading File: ' . $gradingFile . ' upload success';
@@ -110,7 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
         if (!empty($studentInstFile))
         {
-          if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\$studentInstFile"))
+          //if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$studentInstFile}"))
+          if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$studentInstFile}"))
           {
             $errMsgStud = 'Student Instruction File: ' . $studentInstFile . ' upload success.';
             $studentInstFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$studentInstFile}\">{$studentInstFile}</a>";
@@ -145,6 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
         if (!empty($instructorInstFile))
         {
+          //if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$instructorInstFile}"))
           if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$instructorInstFile}"))
           {
             $errMsgInst = 'Instructor Instruction File: ' . $instructorInstFile . ' upload success.';

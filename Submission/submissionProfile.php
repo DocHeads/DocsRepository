@@ -129,19 +129,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $instructorInstFile = $updateInstFile;
     }
 
-    print '<br/>';
-    var_dump("{$fileUploadBaseDir}/{$subID}/{$updateSubmissionFile}");
     // validate the submission file upload
     if (!empty($updateSubmissionFile))
     {
       if (!file_exists("{$fileUploadBaseDir}/{$subID}/{$updateSubmissionFile}"))
       {
+        //if (move_uploaded_file($_FILES['submissionFile']['tmp_name'], "{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}"))
         if (move_uploaded_file($_FILES['submissionFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$updateSubmissionFile}"))
         {
           $errMsg = "Submission: {$docName} updated. File: {$updateSubmissionFile} upload success.";
           $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$updateSubmissionFile}\">{$updateSubmissionFile}</a>";
-          var_dump($submissionFile);
-          print '<br />';
         }
         else
         {
@@ -177,7 +174,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     if (!empty($updateGradingFile))
     {
-      var_dump("{$fileUploadBaseDir}/{$subID}/{$updateGradingFile}");
       if (file_exists("{$fileUploadBaseDir}/{$subID}/{$updateGradingFile}"))
       {
         $errMsgGrade = 'Duplicate file name error: Duplicate Grading file name ' . $updateGradingFile . ' failed to upload.';
@@ -185,12 +181,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       else
       {
+        //if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$updateGradingFile}"))
         if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateGradingFile}"))
         {
           $errMsgGrade = 'Submission: ' . $docName . ' updated. Grading File: ' . $gradingFile . ' upload success';
           $gradingFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$updateGradingFile}\">{$updateGradingFile}</a>";
-          var_dump($gradingFile);
-          print '<br />';
+
         }
         else
         {
@@ -223,7 +219,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     if (!empty($updateStudentFile))
     {
-      var_dump("{$fileUploadBaseDir}/{$subID}/{$updateStudentFile}");
       // student instruction upload file check and process
       if (file_exists("{$fileUploadBaseDir}/{$subID}/{$updateStudentFile}"))
       {
@@ -232,12 +227,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       else
       {
-        if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\$updateStudentFile"))
+        //if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$updateStudentFile}"))
+        if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateStudentFile}"))
         {
           $errMsgStud = 'Student Instruction File: ' . $updateStudentFile . ' upload success.';
           $studentInstFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$updateStudentFile}\">{$updateStudentFile}</a>";
-          var_dump($studentInstFile);
-          print '<br />';
         }
         else
         {
@@ -270,7 +264,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     if (!empty($updateInstFile))
     {
-      var_dump("{$fileUploadBaseDir}/{$subID}/{$updateInstFile}");
       if (file_exists("{$fileUploadBaseDir}/{$subID}/{$updateInstFile}"))
       {
         $errMsgInst = 'Duplicate file name error: Instructor Instruction File: ' . $updateInstFile . ' failed to upload.';
@@ -278,12 +271,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       else
       {
+        //if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$updateInstFile}"))
         if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateInstFile}"))
         {
           $errMsgInst = 'Instructor Instruction File: ' . $updateInstFile . ' upload success.';
           $instructorInstFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$updateInstFile}\">{$updateInstFile}</a>";
-          var_dump($instructorInstFile);
-          print '<br />';
         }
         else
         {
