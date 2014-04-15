@@ -1,6 +1,5 @@
 <?php
-ini_set('display_errors', true);
-error_reporting(E_ALL);
+
 include ('../Lib/ConfigProperties.php');
 include ('../templates/header.php');
 $errMsg = '';

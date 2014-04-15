@@ -77,9 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $instructorInstFile = null;
       $studentInstFile = null;
       $gradingFile = null;
-      $errMsg = 'Submission record delete success.';
+      $errMsg = 'Submission record delete success. Redirecting to your Home page...';
+      header("refresh:5;url=../Home/index.php");
     }
     $conn -> freeConnection();
+    
   }
   else
   {
@@ -134,11 +136,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
       if (!file_exists("{$fileUploadBaseDir}/{$subID}/{$updateSubmissionFile}"))
       {
-        //if (move_uploaded_file($_FILES['submissionFile']['tmp_name'], "{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}"))
-        if (move_uploaded_file($_FILES['submissionFile']['tmp_name'], "{$fileUploadBaseDir}\\{$dept}\\{$updateSubmissionFile}"))
+        //if (move_uploaded_file($_FILES['submissionFile']['tmp_name'],
+        // "{$fileUploadBaseDir}/{$dept}/{$updateSubmissionFile}"))
+        if (move_uploaded_file($_FILES['submissionFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateSubmissionFile}"))
         {
           $errMsg = "Submission: {$docName} updated. File: {$updateSubmissionFile} upload success.";
-          $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$updateSubmissionFile}\">{$updateSubmissionFile}</a>";
+          $submissionFile = "<a href=\"{$fileUploadBaseDir}/{$subID}/{$updateSubmissionFile}\" target=\"_blank\">{$updateSubmissionFile}</a>";
         }
         else
         {
@@ -181,7 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       else
       {
-        //if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$updateGradingFile}"))
+        //if (move_uploaded_file($_FILES['gradingFile']['tmp_name'],
+        // "{$fileUploadBaseDir}/{$subID}/{$updateGradingFile}"))
         if (move_uploaded_file($_FILES['gradingFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateGradingFile}"))
         {
           $errMsgGrade = 'Submission: ' . $docName . ' updated. Grading File: ' . $gradingFile . ' upload success';
@@ -195,22 +199,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           switch ($_FILES['gradingFile']['error'])
           {
             case 1 :
-              $errMsg = 'Grading file exceeds the upload_max_filesize setting in php.ini';
+              $errMsgGrade = 'Grading file exceeds the upload_max_filesize setting in php.ini';
               break;
             case 2 :
-              $errMsg = 'Grading file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              $errMsgGrade = 'Grading file exceeds the MAX_FILE_SIZE setting in the HTML form';
               break;
             case 3 :
-              $errMsg = 'Grading file was only partially uploaded';
+              $errMsgGrade = 'Grading file was only partially uploaded';
               break;
             case 4 :
-              $errMsg = 'Grading file was uploaded';
+              $errMsgGrade = 'Grading file was uploaded';
               break;
             case 6 :
-              $errMsg = 'Grading temporary folder does not exist.';
+              $errMsgGrade = 'Grading temporary folder does not exist.';
               break;
             default :
-              $errMsg = 'Error uploading Grading file.';
+              $errMsgGrade = 'Error uploading Grading file.';
               break;
           }
         }
@@ -227,7 +231,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       else
       {
-        //if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$updateStudentFile}"))
+        //if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'],
+        // "{$fileUploadBaseDir}/{$subID}/{$updateStudentFile}"))
         if (move_uploaded_file($_FILES['studentInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateStudentFile}"))
         {
           $errMsgStud = 'Student Instruction File: ' . $updateStudentFile . ' upload success.';
@@ -240,22 +245,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           switch ($_FILES['studentInstFile']['error'])
           {
             case 1 :
-              $errMsg = 'Student Instruction file exceeds the upload_max_filesize setting in php.ini';
+              $errMsgStud = 'Student Instruction file exceeds the upload_max_filesize setting in php.ini';
               break;
             case 2 :
-              $errMsg = 'Student Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              $errMsgStud = 'Student Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
               break;
             case 3 :
-              $errMsg = 'Student Instruction file was only partially uploaded';
+              $errMsgStud = 'Student Instruction file was only partially uploaded';
               break;
             case 4 :
-              $errMsg = 'Student Instruction file was uploaded';
+              $errMsgStud = 'Student Instruction file was uploaded';
               break;
             case 6 :
-              $errMsg = 'Student Instruction temporary folder does not exist.';
+              $errMsgStud = 'Student Instruction temporary folder does not exist.';
               break;
             default :
-              $errMsg = 'Error uploading Student Instruction file.';
+              $errMsgStud = 'Error uploading Student Instruction file.';
               break;
           }
         }
@@ -271,7 +276,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       else
       {
-        //if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}/{$subID}/{$updateInstFile}"))
+        //if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'],
+        // "{$fileUploadBaseDir}/{$subID}/{$updateInstFile}"))
         if (move_uploaded_file($_FILES['instructorInstFile']['tmp_name'], "{$fileUploadBaseDir}\\{$subID}\\{$updateInstFile}"))
         {
           $errMsgInst = 'Instructor Instruction File: ' . $updateInstFile . ' upload success.';
@@ -284,22 +290,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           switch ($_FILES['instructorInstFile']['error'])
           {
             case 1 :
-              $errMsg = 'Instructor Instruction file exceeds the upload_max_filesize setting in php.ini';
+              $errMsgInst = 'Instructor Instruction file exceeds the upload_max_filesize setting in php.ini';
               break;
             case 2 :
-              $errMsg = 'Instructor Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
+              $errMsgInst = 'Instructor Instruction file exceeds the MAX_FILE_SIZE setting in the HTML form';
               break;
             case 3 :
-              $errMsg = 'Instructor Instruction file was only partially uploaded';
+              $errMsgInst = 'Instructor Instruction file was only partially uploaded';
               break;
             case 4 :
-              $errMsg = 'Instructor Instruction file was uploaded';
+              $errMsgInst = 'Instructor Instruction file was uploaded';
               break;
             case 6 :
-              $errMsg = 'Instructor Instruction temporary folder does not exist.';
+              $errMsgInst = 'Instructor Instruction temporary folder does not exist.';
               break;
             default :
-              $errMsg = 'Error uploading Instructor Instruction file.';
+              $errMsgInst = 'Error uploading Instructor Instruction file.';
               break;
           }
         }
@@ -337,15 +343,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     // insert the submission record in the database
     $isCommit = $conn -> executeQuery($updateSql);
 
-    // email the opt in users
-    $body .= "Submission Profile Update:\n";
-    $body .= "----------------------------\n\n";
-    $body .= "Submission Name: {$docName}\n\n";
-    $body .= "Dept: {$dept}\n\n";
-    $body .= "Course: {$course}\n\n";
-    $body .= "Comments: {$comments}\n\n";
+    if ($isCommit)
+    {
+      // email the opt in users
+      $body .= "Submission Profile Update:\n";
+      $body .= "----------------------------\n\n";
+      $body .= "Submission Name: {$docName}\n\n";
+      $body .= "Dept: {$dept}\n\n";
+      $body .= "Course: {$course}\n\n";
+      $body .= "Comments: {$comments}\n\n";
 
-    Users::emailOptInUsers($body);
+      Users::emailOptInUsers($body);
+      if ($submissionFile == null)
+      {
+        $errMsg = "Submission profile updated successfully.";
+      }
+    }
   }
 }
 ?>
@@ -357,7 +370,7 @@ if ($emailAddress == $email || Session::getLoggedInUserType() == 'ADMIN')
 }
 else
 {
-  echo '<h2>Submission Profile for ' . $docName .'</h2>';
+  echo '<h2>Submission Profile for ' . $docName . '</h2>';
 }
 ?>
 
@@ -381,6 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
 }
 ?>
+<br />
 <form style="border:1px solid #c6bebb;" action="submissionProfile.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 
 <?php
@@ -517,7 +531,6 @@ if ($emailAddress == $email || Session::getLoggedInUserType() == 'ADMIN')
   }
   echo '</select>';
 }
-
 ?>
 
 <?php

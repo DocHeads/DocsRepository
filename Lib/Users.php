@@ -7,8 +7,7 @@
  * - Registering users
  * - Validating users
  */
-ini_set('display_errors', true);
-error_reporting(E_ALL);
+
 include ('../Lib/MySqlConnect.php');
 include ('../Lib/DocsMailer.php');
 // ini_set('display_errors',1);

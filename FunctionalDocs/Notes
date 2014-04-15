@@ -31,8 +31,7 @@ Update the php.ini file upload size:
 
 To Do:
 Major Revisions:
-- Submission Profile delete need to redirect to the landing page???
-- When sending an email on validating a user, may want to do an additional check to make sure the user is selecting 'YES' 
+
 
 Minor Revisions:
 - Configuration: Max upload file size
@@ -40,4 +39,3 @@ Minor Revisions:
 - Error logging
 
 Testing:
-- text areas have spaces in the input already before even typing
