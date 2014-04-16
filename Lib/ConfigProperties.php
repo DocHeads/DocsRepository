@@ -79,7 +79,7 @@
   /**
    * Email password credential
    */
-  public static $EmailServerPassword = "M4nt1c0re";
+  public static $EmailServerPassword = "N4v1g4t0r";
   
   /**
    * Help/Contact Us Form email recipient
