@@ -320,6 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $updateSql = "UPDATE submissions
                        SET docName = '{$docName}',
                            courseName = '{$course}',
+                           deptName = '{$dept},
                            comments = '{$comments}',";
     if ($submissionFile != null)
     {
